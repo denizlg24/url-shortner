@@ -15,11 +15,8 @@ const LandingPage = (props) => {
                 <button className="landing-button"><h1>Learn More</h1></button>
             </div>
         </div>
-        <div className="landingpage-illustration-container">
-          <img
-            className="landingpage-illustration"
-            src={props.dark ? darkIllustration : illustration}
-          ></img>
+        <div className="landingpage-illustration-container" style={{backgroundImage:"url('" + (props.dark ? darkIllustration : illustration) + "')"}}>
+          
         </div>
       </div>
     </div>
