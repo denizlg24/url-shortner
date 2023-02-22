@@ -63,11 +63,9 @@ const RegisterForm = (props) => {
       return "";
     };
     const repeatError = () => {
-      var paswd = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/;
       if (
-        password.trim().length >= 8 &&
-        password.trim().match(paswd) &&
-        password !== repeatPassword
+        !errorState.password &&
+        password != repeatPassword
       ) {
         return "The passwords do not match.";
       }
@@ -278,7 +276,7 @@ const RegisterForm = (props) => {
                 ? ""
                 : "rgb(250, 107, 107)",
             }}
-            onFocus={repeatUpdateHandler}
+            onChange={repeatUpdateHandler}
           ></input>
           <button
             className="show-password-button"
