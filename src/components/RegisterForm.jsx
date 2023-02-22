@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import "./RegisterForm.css";
+import viewPass from "../assets/icons8-view-64.png";
+import hidePass from "../assets/icons8-hide-64.png";
 import auth from "../services/auth";
 
 const RegisterForm = (props) => {
@@ -182,6 +184,25 @@ const RegisterForm = (props) => {
     );
   };
 
+  const [showingPassword, setShowing] = useState(false);
+  const [showingPasswordR, setShowingR] = useState(false);
+  const repeatPasswordShowHandler = (e) => {
+    e.preventDefault();
+    setShowingR(true);
+  };
+  const repeatPasswordunShowHandler = (e) => {
+    e.preventDefault();
+    setShowingR(false);
+  };
+  const passwordShowHandler = (e) => {
+    e.preventDefault();
+    setShowing(true);
+  };
+  const passwordunShowHandler = (e) => {
+    e.preventDefault();
+    setShowing(false);
+  };
+
   return (
     <form onSubmit={submitHandler}>
       <h1 className="register-form-title">Create account</h1>
@@ -220,17 +241,26 @@ const RegisterForm = (props) => {
         >
           {errorState.email}
         </label>
-        <input
-          autoComplete="off"
-          type="password"
-          id="password"
-          placeholder="Password"
-          style={{
-            borderColor: !errorState.password ? "" : "rgb(250, 107, 107)",
-          }}
-          onChange={passwordUpdateHandler}
-          onFocus={passwordFocusHandler}
-        ></input>
+        <div className="password-field">
+          <input
+            autoComplete="off"
+            type={showingPassword ? "text" : "password"}
+            id="password"
+            placeholder="Password"
+            style={{
+              borderColor: !errorState.password ? "" : "rgb(250, 107, 107)",
+            }}
+            onChange={passwordUpdateHandler}
+            onFocus={passwordFocusHandler}
+          ></input>
+          <button
+            className="show-password-button"
+            onMouseDown={passwordShowHandler}
+            onMouseUp={passwordunShowHandler}
+          >
+            <img src={!showingPassword ? viewPass : hidePass}></img>
+          </button>
+        </div>
         <label
           className="error-label-register"
           htmlFor="password"
@@ -238,16 +268,27 @@ const RegisterForm = (props) => {
         >
           {errorState.password}
         </label>
-        <input
-          autoComplete="off"
-          type="password"
-          id="passwordRepeat"
-          placeholder="Repeat password"
-          style={{
-            borderColor: !errorState.repeatPassword ? "" : "rgb(250, 107, 107)",
-          }}
-          onFocus={repeatUpdateHandler}
-        ></input>
+        <div className="password-field">
+          <input
+            autoComplete="off"
+            type={showingPasswordR ? "text" : "password"}
+            id="passwordRepeat"
+            placeholder="Repeat password"
+            style={{
+              borderColor: !errorState.repeatPassword
+                ? ""
+                : "rgb(250, 107, 107)",
+            }}
+            onFocus={repeatUpdateHandler}
+          ></input>
+          <button
+            className="show-password-button"
+            onMouseDown={repeatPasswordShowHandler}
+            onMouseUp={repeatPasswordunShowHandler}
+          >
+            <img src={!showingPasswordR ? viewPass : hidePass}></img>
+          </button>
+        </div>
         <label
           className="error-label-register"
           htmlFor="passwordRepeat"

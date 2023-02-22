@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import "./RegisterForm.css";
 import auth from "../services/auth";
+import viewPass from "../assets/icons8-view-64.png";
+import hidePass from "../assets/icons8-hide-64.png";
 
 const LoginForm = (props) => {
   const [userInput, setUserInput] = useState({
@@ -49,6 +51,16 @@ const LoginForm = (props) => {
     );
   };
 
+  const [showingPassword, setShowing] = useState(false);
+  const passwordShowHandler = (e) => {
+    e.preventDefault();
+    setShowing(true);
+  };
+  const passwordunShowHandler = (e) => {
+    e.preventDefault();
+    setShowing(false);
+  };
+
   return (
     <form onSubmit={handleLogin}>
       <h1 className="register-form-title">Login</h1>
@@ -65,13 +77,22 @@ const LoginForm = (props) => {
           htmlFor="username"
           style={{ display: false ? "" : "none" }}
         ></label>
-        <input
-          autoComplete="off"
-          type="password"
-          id="password"
-          placeholder="Your password"
-          onChange={passwordUpdateHandler}
-        ></input>
+        <div className="password-field">
+          <input
+            autoComplete="off"
+            type={showingPassword ? "text" : "password"}
+            id="password"
+            placeholder="Your password"
+            onChange={passwordUpdateHandler}
+          ></input>
+          <button
+            className="show-password-button"
+            onMouseDown={passwordShowHandler}
+            onMouseUp={passwordunShowHandler}
+          >
+            <img src={!showingPassword ? viewPass : hidePass}></img>
+          </button>
+        </div>
         <label
           className="error-label-register"
           htmlFor="password"

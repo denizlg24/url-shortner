@@ -49,3 +49,27 @@
     cursor: pointer;
 }
 
+.password-field{
+    position: relative;
+}
+
+.show-password-button{
+    position: absolute;
+    top: 50%;
+    right: 0;
+    height: 2rem;
+    width: 2rem;
+    margin: 1rem;
+    transform: translate(0,-100%);
+    background-color: transparent;
+    border: none;
+}
+
+.show-password-button img{
+    max-width: 100%;
+    height: auto;
+    width: auto;
+}
+
+.show-password-button:hover{cursor: pointer;}
+
