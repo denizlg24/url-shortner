@@ -1,0 +1,103 @@
+.auth-main-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-main-form {
+  flex: 1;
+  height: 100%;
+  padding: 1rem;
+}
+.auth-illustration {
+  flex: 1;
+  height: 100%;
+  padding: 1rem;
+  border-radius: 0 12px 12px 0;
+  max-width: 50%;
+}
+
+.auth-illustration-text {
+  height: 100%;
+  text-align: center;
+  display: grid;
+  place-items: top;
+}
+
+.auth-illustration-text h1 {
+  margin: 1rem;
+  margin-top: 0;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--color-background);
+}
+
+.auth-illustration-text p {
+  margin: 1rem;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--color-background);
+}
+.auth-illustration-pic-holder {
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.auth-illustration-pic {
+  width: auto;
+  height: auto;
+  max-width: 75%;
+}
+
+.or-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.or-bar {
+  height: 1px;
+  width: 40%;
+  background-color: var(--color-text);
+}   
+
+.or-text {
+  margin: 0 10px;
+  color: var(--color-text);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.social-auth-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.social-auth-content{
+    width: fit-content;
+    padding: 1rem;
+    padding-top: 0;
+    display: flex;
+    gap: 1rem;
+}
+
+.social-auth-button{
+    background: transparent;
+    border: none;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    scale: 1.15;
+}
+
+.social-auth-button:hover{
+    cursor: pointer;
+    scale: 1.225;
+}
+

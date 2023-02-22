@@ -1,0 +1,51 @@
+.register-form__inputs input {
+  width: 100%;
+  padding: 0.75rem;
+  padding-bottom: .3rem;
+  outline: 0;
+  font-family: "Epilogue";
+  font-weight: 300;
+  font-size: 1.5rem;
+  border: 2px solid;
+  border-width: 0 0 2px;
+  background-color: transparent;
+  border-color: var(--color-lightSpecial);
+  margin: 1rem;
+  margin-left: 0;
+  margin-right: 0;
+  color: var(--color-text);
+}
+
+.error-label-register{
+    color: rgb(250, 107, 107);
+}
+
+.register-form-title{
+    font-size: 2rem;
+    text-align: center;
+    margin-top: .5rem;
+    color: var(--color-lightSpecial);
+}
+
+.submit-button-register{
+    font-family: "Epilogue", sans-serif;
+    padding: .75rem;
+    color: var(--color-backgroundSecondary);
+    background-color: var(--color-lightSpecial);
+    font-size: 1rem;
+    font-weight: 400;
+    border: 3px solid;
+    border-color: transparent;
+    border-radius: 12px;
+    width: 100%;
+    margin-top: .3rem;
+}
+
+.submit-button-register:hover{
+    border-color: var(--color-lightSpecial);
+    color: var(--color-text);
+    background-color: transparent;
+    user-select: none;
+    cursor: pointer;
+}
+

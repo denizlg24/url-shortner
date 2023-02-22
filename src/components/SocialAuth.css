@@ -1,0 +1,38 @@
+.main-button-social-auth{
+    width: 100%;
+    padding: .5rem;
+    display: flex;
+    align-items: center;
+    border-radius: 12px;
+    border: 2px solid;
+    border-color: transparent;
+    transition: none;
+}
+
+.main-button-social-auth:hover{
+    border-color: white;
+    user-select: none;
+    cursor: pointer;
+    background-color: transparent !important;
+}
+
+.social-auth-icon-holder{
+    flex: .5;
+}
+
+.social-auth-icon{
+    max-width: 32px;
+    width: auto;
+    height: auto;
+}
+
+.social-auth-text{
+    flex: 4;
+}
+
+.social-auth-text h1{
+    color: white;
+    font-family: "Epilogue", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+}

@@ -1,0 +1,84 @@
+.landingpage-main {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.landingpage-container {
+  width: 100%;
+  height: fit-content;
+  max-width: 1440px;
+  padding: 2rem;
+  padding-top: 15rem;
+  display: flex;
+}
+
+.landingpage-illustration-container {
+  flex: 2;
+  margin-right: -1.5rem;
+  height: 100%;
+}
+
+.landingpage-info-container {
+  flex: 3;
+  height: 100%;
+  position: relative;
+}
+
+.landingpage-illustration{
+    width: auto;
+    height: auto;
+    max-width: 100%;
+}
+
+.landingpage-info-hero{
+    color: var(--color-accent);
+    font-size: 5rem;
+    font-weight: 700;
+}
+
+.special-text-landing{
+    color: var(--color-text);
+    font-size: 5.5rem;
+    font-weight: 700;
+}
+
+.landingpage-info-catch{
+    color: var(--color-text);
+    font-size: 3rem;
+    font-weight: 600;
+}
+
+.landingpage-info-extra{
+    color: var(--color-text);
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.landing-actions{
+    position: absolute;
+    bottom: -35%;
+}
+
+.landing-button{
+    border-radius: 12px;
+    width: 12.5rem;
+    padding: 1rem;
+    font-weight: 400;
+    font-size: .7rem;
+    border: solid 3px;
+    border-color: transparent;
+    background-color: var(--color-text);
+    color: var(--color-background);
+    font-family: "Epilogue";
+}
+
+.landing-button:hover{
+    cursor: pointer;
+    user-select: none;
+    background-color: transparent;
+    border-color: var(--color-text);
+    color: var(--color-text);
+}
