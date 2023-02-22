@@ -27,58 +27,157 @@
   position: relative;
 }
 
-.landingpage-illustration{
-    width: auto;
-    height: auto;
-    max-width: 100%;
+.landingpage-illustration {
+  width: auto;
+  height: auto;
+  max-width: 100%;
 }
 
-.landingpage-info-hero{
+.landingpage-info-hero {
+  color: var(--color-accent);
+  font-size: 5rem;
+  font-weight: 700;
+}
+
+.special-text-landing {
+  color: var(--color-text);
+  font-size: 5.5rem;
+  font-weight: 700;
+}
+
+.landingpage-info-catch {
+  color: var(--color-text);
+  font-size: 3rem;
+  font-weight: 600;
+}
+
+.landingpage-info-extra {
+  color: var(--color-text);
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.landing-actions {
+  position: absolute;
+}
+
+.landing-button {
+  margin-top: 2rem;
+  border-radius: 12px;
+  width: 50vw;
+  padding: 1rem;
+  font-weight: 400;
+  font-size: 0.7rem;
+  border: solid 3px;
+  border-color: transparent;
+  background-color: var(--color-text);
+  color: var(--color-background);
+  font-family: "Epilogue";
+}
+
+.landing-button:hover {
+  cursor: pointer;
+  user-select: none;
+  background-color: transparent;
+  border-color: var(--color-text);
+  color: var(--color-text);
+}
+
+@media screen and (max-width: 1439px) {
+
+  .landingpage-illustration-container{
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+    position: relative;
+  }
+  .landingpage-illustration{
+    position:absolute;top:-50px;left:0;
+    min-height: 500px;
+    min-width: 500px;
+  }
+  .landingpage-container {
+    display: flex;
+    padding-top: 10rem;
+  }
+
+  .landingpage-info-container {
+    flex: 3;
+    text-align: left;
+    min-width: 70%;
+  }
+
+  .landing-button {
+    margin-top: 2rem;
+    width: 50vw;
+  }
+  .landingpage-info-hero {
     color: var(--color-accent);
-    font-size: 5rem;
-    font-weight: 700;
-}
-
-.special-text-landing{
-    color: var(--color-text);
-    font-size: 5.5rem;
-    font-weight: 700;
-}
-
-.landingpage-info-catch{
-    color: var(--color-text);
     font-size: 3rem;
+    font-weight: 700;
+  }
+  
+  .special-text-landing {
+    color: var(--color-text);
+    font-size: 4.25rem;
+    font-weight: 700;
+  }
+  
+  .landingpage-info-catch {
+    color: var(--color-text);
+    font-size: 3rem;  
     font-weight: 600;
-}
-
-.landingpage-info-extra{
+  }
+  
+  .landingpage-info-extra {
     color: var(--color-text);
     font-size: 2rem;
     font-weight: 600;
+  }
 }
 
-.landing-actions{
-    position: absolute;
-    bottom: -35%;
-}
-
-.landing-button{
-    border-radius: 12px;
-    width: 12.5rem;
-    padding: 1rem;
-    font-weight: 400;
-    font-size: .7rem;
-    border: solid 3px;
-    border-color: transparent;
-    background-color: var(--color-text);
-    color: var(--color-background);
-    font-family: "Epilogue";
-}
-
-.landing-button:hover{
-    cursor: pointer;
-    user-select: none;
-    background-color: transparent;
-    border-color: var(--color-text);
+@media screen and (max-width: 768px) {
+  .landingpage-container{
+    display: flex;
+    flex-direction: column-reverse;
+    padding-top: 5rem;
+  }
+  .landingpage-illustration{
+    position: relative;
+    max-width: 70%;
+    min-width: none;
+    min-height: none;
+  }
+  .landingpage-info-container{
+    text-align: center;
+  }
+  .landing-actions{
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .landingpage-info-hero {
+    color: var(--color-accent);
+    font-size: 3rem;
+    font-weight: 700;
+  }
+  
+  .special-text-landing {
     color: var(--color-text);
+    font-size: 3.25rem;
+    font-weight: 700;
+  }
+  
+  .landingpage-info-catch {
+    color: var(--color-text);
+    font-size: 2rem;
+    font-weight: 600;
+  }
+  
+  .landingpage-info-extra {
+    color: var(--color-text);
+    font-size: 1rem;
+    font-weight: 600;
+  }
 }
