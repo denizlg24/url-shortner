@@ -5,13 +5,15 @@ import themes from "./themes/themes";
 import LandingPage from "./pages/LandingPage";
 import auth from "./services/auth";
 import axios from "axios";
+import VerificationPage from "./pages/VerificationPage";
 
 function App() {
   const [theme, setTheme] = useState("dark");
   const [pageToDisplay, displayPage] = useState("landing");
   const [authChosen, chooseAuth] = useState(true);
   const [isLoggedIn, setLoggedIn] = useState(false);
-  const [authData,setAuthData] = useState();
+  const [authData, setAuthData] = useState();
+  const [emailToVerify, setEmailToVerify] = useState();
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
@@ -59,6 +61,7 @@ function App() {
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("idToken");
+    setAuthData(null);
     setLoggedIn(false);
     displayPage("landing");
   };
@@ -82,6 +85,7 @@ function App() {
         })
         .then((response) => {
           // Handle successful response
+          console.log(response.data)
           setLoggedIn(true);
           displayPage("landing");
           setAuthData(response.data);
@@ -94,27 +98,28 @@ function App() {
     }
   };
 
-  const registrationSuccessHandler = () =>{
-    displayPage(LandingPage);
-  }
+  const registrationSuccessHandler = (_email) => {
+    setEmailToVerify(_email);
+    displayPage("verifyEmail");
+  };
 
-  const handleFacebookLogin = () =>{
+  const handleFacebookLogin = () => {
     auth.authorize({
       connection: "facebook",
     });
-  }
+  };
 
-  const handleGoogleLogin = () =>{
+  const handleGoogleLogin = () => {
     auth.authorize({
       connection: "google-oauth2",
     });
-  }
+  };
 
-  const handleGithubLogin = () =>{
+  const handleGithubLogin = () => {
     auth.authorize({
       connection: "github",
     });
-  }
+  };
 
   function handleAuthCallback() {
     auth.parseHash((err, authResult) => {
@@ -171,6 +176,23 @@ function App() {
           handleGoogleLogin={handleGoogleLogin}
           handleGithubLogin={handleGithubLogin}
         ></AuthenticationPage>
+      </>
+    );
+  }
+  if (pageToDisplay === "verifyEmail") {
+    return (
+      <>
+        <Header
+          dark={theme === "dark"}
+          changeThemeHandler={toggleTheme}
+          onClickRegisterHandler={onClickRegisterHandler}
+          onClickLoginHandler={onClickLoginHanlder}
+          onClickIconHandler={onClickIconHandler}
+          isLoggedIn={isLoggedIn}
+          currentUsername={authData ? authData.nickname : ""}
+          clickLogoutHandler={handleLogout}
+        ></Header>
+      <VerificationPage emailToVerify={emailToVerify} onClickHandler={onClickLoginHanlder}></VerificationPage>
       </>
     );
   }

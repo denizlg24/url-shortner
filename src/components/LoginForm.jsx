@@ -11,7 +11,6 @@ const LoginForm = (props) => {
   });
 
   const usernameUpdateHandler = (event) => {
-    console.log(userInput.username);
     setUserInput((prevInput) => {
       return {
         ...prevInput,
@@ -31,7 +30,6 @@ const LoginForm = (props) => {
 
   const handleLogin = (event) => {
     event.preventDefault();
-    console.log(userInput);
     auth.client.login(
       {
         realm: "Username-Password-Authentication",
