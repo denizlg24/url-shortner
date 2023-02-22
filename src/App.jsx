@@ -55,7 +55,6 @@ function App() {
   const loginSuccessHandler = () => {
     displayPage("landing");
     setLoggedIn(true);
-    checkTokens();
   };
 
   const handleLogout = () => {
@@ -89,6 +88,7 @@ function App() {
             setLoggedIn(true);
             displayPage("landing");
             setAuthData(response.data);
+            loginSuccessHandler();
           }
           else{
             console.log("Not Verified!");
@@ -174,7 +174,7 @@ function App() {
         <AuthenticationPage
           dark={theme === "dark"}
           register={authChosen}
-          loginSuccessHandler={loginSuccessHandler}
+          loginSuccessHandler={checkTokens}
           registrationSuccess={registrationSuccessHandler}
           handleFacebookLogin={handleFacebookLogin}
           handleGoogleLogin={handleGoogleLogin}
