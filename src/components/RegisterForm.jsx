@@ -177,8 +177,7 @@ const RegisterForm = (props) => {
         if (err) {
           console.log(err);
         } else {
-          console.log("User created");
-          props.registrationSuccess();
+          props.registrationSuccess(userInput.email);
         }
       }
     );

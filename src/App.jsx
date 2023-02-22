@@ -85,10 +85,14 @@ function App() {
         })
         .then((response) => {
           // Handle successful response
-          console.log(response.data)
-          setLoggedIn(true);
-          displayPage("landing");
-          setAuthData(response.data);
+          if(response.data.email_verified){
+            setLoggedIn(true);
+            displayPage("landing");
+            setAuthData(response.data);
+          }
+          else{
+            console.log("Not Verified!");
+          }
         })
         .catch((error) => {
           // Handle error
