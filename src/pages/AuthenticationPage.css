@@ -116,7 +116,8 @@
     height: auto;
     position: absolute;
     left: 50%;
-    height: 35%;
+    height: fit-content;
+    padding-top: .5rem;
     bottom: 0;
     transform: translateX(-50%);
     border-radius: 0 0 12px 12px;
