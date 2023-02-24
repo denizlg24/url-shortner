@@ -57,7 +57,7 @@ const Header = (props) => {
         </div>
         {hambugerDisplaying ? (
           <HamburguerMenu
-            clickLoginHandler={clickIconHandler}
+            clickLoginHandler={clickLoginHandler}
             clickRegisterHandler={clickRegisterHandler}
             dark={props.dark}
             isLoggedIn={props.isLoggedIn}
