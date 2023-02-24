@@ -83,6 +83,7 @@ function App() {
           },
         })
         .then((response) => {
+          console.log(response.data);
           let origin = response.data.sub;
           if(response.data.email_verified || origin.slice(0,5) != "auth0"){
             setLoggedIn(true);
