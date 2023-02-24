@@ -83,7 +83,7 @@ function App() {
           },
         })
         .then((response) => {
-          // Handle successful response
+          console.log(response.data);
           if(response.data.email_verified){
             setLoggedIn(true);
             displayPage("landing");

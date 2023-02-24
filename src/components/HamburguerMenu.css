@@ -1,7 +1,7 @@
 .hamburger-toggle-container{
     position: absolute;
     right: 2.5rem;
-    top: .5rem;
+    top: -.25rem;
     transform: scale(0.5);
 }
 
