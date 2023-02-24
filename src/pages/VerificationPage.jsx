@@ -25,7 +25,7 @@ const VerificationPage = (props) => {
                 <span>A:</span> We do this to ensure no bots flood our website.
               </p>
             </div>
-            <div className="verification-item">
+            <div className="verification-item" id="two">
               <h4>
                 <span>Q:</span> Do you sell our data?
               </h4>

@@ -52,11 +52,9 @@ const LoginForm = (props) => {
   const [showingPassword, setShowing] = useState(false);
   const passwordShowHandler = (e) => {
     e.preventDefault();
-    setShowing(true);
-  };
-  const passwordunShowHandler = (e) => {
-    e.preventDefault();
-    setShowing(false);
+    setShowing((prevState) => {
+      return !prevState;
+    });
   };
 
   return (
@@ -85,8 +83,7 @@ const LoginForm = (props) => {
           ></input>
           <button
             className="show-password-button"
-            onMouseDown={passwordShowHandler}
-            onMouseUp={passwordunShowHandler}
+            onClick={passwordShowHandler}
           >
             <img src={!showingPassword ? viewPass : hidePass}></img>
           </button>

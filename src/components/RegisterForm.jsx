@@ -64,7 +64,7 @@ const RegisterForm = (props) => {
     };
     const repeatError = () => {
       if (
-        !errorState.password &&
+        (!errorState.password && password.trim().length >= 8) &&
         password != repeatPassword
       ) {
         return "The passwords do not match.";
@@ -185,21 +185,16 @@ const RegisterForm = (props) => {
   const [showingPasswordR, setShowingR] = useState(false);
   const repeatPasswordShowHandler = (e) => {
     e.preventDefault();
-    setShowingR(true);
-  };
-  const repeatPasswordunShowHandler = (e) => {
-    e.preventDefault();
-    setShowingR(false);
+    setShowingR((prevState) => {
+      return !prevState;
+    });
   };
   const passwordShowHandler = (e) => {
     e.preventDefault();
-    setShowing(true);
+    setShowing((prevState) => {
+      return !prevState;
+    });
   };
-  const passwordunShowHandler = (e) => {
-    e.preventDefault();
-    setShowing(false);
-  };
-
   return (
     <form onSubmit={submitHandler}>
       <h1 className="register-form-title">Create account</h1>
@@ -252,8 +247,7 @@ const RegisterForm = (props) => {
           ></input>
           <button
             className="show-password-button"
-            onMouseDown={passwordShowHandler}
-            onMouseUp={passwordunShowHandler}
+            onClick={passwordShowHandler}
           >
             <img src={!showingPassword ? viewPass : hidePass}></img>
           </button>
@@ -280,8 +274,7 @@ const RegisterForm = (props) => {
           ></input>
           <button
             className="show-password-button"
-            onMouseDown={repeatPasswordShowHandler}
-            onMouseUp={repeatPasswordunShowHandler}
+            onClick={repeatPasswordShowHandler}
           >
             <img src={!showingPasswordR ? viewPass : hidePass}></img>
           </button>

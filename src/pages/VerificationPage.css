@@ -12,7 +12,7 @@
     width: 100%;
     padding: 1rem;
     padding-top: 3rem;
-    color: var(--color-text);
+    color: var(--color-text);   
 }
 .verification-content h1{
     font-size: 3rem;
@@ -22,6 +22,8 @@
 .verification-content h2{
     text-align: center;
     margin: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-text);
 }
 
 .verification-content span{
@@ -35,6 +37,7 @@
 .qandaa-verification{
     display: flex;
     justify-content: space-between;
+    border-bottom: 1px solid var(--color-text); 
 }
 
 .verification-item{
@@ -83,4 +86,36 @@
     color: var(--color-text);
     user-select: none;
     cursor: pointer;
+}
+
+@media screen and (max-width:800px){
+    .verification-content{
+        padding-top: 1.5rem;
+    }
+    .qandaa-verification #two{
+        display: none;
+    }
+    .verification-item{
+        margin: 1rem;
+        margin-top: 0;
+        text-align: center;
+    }
+    .verification-actions{
+        margin-top: 0;
+        text-align: center;
+        width: max-content;
+        max-width: 100%;
+        margin: auto;
+    }
+    .verification-content h1{
+        font-size: 2rem;
+        margin: 1rem;
+    }
+    .verification-content h2{
+        font-size: 1.3rem;
+        margin: 1rem;
+    }
+    .verification-content span{
+        font-size: 1rem;
+    }
 }
