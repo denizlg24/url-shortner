@@ -6,9 +6,9 @@
 }
 
 .hamburger-main-content{
-    width: 75vw;
+    width: 80vw;
     background-color: var(--color-backgroundSecondary);
-    max-width: 250px;
+    max-width: 350px;
     position: absolute;
     right: 0;
     display: grid;
