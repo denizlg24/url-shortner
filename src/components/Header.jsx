@@ -59,6 +59,7 @@ const Header = (props) => {
           <HamburguerMenu
             clickLoginHandler={clickLoginHandler}
             clickRegisterHandler={clickRegisterHandler}
+            clickLogoutHandler={props.clickLogoutHandler}
             dark={props.dark}
             isLoggedIn={props.isLoggedIn}
             currentUsername={props.currentUsername}

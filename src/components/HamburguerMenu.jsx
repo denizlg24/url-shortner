@@ -13,6 +13,7 @@ const HamburguerMenu = (props) => {
   };
 
   const clickLoginHandler = (e) => {
+    console.log("ClickedLogin");
     props.clickLoginHandler(e);
   };
 

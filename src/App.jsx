@@ -27,7 +27,7 @@ function App() {
     });
   }, [theme]);
 
-  const onClickLoginHanlder = (e) => {
+  const onClickLoginHandler = (e) => {
     e.preventDefault();
     if (pageToDisplay !== "auth") {
       displayPage("auth");
@@ -148,7 +148,7 @@ function App() {
           dark={theme === "dark"}
           changeThemeHandler={toggleTheme}
           onClickRegisterHandler={onClickRegisterHandler}
-          onClickLoginHandler={onClickLoginHanlder}
+          onClickLoginHandler={onClickLoginHandler}
           onClickIconHandler={onClickIconHandler}
           isLoggedIn={isLoggedIn}
           currentUsername={authData ? authData.nickname : ""}
@@ -165,7 +165,7 @@ function App() {
           dark={theme === "dark"}
           changeThemeHandler={toggleTheme}
           onClickRegisterHandler={onClickRegisterHandler}
-          onClickLoginHandler={onClickLoginHanlder}
+          onClickLoginHandler={onClickLoginHandler}
           onClickIconHandler={onClickIconHandler}
           isLoggedIn={isLoggedIn}
           currentUsername={authData ? authData.nickname : ""}
@@ -190,13 +190,13 @@ function App() {
           dark={theme === "dark"}
           changeThemeHandler={toggleTheme}
           onClickRegisterHandler={onClickRegisterHandler}
-          onClickLoginHandler={onClickLoginHanlder}
+          onClickLoginHandler={onClickLoginHandler}
           onClickIconHandler={onClickIconHandler}
           isLoggedIn={isLoggedIn}
           currentUsername={authData ? authData.nickname : ""}
           clickLogoutHandler={handleLogout}
         ></Header>
-      <VerificationPage emailToVerify={emailToVerify} onClickHandler={onClickLoginHanlder}></VerificationPage>
+      <VerificationPage emailToVerify={emailToVerify} onClickHandler={onClickLoginHandler}></VerificationPage>
       </>
     );
   }
