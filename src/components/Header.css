@@ -125,3 +125,10 @@
   font-size: 1.1rem;
   font-weight: 400;
 }
+
+@media screen and (max-width:1023px) {
+  .header-container__icon h1{
+    margin-left: 1rem;
+  }
+}
+
