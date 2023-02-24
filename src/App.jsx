@@ -84,7 +84,7 @@ function App() {
         })
         .then((response) => {
           console.log(response.data);
-          if(response.data.email_verified){
+          if(response.data.email_verified || response.data.sub.splice(0,5) != "auth0"){
             setLoggedIn(true);
             displayPage("landing");
             setAuthData(response.data);
