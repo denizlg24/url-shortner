@@ -67,7 +67,7 @@ const LoginForm = (props) => {
           autoComplete="off"
           type="text"
           id="username"
-          placeholder="Username or email"
+          placeholder="Your email"
           onChange={usernameUpdateHandler}
         ></input>
         <label

@@ -1,7 +1,7 @@
 .register-form__inputs input {
   width: 100%;
   padding: 0.75rem;
-  padding-bottom: .3rem;
+  padding-bottom: 0.3rem;
   outline: 0;
   font-family: "Epilogue";
   font-weight: 300;
@@ -16,60 +16,78 @@
   color: var(--color-text);
 }
 
-.error-label-register{
-    color: rgb(250, 107, 107);
+.error-label-register {
+  color: rgb(250, 107, 107);
 }
 
-.register-form-title{
-    font-size: 2rem;
-    text-align: center;
-    margin-top: .5rem;
-    color: var(--color-lightSpecial);
+.register-form-title {
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 0.5rem;
+  color: var(--color-lightSpecial);
 }
 
-.submit-button-register{
-    font-family: "Epilogue", sans-serif;
-    padding: .75rem;
-    color: var(--color-backgroundSecondary);
-    background-color: var(--color-lightSpecial);
-    font-size: 1rem;
-    font-weight: 400;
-    border: 3px solid;
-    border-color: transparent;
-    border-radius: 12px;
-    width: 100%;
-    margin-top: .3rem;
+.submit-button-register {
+  font-family: "Epilogue", sans-serif;
+  padding: 0.75rem;
+  color: var(--color-backgroundSecondary);
+  background-color: var(--color-lightSpecial);
+  font-size: 1rem;
+  font-weight: 400;
+  border: 3px solid;
+  border-color: transparent;
+  border-radius: 12px;
+  width: 100%;
+  margin-top: 0.3rem;
 }
 
-.submit-button-register:hover{
-    border-color: var(--color-lightSpecial);
-    color: var(--color-text);
-    background-color: transparent;
-    user-select: none;
-    cursor: pointer;
+.submit-button-register:hover {
+  border-color: var(--color-lightSpecial);
+  color: var(--color-text);
+  background-color: transparent;
+  user-select: none;
+  cursor: pointer;
 }
 
-.password-field{
-    position: relative;
+.password-field {
+  position: relative;
 }
 
-.show-password-button{
-    position: absolute;
-    top: 50%;
-    right: 0;
-    height: 2rem;
-    width: 2rem;
-    margin: 1rem;
-    transform: translate(0,-100%);
-    background-color: transparent;
-    border: none;
+.show-password-button {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  height: 2rem;
+  width: 2rem;
+  margin: 1rem;
+  transform: translate(0, -100%);
+  background-color: transparent;
+  border: none;
 }
 
-.show-password-button img{
-    max-width: 100%;
-    height: auto;
-    width: auto;
+.show-password-button img {
+  max-width: 100%;
+  height: auto;
+  width: auto;
 }
 
-.show-password-button:hover{cursor: pointer;}
+.show-password-button:hover {
+  cursor: pointer;
+}
 
+input::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  font-size: 1rem;
+}
+input::-moz-placeholder {
+  /* Firefox 19+ */
+  font-size: 1rem;
+}
+input:-ms-input-placeholder {
+  /* IE 10+ */
+  font-size: 1rem;
+}
+input:-moz-placeholder {
+  /* Firefox 18- */
+  font-size: 1rem;
+}

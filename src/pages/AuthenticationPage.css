@@ -63,7 +63,7 @@
   height: 1px;
   width: 40%;
   background-color: var(--color-text);
-}   
+}
 
 .or-text {
   margin: 0 10px;
@@ -72,32 +72,66 @@
   text-transform: uppercase;
 }
 
-.social-auth-section{
+.social-auth-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.social-auth-content {
+  width: fit-content;
+  padding: 1rem;
+  padding-top: 0;
+  display: flex;
+  gap: 1rem;
+}
+
+.social-auth-button {
+  background: transparent;
+  border: none;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  scale: 1.15;
+}
+
+.social-auth-button:hover {
+  cursor: pointer;
+  scale: 1.225;
+}
+
+.auth-illustration-mobile{
+  display: none;
+}
+
+@media screen and (max-width: 800px) {
+  .auth-illustration{
+    display: none;
+  }
+  .auth-illustration-mobile{
+    display: block;
+    width: calc(100%);
+    height: auto;
+    position: absolute;
+    left: 50%;
+    height: 35%;
+    bottom: 0;
+    transform: translateX(-50%);
+    border-radius: 0 0 12px 12px;
+  }
+  .auth-illustration-text{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+  }
+  .auth-illustration-text h1{
+    font-size: 1.3rem;
+  }
+  .auth-illustration-text p{
+    font-size: 1rem;
+  }
+  .auth-illustration-text-mobile{
+    height: fit-content;
+  }
 }
-
-.social-auth-content{
-    width: fit-content;
-    padding: 1rem;
-    padding-top: 0;
-    display: flex;
-    gap: 1rem;
-}
-
-.social-auth-button{
-    background: transparent;
-    border: none;
-    max-width: 100%;
-    width: auto;
-    height: auto;
-    scale: 1.15;
-}
-
-.social-auth-button:hover{
-    cursor: pointer;
-    scale: 1.225;
-}
-

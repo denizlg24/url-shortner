@@ -14,10 +14,16 @@ const HamburguerMenu = (props) => {
 
   const clickLoginHandler = (e) => {
     console.log("ClickedLogin");
+    toggleExpand((prevState) => {
+      return !prevState;
+    });
     props.clickLoginHandler(e);
   };
 
   const clickRegisterHandler = (e) => {
+    toggleExpand((prevState) => {
+      return !prevState;
+    });
     props.clickRegisterHandler(e);
   };
 
@@ -27,9 +33,20 @@ const HamburguerMenu = (props) => {
 
   return (
     <>
-      <div className="hamburger-toggle-container">
+      <div
+        className="hamburger-toggle-container"
+        style={{
+          filter: !props.dark
+            ? "invert(99%) sepia(99%) saturate(2%) hue-rotate(337deg) brightness(110%) contrast(101%)"
+            : "",
+        }}
+      >
         <input type="checkbox" id="menu_checkbox" checked={expanded} readOnly />
-        <label id="menu-label" htmlFor="menu_checkbox" onClick={clickMenuHandler}>
+        <label
+          id="menu-label"
+          htmlFor="menu_checkbox"
+          onClick={clickMenuHandler}
+        >
           <div></div>
           <div></div>
           <div></div>
@@ -41,7 +58,7 @@ const HamburguerMenu = (props) => {
       >
         {!props.isLoggedIn ? (
           <>
-            <div>
+            <div className="hamburguer-auth-buttons">
               <button
                 className="header-auth__button login"
                 onClick={clickLoginHandler}

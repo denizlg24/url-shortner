@@ -9,15 +9,18 @@ import RegisterForm from "../components/RegisterForm";
 import "./AuthenticationPage.css";
 
 const AuthenticationPage = (props) => {
-
   return (
     <div className="auth-main-container">
       <Card>
         <div className="auth-main-form">
           {props.register ? (
-            <RegisterForm registrationSuccess={props.registrationSuccess}></RegisterForm>
+            <RegisterForm
+              registrationSuccess={props.registrationSuccess}
+            ></RegisterForm>
           ) : (
-            <LoginForm loginSuccessHandler={props.loginSuccessHandler}></LoginForm>
+            <LoginForm
+              loginSuccessHandler={props.loginSuccessHandler}
+            ></LoginForm>
           )}
           <div className="or-section">
             <div className="or-bar"></div>
@@ -26,7 +29,10 @@ const AuthenticationPage = (props) => {
           </div>
           <div className="social-auth-section">
             <div className="social-auth-content">
-              <button className="social-auth-button" onClick={props.handleFacebookLogin}>
+              <button
+                className="social-auth-button"
+                onClick={props.handleFacebookLogin}
+              >
                 <img
                   src={facebookIcon}
                   alt="Clickable Facebook Icon"
@@ -37,7 +43,10 @@ const AuthenticationPage = (props) => {
                   }}
                 ></img>
               </button>
-              <button className="social-auth-button" onClick={props.handleGoogleLogin}>
+              <button
+                className="social-auth-button"
+                onClick={props.handleGoogleLogin}
+              >
                 <img
                   src={googleIcon}
                   alt="Clickable Google Icon"
@@ -48,7 +57,10 @@ const AuthenticationPage = (props) => {
                   }}
                 ></img>
               </button>
-              <button className="social-auth-button" onClick={props.handleGithubLogin}>
+              <button
+                className="social-auth-button"
+                onClick={props.handleGithubLogin}
+              >
                 <img
                   src={githubIcon}
                   alt="Clickable Github Icon"
@@ -60,6 +72,30 @@ const AuthenticationPage = (props) => {
                 ></img>
               </button>
             </div>
+          </div>
+          <div
+            className="auth-illustration-mobile"
+            style={{
+              background: props.dark
+                ? "linear-gradient(to top,var(--color-darkSpecial),var(--color-lightSpecial))"
+                : "linear-gradient(to top,var(--color-lightSpecial),var(--color-darkSpecial))",
+                display: props.register? "none" : ""
+            }}
+          >
+            {props.register ? (
+              <></>
+            ) : (
+              <div className="auth-illustration-text">
+                <div className="auth-illustration-text-mobile">
+                  <h1>Access your Shortn account</h1>
+                  <p>
+                    Sign in to Shortn to access your custom link management
+                    dashboard and see detailed statistics on how your links are
+                    performing.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

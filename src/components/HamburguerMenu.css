@@ -8,7 +8,7 @@
 .hamburger-main-content{
     width: 80vw;
     background-color: var(--color-backgroundSecondary);
-    max-width: 350px;
+    max-width: 250px;
     position: absolute;
     right: 0;
     display: grid;
@@ -86,5 +86,10 @@
     top: 0;
     right: 13px;
     transform: rotateZ(-45deg);
+  }
+
+  .hamburguer-auth-buttons{
+    display: flex;
+    width: auto;
   }
   

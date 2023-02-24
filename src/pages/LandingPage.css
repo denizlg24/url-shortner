@@ -92,13 +92,13 @@
 @media screen and (max-width:850px) {
   .landingpage-container {
     flex-direction: column-reverse;
+    padding-top: 5rem;
   }
   .landingpage-illustration-container{
     flex: 1;
-    min-height: 400px;
     margin: 0;
     width: 100%;   
-    background-size: auto 100%;
+    background-size: contain;
     background-position: center;
   }
   .landingpage-info-container{
