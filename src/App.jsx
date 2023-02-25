@@ -28,15 +28,7 @@ function App() {
   useEffect(() => {
     const previousTheme = localStorage.getItem("themeChosen");
     const themeToApply = previousTheme ? previousTheme : "dark";
-    console.log(themeToApply);
     setTheme(previousTheme ? previousTheme : "dark");
-    const root = document.documentElement;
-    const currentTheme = themes[themeToApply];
-    console.log(currentTheme);
-    console.log(Object.keys(currentTheme));
-    Object.keys(currentTheme).forEach((key) => {
-      root.style.setProperty(key, currentTheme[key]);
-    });
   }, []);
 
   useEffect(() => {
@@ -45,7 +37,6 @@ function App() {
     }
     const root = document.documentElement;
     const currentTheme = themes[theme];
-    console.log(currentTheme);
     Object.keys(currentTheme).forEach((key) => {
       root.style.setProperty(key, currentTheme[key]);
     });
