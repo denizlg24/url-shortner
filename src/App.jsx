@@ -102,7 +102,8 @@ function App() {
           console.log(response.data);
           let origin = response.data.sub;
           if (response.data.email_verified || origin.slice(0, 5) != "auth0") {
-            bitlyAccessToken = generateBitlyAccessToken(accessToken);
+            let bitlyAccessToken = generateBitlyAccessToken(accessToken);
+            console.log(bitlyAccessToken);
             setAccessToken(bitlyAccessToken);
             setLoggedIn(true);
             displayPage("landing");
