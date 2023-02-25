@@ -57,7 +57,7 @@ const HamburguerMenu = (props) => {
         className="hamburger-main-content"
         style={{ display: expanded ? "grid" : "none" }}
       >
-        {!props.loggedIn ? (
+        {!props.isLoggedIn ? (
           <>
             <div className="hamburguer-auth-buttons">
               <button
