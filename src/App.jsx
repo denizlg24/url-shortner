@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { setAccessToken , generateBitlyAccessToken} from './services/Services';
 import AuthenticationPage from "./pages/AuthenticationPage";
 import Header from "./components/Header";
 import themes from "./themes/themes";
@@ -6,6 +7,7 @@ import LandingPage from "./pages/LandingPage";
 import auth from "./services/auth";
 import axios from "axios";
 import VerificationPage from "./pages/VerificationPage";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   const [theme, setTheme] = useState();
@@ -100,6 +102,8 @@ function App() {
           console.log(response.data);
           let origin = response.data.sub;
           if (response.data.email_verified || origin.slice(0, 5) != "auth0") {
+            bitlyAccessToken = generateBitlyAccessToken(accessToken);
+            setAccessToken(bitlyAccessToken);
             setLoggedIn(true);
             displayPage("landing");
             setAuthData(response.data);
@@ -169,6 +173,7 @@ function App() {
           clickLogoutHandler={handleLogout}
           userLogo={authData ? authData.picture : ""}
         ></Header>
+        <button style={{zIndex: "999",position:"absolute"}} onClick={() => {displayPage("dashboard");}}>Dashboard</button>
         <LandingPage dark={theme === "dark"}></LandingPage>
       </>
     );
@@ -219,6 +224,9 @@ function App() {
         ></VerificationPage>
       </>
     );
+  }
+  if(pageToDisplay === "dashboard"){
+    return <Dashboard></Dashboard>
   }
 }
 
