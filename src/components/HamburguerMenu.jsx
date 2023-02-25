@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./HamburguerMenu.css";
 import SlideToggle from "./SlideToggle";
+import userLogo from "../assets/icons8-google-48.png";
 
 const HamburguerMenu = (props) => {
   const [expanded, toggleExpand] = useState(false);
@@ -56,7 +57,7 @@ const HamburguerMenu = (props) => {
         className="hamburger-main-content"
         style={{ display: expanded ? "grid" : "none" }}
       >
-        {!props.isLoggedIn ? (
+        {!props.loggedIn ? (
           <>
             <div className="hamburguer-auth-buttons">
               <button
@@ -74,13 +75,14 @@ const HamburguerMenu = (props) => {
             </div>
           </>
         ) : (
-          <div className="welcome-back-header-holder">
-            <h3>
-              Welcome back,{" "}
-              <span onClick={props.clickLogoutHandler}>
-                {props.currentUsername}.
-              </span>
-            </h3>
+          <div className="welcome-back-header-holder-hamburguer">
+            <img src={props.userLogo} className="user-profile-pic-hamburguer"></img>
+            <button
+              className="header-auth__button signup"
+              onClick={props.clickLogoutHandler}
+            >
+              Logout
+            </button>
           </div>
         )}
         <div className="header-container__theme">

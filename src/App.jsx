@@ -154,6 +154,7 @@ function App() {
           isLoggedIn={isLoggedIn}
           currentUsername={authData ? authData.nickname : ""}
           clickLogoutHandler={handleLogout}
+          userLogo={authData ? authData.picture : ""}
         ></Header>
         <LandingPage dark={theme === "dark"}></LandingPage>
       </>
@@ -171,6 +172,7 @@ function App() {
           isLoggedIn={isLoggedIn}
           currentUsername={authData ? authData.nickname : ""}
           clickLogoutHandler={handleLogout}
+          userLogo={authData ? authData.picture : ""}
         ></Header>
         <AuthenticationPage
           dark={theme === "dark"}
@@ -196,6 +198,7 @@ function App() {
           isLoggedIn={isLoggedIn}
           currentUsername={authData ? authData.nickname : ""}
           clickLogoutHandler={handleLogout}
+          userLogo={authData ? authData.picture : ""}
         ></Header>
       <VerificationPage emailToVerify={emailToVerify} onClickHandler={onClickLoginHandler}></VerificationPage>
       </>

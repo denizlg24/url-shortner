@@ -1,6 +1,4 @@
 import "./Header.css";
-import lightModeIcon from "../assets/icons8-sun.svg";
-import darkModeIcon from "../assets/dark-mode-6682.svg";
 import SlideToggle from "./SlideToggle";
 import { useEffect, useState } from "react";
 import HamburguerMenu from "./HamburguerMenu";
@@ -64,6 +62,7 @@ const Header = (props) => {
             isLoggedIn={props.isLoggedIn}
             currentUsername={props.currentUsername}
             clickThemeChangeButton={clickThemeChangeButton}
+            userLogo={props.userLogo}
           ></HamburguerMenu>
         ) : (
           <div className="header-container__actions">
