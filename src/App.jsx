@@ -8,7 +8,7 @@ import axios from "axios";
 import VerificationPage from "./pages/VerificationPage";
 
 function App() {
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState();
   const [pageToDisplay, displayPage] = useState("landing");
   const [authChosen, chooseAuth] = useState(true);
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -16,12 +16,36 @@ function App() {
   const [emailToVerify, setEmailToVerify] = useState();
 
   const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+    setTheme((prevTheme) => {
+      localStorage.setItem(
+        "themeChosen",
+        prevTheme === "dark" ? "light" : "dark"
+      );
+      return prevTheme === "dark" ? "light" : "dark";
+    });
   };
 
   useEffect(() => {
+    const previousTheme = localStorage.getItem("themeChosen");
+    const themeToApply = previousTheme ? previousTheme : "dark";
+    console.log(themeToApply);
+    setTheme(previousTheme ? previousTheme : "dark");
+    const root = document.documentElement;
+    const currentTheme = themes[themeToApply];
+    console.log(currentTheme);
+    console.log(Object.keys(currentTheme));
+    Object.keys(currentTheme).forEach((key) => {
+      root.style.setProperty(key, currentTheme[key]);
+    });
+  }, []);
+
+  useEffect(() => {
+    if(!theme){
+      return;
+    }
     const root = document.documentElement;
     const currentTheme = themes[theme];
+    console.log(currentTheme);
     Object.keys(currentTheme).forEach((key) => {
       root.style.setProperty(key, currentTheme[key]);
     });
@@ -85,13 +109,12 @@ function App() {
         .then((response) => {
           console.log(response.data);
           let origin = response.data.sub;
-          if(response.data.email_verified || origin.slice(0,5) != "auth0"){
+          if (response.data.email_verified || origin.slice(0, 5) != "auth0") {
             setLoggedIn(true);
             displayPage("landing");
             setAuthData(response.data);
             loginSuccessHandler();
-          }
-          else{
+          } else {
             console.log("Not Verified!");
           }
         })
@@ -200,7 +223,10 @@ function App() {
           clickLogoutHandler={handleLogout}
           userLogo={authData ? authData.picture : ""}
         ></Header>
-      <VerificationPage emailToVerify={emailToVerify} onClickHandler={onClickLoginHandler}></VerificationPage>
+        <VerificationPage
+          emailToVerify={emailToVerify}
+          onClickHandler={onClickLoginHandler}
+        ></VerificationPage>
       </>
     );
   }
