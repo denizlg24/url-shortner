@@ -27,7 +27,6 @@ function App() {
 
   useEffect(() => {
     const previousTheme = localStorage.getItem("themeChosen");
-    const themeToApply = previousTheme ? previousTheme : "dark";
     setTheme(previousTheme ? previousTheme : "dark");
   }, []);
 
