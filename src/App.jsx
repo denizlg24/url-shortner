@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { setAccessToken , generateBitlyAccessToken} from './services/Services';
 import AuthenticationPage from "./pages/AuthenticationPage";
 import Header from "./components/Header";
 import themes from "./themes/themes";
@@ -8,6 +7,7 @@ import auth from "./services/auth";
 import axios from "axios";
 import VerificationPage from "./pages/VerificationPage";
 import Dashboard from "./pages/Dashboard";
+import auth0 from "auth0-js";
 
 function App() {
   const [theme, setTheme] = useState();
@@ -33,7 +33,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if(!theme){
+    if (!theme) {
       return;
     }
     const root = document.documentElement;
@@ -102,13 +102,32 @@ function App() {
           console.log(response.data);
           let origin = response.data.sub;
           if (response.data.email_verified || origin.slice(0, 5) != "auth0") {
-            let bitlyAccessToken = generateBitlyAccessToken(accessToken);
-            console.log(bitlyAccessToken);
-            setAccessToken(bitlyAccessToken);
             setLoggedIn(true);
             displayPage("landing");
             setAuthData(response.data);
             loginSuccessHandler();
+            var auth0Manage = new auth0.Management({
+              domain: "dev-r8h4horutpz3j3g6.us.auth0.com",
+              token: accessToken,
+            });
+            console.log(accessToken);
+
+            var userId = origin;
+            var userMetadata = { links: "empty" };
+
+            auth0Manage.patchUserMetadata(
+              userId,
+              userMetadata,
+              function (err, authResult) {
+                if (err) {
+                  console.log(err);
+                } else {
+                  console.log(
+                    "patchUserMetadata succeeded: " + JSON.stringify(authResult)
+                  );
+                }
+              }
+            );
           } else {
             console.log("Not Verified!");
           }
@@ -174,7 +193,14 @@ function App() {
           clickLogoutHandler={handleLogout}
           userLogo={authData ? authData.picture : ""}
         ></Header>
-        <button style={{zIndex: "999",position:"absolute"}} onClick={() => {displayPage("dashboard");}}>Dashboard</button>
+        <button
+          style={{ zIndex: "999", position: "absolute" }}
+          onClick={() => {
+            displayPage("dashboard");
+          }}
+        >
+          Dashboard
+        </button>
         <LandingPage dark={theme === "dark"}></LandingPage>
       </>
     );
@@ -226,8 +252,8 @@ function App() {
       </>
     );
   }
-  if(pageToDisplay === "dashboard"){
-    return <Dashboard></Dashboard>
+  if (pageToDisplay === "dashboard") {
+    return <Dashboard></Dashboard>;
   }
 }
 
