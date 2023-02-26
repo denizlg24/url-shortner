@@ -43,9 +43,19 @@
 .header-container__icon h1:hover {
   cursor: pointer;
 }
+.header-navigation{
+  height: 100%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  align-items: center;
 
+}
 .header-container__actions {
-  flex: 2;
+  flex: 1;
   height: 100%;
   display: flex;
   justify-content: flex-end;
@@ -55,7 +65,7 @@
 .header-container__theme {
   margin-right: 1rem;
   padding: 1rem;
-  padding-right: 2rem;
+  padding-right: 1rem;
 }
 
 .header-container__auth {
@@ -106,29 +116,12 @@
 }
 
 .welcome-back-header-holder{
-  color: var(--color-text);
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  width: fit-content;
+  margin-left: 1.5rem;
 }
 
-.welcome-back-header-holder span{
-  color: var(--color-accent);
-  font-weight: 700;
-  font-size: 1.2rem;
-}
 
-.welcome-back-header-holder span:hover{
-  cursor: pointer;
-  user-select: none;
-  text-decoration: underline;
-}
-
-.welcome-back-header-holder h3{
-  font-size: 1.1rem;
-  font-weight: 400;
-}
-
-@media screen and (max-width:1023px) {
-  .header-container__icon h1{
-    margin-left: 1rem;
-  }
-}
 

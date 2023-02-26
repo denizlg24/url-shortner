@@ -1,32 +1,47 @@
 import axios from "axios";
 
-export const shortenURL = async (longURL) => {
-  const res = await axios.post(
-    "https://url-shortner8.p.rapidapi.com/create-short-link",
-    { longURL: longURL },
-    {
-      headers: {
-        "X-RapidAPI-Key": "96cbeb50d5mshacecea5ab4716e1p113030jsn00c8cd8d32f5",
-        "X-RapidAPI-Host": "url-shortner8.p.rapidapi.com",
-      },
-    }
-  );
-  console.log(res.data);
-  return res.data.shortURL;
+const Services = {};
+
+Services.createShortLink = (longUrl) => {
+  const data = {
+    longUrl: longUrl,
+  };
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  return axios
+    .post("http://shortn-21539.nodechef.com/api/url/shorten", data, config)
+    .then((response) => {
+      return { response: "ok", ...response.data };
+    })
+    .catch((error) => {
+      return { response: "failed", ...error };
+    });
 };
 
-export const getStats = async (shortURL) => {
-  const res = await axios.post(
-    "https://url-shortner8.p.rapidapi.com/get-link-analytics",
-    { shortURL: shortURL },
-    {
-      headers: {
-        "X-RapidAPI-Key": "96cbeb50d5mshacecea5ab4716e1p113030jsn00c8cd8d32f5",
-        "X-RapidAPI-Host": "url-shortner8.p.rapidapi.com",
-      },
-    }
-  );
+Services.getStats = async (shortUrl) => {
+  const data = {
+    shortUrl: shortUrl,
+  };
 
-  console.log(res.data);
-  return res.data;
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  return axios
+    .post("http://shortn-21539.nodechef.com/api/url/stats", data, config)
+    .then((response) => {
+      return { response: "ok", data:response.data };
+    })
+    .catch((error) => {
+      return { response: "failed", ...error };
+    });
 };
+
+export default Services;

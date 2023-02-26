@@ -1,0 +1,44 @@
+.link-container{
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--color-lightSpecial);
+    display: flex;
+    margin-top: 1rem;
+    border-radius: 12px;
+}
+
+.link-info{
+    flex: 3;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--color-text);
+}
+.link-info a{
+    color: var(--color-background);
+    font-weight: 300;
+}
+.link-info a:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+.link-actions{
+    flex: .5;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.link-actions button{
+    padding: .35rem;
+    border-radius: 5px;
+    border: 2px transparent;
+    font-size: 1rem;
+    color: var(--color-text);
+    background-color: var(--color-background);
+}
+.link-actions button:hover{
+    cursor: pointer;
+    user-select: none;
+    transform: scale(1.03);
+}

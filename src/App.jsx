@@ -8,6 +8,7 @@ import axios from "axios";
 import VerificationPage from "./pages/VerificationPage";
 import Dashboard from "./pages/Dashboard";
 import auth0 from "auth0-js";
+import ReducedHeader from "./components/ReducedHeader";
 
 function App() {
   const [theme, setTheme] = useState();
@@ -110,24 +111,30 @@ function App() {
               domain: "dev-r8h4horutpz3j3g6.us.auth0.com",
               token: accessToken,
             });
-            console.log(accessToken);
 
-            var userId = origin;
-            var userMetadata = { links: "empty" };
-
-            auth0Manage.patchUserMetadata(
-              userId,
-              userMetadata,
-              function (err, authResult) {
-                if (err) {
-                  console.log(err);
-                } else {
-                  console.log(
-                    "patchUserMetadata succeeded: " + JSON.stringify(authResult)
-                  );
-                }
+            let userId = origin;
+            let userMetadata = { links: "empty" };
+            auth0Manage.getUser(userId, (err, user) => {
+              if (err) {
+                console.log(err);
               }
-            );
+              if (!user.user_metadata) {
+                auth0Manage.patchUserMetadata(
+                  userId,
+                  userMetadata,
+                  function (err, authResult) {
+                    if (err) {
+                      console.log(err);
+                    } else {
+                      console.log(
+                        "patchUserMetadata succeeded: " +
+                          JSON.stringify(authResult)
+                      );
+                    }
+                  }
+                );
+              }
+            });
           } else {
             console.log("Not Verified!");
           }
@@ -179,6 +186,13 @@ function App() {
     window.history.replaceState(null, null, window.location.origin);
   }
 
+  const clickDashboardHandler = (e) => {
+    e.preventDefault();
+    if (pageToDisplay !== "dashboard") {
+      displayPage("dashboard");
+    }
+  };
+
   if (pageToDisplay === "landing") {
     return (
       <>
@@ -192,15 +206,8 @@ function App() {
           currentUsername={authData ? authData.nickname : ""}
           clickLogoutHandler={handleLogout}
           userLogo={authData ? authData.picture : ""}
+          clickDashboard={clickDashboardHandler}
         ></Header>
-        <button
-          style={{ zIndex: "999", position: "absolute" }}
-          onClick={() => {
-            displayPage("dashboard");
-          }}
-        >
-          Dashboard
-        </button>
         <LandingPage dark={theme === "dark"}></LandingPage>
       </>
     );
@@ -253,7 +260,20 @@ function App() {
     );
   }
   if (pageToDisplay === "dashboard") {
-    return <Dashboard></Dashboard>;
+    return (
+      <>
+        <ReducedHeader
+          dark={theme === "dark"}
+          changeThemeHandler={toggleTheme}
+          onClickIconHandler={onClickIconHandler}
+          isLoggedIn={isLoggedIn}
+          currentUsername={authData ? authData.nickname : ""}
+          clickLogoutHandler={handleLogout}
+          userLogo={authData ? authData.picture : ""}
+        ></ReducedHeader>
+        <Dashboard></Dashboard>
+      </>
+    );
   }
 }
 

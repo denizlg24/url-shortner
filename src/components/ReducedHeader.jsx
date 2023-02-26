@@ -1,10 +1,8 @@
-import "./Header.css";
-import SlideToggle from "./SlideToggle";
-import { useEffect, useState } from "react";
 import HamburguerMenu from "./HamburguerMenu";
-import Navlink from "./NavLink";
+import SlideToggle from "./SlideToggle";
+import { useState, useEffect } from "react";
 
-const Header = (props) => {
+const ReducedHeader = (props) => {
   const [headerClassNames, setHeaderClassNames] = useState(
     "header-container transparent"
   );
@@ -38,13 +36,6 @@ const Header = (props) => {
     };
   });
 
-  const clickLoginHandler = (e) => {
-    props.onClickLoginHandler(e);
-  };
-  const clickRegisterHandler = (e) => {
-    props.onClickRegisterHandler(e);
-  };
-
   const clickIconHandler = (e) => {
     props.onClickIconHandler(e);
   };
@@ -56,24 +47,16 @@ const Header = (props) => {
         </div>
         {hambugerDisplaying ? (
           <HamburguerMenu
-            clickLoginHandler={clickLoginHandler}
-            clickRegisterHandler={clickRegisterHandler}
             clickLogoutHandler={props.clickLogoutHandler}
             dark={props.dark}
             isLoggedIn={props.isLoggedIn}
             currentUsername={props.currentUsername}
             clickThemeChangeButton={clickThemeChangeButton}
             userLogo={props.userLogo}
-            clickDashboard={props.clickDashboard}
+            reduced={true}
           ></HamburguerMenu>
         ) : (
           <>
-            <div className="header-navigation">
-              <Navlink title="Pricing"></Navlink>
-              <Navlink title="Features"></Navlink>
-              <Navlink title="Contact"></Navlink>
-              {props.isLoggedIn && <Navlink title="Dashboard" clickHandler={props.clickDashboard}></Navlink>}
-            </div>
             <div className="header-container__actions">
               <div className="header-container__theme">
                 <SlideToggle
@@ -85,18 +68,6 @@ const Header = (props) => {
               <div className="header-container__auth">
                 {!props.isLoggedIn ? (
                   <>
-                    <button
-                      className="header-auth__button login"
-                      onClick={clickLoginHandler}
-                    >
-                      Login
-                    </button>
-                    <button
-                      className="header-auth__button signup"
-                      onClick={clickRegisterHandler}
-                    >
-                      Sign Up
-                    </button>{" "}
                   </>
                 ) : (
                   <div className="welcome-back-header-holder">
@@ -121,4 +92,4 @@ const Header = (props) => {
   );
 };
 
-export default Header;
+export default ReducedHeader;

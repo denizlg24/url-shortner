@@ -1,0 +1,12 @@
+.navlink{
+    text-align: center;
+    color: var(--color-text);
+    padding: 1rem;
+    font-size: 1rem;
+}
+
+.navlink:hover{
+    user-select: none;
+    cursor: pointer;
+    color: var(--color-accent);
+}

@@ -1,0 +1,88 @@
+.main-dashboard-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-dashboard-content {
+  max-width: 1440px;
+  width: 100%;
+  margin: 5rem;
+  margin-top: 6rem;
+  padding: 5rem;
+  background-color: var(--color-backgroundSecondary);
+  border-radius: 12px;
+  filter: drop-shadow(0 0 .75rem rgba(0,0,0,.3));
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+
+.main-content-dashboard{
+    background-color: var(--color-background);
+    padding: 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px 12px 12px 12px;
+    filter: drop-shadow(0 0 .75rem rgba(0,0,0,.3));
+}
+.input-actions-dashboard{
+    background-color: var(--color-lightSpecial);
+    width: 100%;
+    padding: 2rem;
+    border-radius: 12px;
+    position: relative;
+}
+
+.input-actions-dashboard input{
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--color-backgroundSecondary);
+    border: 2px solid;
+    border-color: transparent;
+    border-radius: 12px;
+    outline: none;
+    color: var(--color-text);
+}
+.input-actions-dashboard input:focus{
+    border-color: var(--color-darkSpecial);
+}
+
+.input-actions-dashboard button{
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    padding: .3rem;
+    margin-right: -1rem;
+    border-radius: 5px;
+    border: 3px solid;
+    border-color: transparent;
+    background-color: var(--color-lightSpecial);
+    color: white;
+}
+.input-actions-dashboard button:hover{
+    cursor: pointer;
+    user-select: none;
+    background-color: transparent;
+    border-color: var(--color-lightSpecial);
+}
+
+.created-links-dashboard{
+    margin: 1rem;
+    margin-bottom: 0;
+    width: 100%;
+}
+
+.dasboard-title{
+    text-align: center;
+    color: var(--color-text);
+    margin: 1rem;
+}
+
+
