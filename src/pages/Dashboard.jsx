@@ -2,20 +2,25 @@ import { useEffect, useState } from "react";
 import LinkItem from "../components/LinkItem";
 import Services from "../services/Services";
 import "./Dashboard.css";
+import auth0 from "auth0-js";
 
-const Dashboard = () => {
+const Dashboard = (props) => {
   const [myUrls, setUrls] = useState([]);
   const [currentLongUrl, changecurrentLongUrl] = useState("");
 
-  useEffect(() =>{
-    const jsonParse = localStorage.getItem('myLinks');
-    if(!jsonParse){
-      return;
-    }
-    const parsedArray = JSON.parse(jsonParse);
-    setUrls(parsedArray);
-  },[])
-
+  useEffect(() => {
+    var auth0Manage = new auth0.Management({
+      domain: "dev-r8h4horutpz3j3g6.us.auth0.com",
+      token: localStorage.getItem("accessToken"),
+    });
+    auth0Manage.getUser(props.userId, (err, user) => {
+      if (err) {
+        console.log(err);
+      } else {
+        setUrls(user.user_metadata.links === "empty" ? [] : user.user_metadata.links);
+      }
+    });
+  }, []);
 
   const handleCreateShortUrl = async () => {
     const response = await Services.createShortLink(currentLongUrl);
@@ -23,12 +28,28 @@ const Dashboard = () => {
     if (response.response === "ok") {
       setUrls((prevUrls) => {
         let newUrls = [...prevUrls, response];
-        const jsonArray = JSON.stringify(newUrls);
-        localStorage.setItem('myLinks', jsonArray);
+        var auth0Manage = new auth0.Management({
+          domain: "dev-r8h4horutpz3j3g6.us.auth0.com",
+          token: localStorage.getItem("accessToken"),
+        });
+        let userId = props.userId;
+        let userMetadata = { links: newUrls };
+        auth0Manage.patchUserMetadata(
+          userId,
+          userMetadata,
+          function (err, authResult) {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(
+                "patchUserMetadata succeeded: " + JSON.stringify(authResult)
+              );
+            }
+          }
+        );
         return newUrls;
       });
-    }
-    else{
+    } else {
       alert(response.response);
     }
   };
@@ -37,8 +58,7 @@ const Dashboard = () => {
     const response = await Services.getStats(shortURL);
     if (response.response === "ok") {
       console.log(response.data);
-    }
-    else{
+    } else {
       alert(response.data);
     }
   };

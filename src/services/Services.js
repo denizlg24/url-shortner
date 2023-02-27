@@ -14,7 +14,7 @@ Services.createShortLink = (longUrl) => {
   };
 
   return axios
-    .post("https://shortn-21539.nodechef.com/api/url/shorten", data, config)
+    .post("https://shortn.at/api/url/shorten", data, config)
     .then((response) => {
       return { response: "ok", ...response.data };
     })
@@ -35,7 +35,7 @@ Services.getStats = async (shortUrl) => {
   };
 
   return axios
-    .post("https://shortn-21539.nodechef.com/api/url/stats", data, config)
+    .post("https://shortn.at/api/url/stats", data, config)
     .then((response) => {
       return { response: "ok", data:response.data };
     })

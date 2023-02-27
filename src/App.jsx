@@ -271,7 +271,7 @@ function App() {
           clickLogoutHandler={handleLogout}
           userLogo={authData ? authData.picture : ""}
         ></ReducedHeader>
-        <Dashboard></Dashboard>
+        <Dashboard userId={authData? authData.sub : ""}></Dashboard>
       </>
     );
   }
