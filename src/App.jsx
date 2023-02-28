@@ -9,6 +9,7 @@ import VerificationPage from "./pages/VerificationPage";
 import Dashboard from "./pages/Dashboard";
 import auth0 from "auth0-js";
 import ReducedHeader from "./components/ReducedHeader";
+import ErrorModal from "./components/ErrorModal";
 
 function App() {
   const [theme, setTheme] = useState();
@@ -17,6 +18,7 @@ function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [authData, setAuthData] = useState();
   const [emailToVerify, setEmailToVerify] = useState();
+  const [errorState, displayErrorModal] = useState([]);
 
   const toggleTheme = () => {
     setTheme((prevTheme) => {
@@ -87,6 +89,12 @@ function App() {
     handleAuthCallback();
   }, []);
 
+
+  const cancelError = (e) =>{
+    e.preventDefault();
+    displayErrorModal([]);
+  }
+
   const checkTokens = () => {
     const accessToken = localStorage.getItem("accessToken");
     const idToken = localStorage.getItem("idToken");
@@ -107,42 +115,20 @@ function App() {
             displayPage("landing");
             setAuthData(response.data);
             loginSuccessHandler();
-            var auth0Manage = new auth0.Management({
-              domain: "dev-r8h4horutpz3j3g6.us.auth0.com",
-              token: accessToken,
-            });
-
-            let userId = origin;
-            let userMetadata = { links: "empty" };
-            auth0Manage.getUser(userId, (err, user) => {
-              if (err) {
-                console.log(err);
-              }
-              if (!user.user_metadata) {
-                auth0Manage.patchUserMetadata(
-                  userId,
-                  userMetadata,
-                  function (err, authResult) {
-                    if (err) {
-                      console.log(err);
-                    } else {
-                      console.log(
-                        "patchUserMetadata succeeded: " +
-                          JSON.stringify(authResult)
-                      );
-                    }
-                  }
-                );
-              }
-            });
           } else {
-            console.log("Not Verified!");
+            displayErrorModal([
+              <ErrorModal title={"Error Loging-in!"} errorDesc={"You have not verified your email yet!"} cancelError={cancelError}></ErrorModal>
+            ])
+            handleLogout();
           }
         })
         .catch((error) => {
           // Handle error
-          handleLogout();
+          displayErrorModal([
+            <ErrorModal title={`Error ${error.statusCode}` } errorDesc={error.description} cancelError={cancelError}></ErrorModal>
+          ])
           console.error(error);
+          handleLogout();
         });
     }
   };
@@ -175,10 +161,7 @@ function App() {
       if (authResult && authResult.accessToken) {
         localStorage.setItem("accessToken", authResult.accessToken);
         localStorage.setItem("idToken", authResult.idToken);
-        // Call the Auth0 Management API to create or link the user profile
-        // using the access token
         checkTokens();
-        // make an API request to create or link the user profile
       } else if (err) {
         console.log(err);
       }
@@ -196,6 +179,7 @@ function App() {
   if (pageToDisplay === "landing") {
     return (
       <>
+        {errorState}
         <Header
           dark={theme === "dark"}
           changeThemeHandler={toggleTheme}
@@ -215,6 +199,7 @@ function App() {
   if (pageToDisplay === "auth") {
     return (
       <>
+        {errorState}
         <Header
           dark={theme === "dark"}
           changeThemeHandler={toggleTheme}
@@ -241,6 +226,7 @@ function App() {
   if (pageToDisplay === "verifyEmail") {
     return (
       <>
+        {errorState}
         <Header
           dark={theme === "dark"}
           changeThemeHandler={toggleTheme}
@@ -271,7 +257,7 @@ function App() {
           clickLogoutHandler={handleLogout}
           userLogo={authData ? authData.picture : ""}
         ></ReducedHeader>
-        <Dashboard userId={authData? authData.sub : ""}></Dashboard>
+        <Dashboard userId={authData ? authData.sub : ""}></Dashboard>
       </>
     );
   }

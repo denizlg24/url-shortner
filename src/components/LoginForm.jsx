@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./RegisterForm.css";
 import auth from "../services/auth";
 import viewPass from "../assets/icons8-view-64.png";
 import hidePass from "../assets/icons8-hide-64.png";
+import ErrorModal from "./ErrorModal";
 
 const LoginForm = (props) => {
+  const [errorState, displayErrorModal] = useState([]);
+
   const [userInput, setUserInput] = useState({
     username: "",
     password: "",
@@ -28,6 +31,11 @@ const LoginForm = (props) => {
     });
   };
 
+  const cancelError = (e) =>{
+    e.preventDefault();
+    displayErrorModal([]);
+  }
+
   const handleLogin = (event) => {
     event.preventDefault();
     auth.client.login(
@@ -44,6 +52,13 @@ const LoginForm = (props) => {
           props.loginSuccessHandler();
         } else if (err) {
           console.log(err);
+          displayErrorModal([
+            <ErrorModal
+              title={`Error ${err.statusCode}`}
+              errorDesc={err.description}
+              cancelError={cancelError}
+            ></ErrorModal>,
+          ]);
         }
       }
     );
@@ -58,50 +73,53 @@ const LoginForm = (props) => {
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <h1 className="register-form-title">Login</h1>
-      <div className="register-form__inputs">
-        <input
-          autoComplete="off"
-          type="text"
-          id="username"
-          placeholder="Your email"
-          onChange={usernameUpdateHandler}
-        ></input>
-        <label
-          className="error-label-register"
-          htmlFor="username"
-          style={{ display: false ? "" : "none" }}
-        ></label>
-        <div className="password-field">
+    <>
+      {errorState}
+      <form onSubmit={handleLogin}>
+        <h1 className="register-form-title">Login</h1>
+        <div className="register-form__inputs">
           <input
             autoComplete="off"
-            type={showingPassword ? "text" : "password"}
-            id="password"
-            placeholder="Your password"
-            onChange={passwordUpdateHandler}
+            type="text"
+            id="username"
+            placeholder="Your email"
+            onChange={usernameUpdateHandler}
           ></input>
+          <label
+            className="error-label-register"
+            htmlFor="username"
+            style={{ display: false ? "" : "none" }}
+          ></label>
+          <div className="password-field">
+            <input
+              autoComplete="off"
+              type={showingPassword ? "text" : "password"}
+              id="password"
+              placeholder="Your password"
+              onChange={passwordUpdateHandler}
+            ></input>
+            <button
+              className="show-password-button"
+              onClick={passwordShowHandler}
+            >
+              <img src={!showingPassword ? viewPass : hidePass}></img>
+            </button>
+          </div>
+          <label
+            className="error-label-register"
+            htmlFor="password"
+            style={{ display: false ? "" : "none" }}
+          ></label>
           <button
-            className="show-password-button"
-            onClick={passwordShowHandler}
+            type="submit"
+            id="loginAccount"
+            className="submit-button-register"
           >
-            <img src={!showingPassword ? viewPass : hidePass}></img>
+            Log In
           </button>
         </div>
-        <label
-          className="error-label-register"
-          htmlFor="password"
-          style={{ display: false ? "" : "none" }}
-        ></label>
-        <button
-          type="submit"
-          id="loginAccount"
-          className="submit-button-register"
-        >
-          Log In
-        </button>
-      </div>
-    </form>
+      </form>
+    </>
   );
 };
 
