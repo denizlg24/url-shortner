@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import LinkItem from "../components/LinkItem";
 import Services from "../services/Services";
+import ErrorModal from "../components/ErrorModal";
 import "./Dashboard.css";
 
 const Dashboard = (props) => {
   const [myUrls, setUrls] = useState([]);
   const [currentLongUrl, changecurrentLongUrl] = useState("");
+  const [errorState, displayErrorModal] = useState([]);
 
   useEffect(() => {
     const getUrls = async () => {
@@ -13,7 +15,6 @@ const Dashboard = (props) => {
       if (response.response === "ok") {
         setUrls(response.data);
       } else {
-        console.log(response.response);
         setUrls([]);
       }
     };
@@ -32,7 +33,9 @@ const Dashboard = (props) => {
         return newUrls;
       });
     } else {
-      console.log(response.response);
+      displayErrorModal([
+        <ErrorModal title={response.response.status} errorDesc={response.response.data} cancelError={cancelError}></ErrorModal>
+      ]);
     }
   };
 
@@ -41,14 +44,24 @@ const Dashboard = (props) => {
     if (response.response === "ok") {
       console.log(response.data);
     } else {
-      alert(response.data);
+      displayErrorModal([
+        <ErrorModal title={response.response.status} errorDesc={response.response.data} cancelError={cancelError}></ErrorModal>
+      ]);
     }
   };
 
   const changeHandler = (e) => {
     changecurrentLongUrl(e.target.value);
   };
+
+  const cancelError = (e) =>{
+    e.preventDefault();
+    displayErrorModal([]);
+  }
+
   return (
+    <>
+    {errorState}
     <div className="main-dashboard-container">
       <div className="main-dashboard-content">
         <div className="main-content-dashboard">
@@ -70,6 +83,7 @@ const Dashboard = (props) => {
                   shortUrl={url.shortUrl}
                   key={url.shortUrl}
                   onClickHandler={handleGetClickAnalytics}
+                  dark={props.dark}
                 ></LinkItem>
               );
             })}
@@ -77,6 +91,7 @@ const Dashboard = (props) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

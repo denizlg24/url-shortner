@@ -1,38 +1,47 @@
 .link-container{
     width: 100%;
     padding: 1rem;
-    background-color: var(--color-lightSpecial);
+    background-color: transparent;
     display: flex;
+    justify-content: space-between;
     margin-top: 1rem;
     border-radius: 12px;
 }
 
 .link-info{
-    flex: 3;
+    max-width: 100%;
+    width: 100%;
     display: flex;
     align-items: center;
-    gap: 1rem;
+    justify-content: space-between;
     color: var(--color-text);
 }
 .link-info a{
-    color: var(--color-background);
+    color: var(--color-text);
     font-weight: 300;
+    
+}
+
+#long-url-linkitem{
+    word-wrap: break-word;
+    margin-right: 1rem;
 }
 .link-info a:hover{
     cursor: pointer;
     text-decoration: underline;
 }
 .link-actions{
-    flex: .5;
     display: flex;
     align-items: center;
     justify-content: flex-end;
 }
 
 .link-actions button{
+    width: max-content;
     padding: .35rem;
     border-radius: 5px;
-    border: 2px transparent;
+    border: 2px solid;
+    border-color: transparent;
     font-size: 1rem;
     color: var(--color-text);
     background-color: var(--color-background);
@@ -40,5 +49,32 @@
 .link-actions button:hover{
     cursor: pointer;
     user-select: none;
-    transform: scale(1.03);
+    background-color: transparent;
+    border-color: var(--color-text);
+}
+
+@media screen and (max-width: 1099px){
+    .link-container{
+        display: block;
+    }
+    .link-actions{
+        justify-content: center;
+    }
+    .link-actions button{
+        margin-top: .5rem;
+        width: 100%;
+    }
+    .link-info{
+        display: block;
+        max-width: 100%;
+    }
+    #long-url-linkitem{
+        max-width: none;
+        margin: .3rem;
+        margin-right: 0rem;
+        margin-left: 0;
+    }
+    .link-container{
+        justify-content: space-between;
+    }
 }

@@ -1,7 +1,7 @@
 const themes = {
   dark: {
     "--color-background": "#222831",
-    "--color-backgroundSecondary": "#393E46",
+    "--color-backgroundSecondary": "#1f232a",
     "--color-text": "#EEEEEE",
     "--color-accent": "#8EA0E6",
     "--color-lightAccent": "#BDC8F5",

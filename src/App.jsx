@@ -118,7 +118,7 @@ function App() {
           } else {
             displayErrorModal([
               <ErrorModal title={"Error Loging-in!"} errorDesc={"You have not verified your email yet!"} cancelError={cancelError}></ErrorModal>
-            ])
+            ]);
             handleLogout();
           }
         })
@@ -126,7 +126,7 @@ function App() {
           // Handle error
           displayErrorModal([
             <ErrorModal title={`Error ${error.statusCode}` } errorDesc={error.description} cancelError={cancelError}></ErrorModal>
-          ])
+          ]);
           console.error(error);
           handleLogout();
         });
@@ -257,7 +257,7 @@ function App() {
           clickLogoutHandler={handleLogout}
           userLogo={authData ? authData.picture : ""}
         ></ReducedHeader>
-        <Dashboard userId={authData ? authData.sub : ""}></Dashboard>
+        <Dashboard userId={authData ? authData.sub : ""} dark={theme === "dark"}></Dashboard>
       </>
     );
   }
