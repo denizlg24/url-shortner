@@ -9,7 +9,7 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     const getUrls = async () => {
-      let response = await Services.getUrls("test");
+      let response = await Services.getUrls(props.userId);
       if (response.response === "ok") {
         setUrls(response.data);
       } else {
