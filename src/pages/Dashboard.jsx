@@ -8,6 +8,9 @@ const Dashboard = (props) => {
   const [myUrls, setUrls] = useState([]);
   const [currentLongUrl, changecurrentLongUrl] = useState("");
   const [errorState, displayErrorModal] = useState([]);
+  const [selectedPage,selectPage] = useState(0);
+
+  const urlPerPage = 3;
 
   useEffect(() => {
     const getUrls = async () => {
@@ -59,6 +62,28 @@ const Dashboard = (props) => {
     displayErrorModal([]);
   }
 
+  const prevPageHandler = (e) =>{
+    e.preventDefault();
+    selectPage((prevSelected) => {
+      let numberOfPages = Math.ceil(myUrls.length / urlPerPage);
+      if(prevSelected - 1 < 0){
+        return numberOfPages-1;
+      }
+      return prevSelected-1;
+    });
+  }
+
+  const nextPageHandler = (e) =>{
+    e.preventDefault();
+    selectPage((prevSelected) => {
+      let numberOfPages = Math.ceil(myUrls.length / urlPerPage);
+      if(prevSelected + 1 === numberOfPages){
+        return 0;
+      }
+      return prevSelected+1;
+    });
+  }
+
   return (
     <>
     {errorState}
@@ -76,7 +101,7 @@ const Dashboard = (props) => {
             <button onClick={handleCreateShortUrl}>Create Short URL</button>
           </div>
           <div className="created-links-dashboard">
-            {myUrls.map((url) => {
+            {myUrls.slice(0+(urlPerPage*selectedPage),urlPerPage+(urlPerPage*selectedPage)).map((url) => {
               return (
                 <LinkItem
                   longUrl={url.longUrl}
@@ -87,6 +112,11 @@ const Dashboard = (props) => {
                 ></LinkItem>
               );
             })}
+            <div className="dashboard-page-select" >
+                <div className="button-page-select-dashboard"><button onClick={prevPageHandler}>Prev.</button></div>
+                <div className="page-identifier"><h3>Page {selectedPage + 1} of {Math.ceil(myUrls.length / urlPerPage)}</h3></div>
+                <div className="button-page-select-dashboard"><button onClick={nextPageHandler}>Next.</button></div>
+            </div>
           </div>
         </div>
       </div>

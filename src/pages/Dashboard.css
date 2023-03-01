@@ -76,6 +76,39 @@
     width: 100%;
 }
 
+.dashboard-page-select{
+    width: 100%;
+    padding: 1rem;
+    background-color: transparent;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+    margin-bottom: -1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.button-page-select-dashboard button{
+    background-color: transparent;
+    border: 2px dashed;
+    border-color: transparent;
+    padding: .3rem;
+    color: var(--color-text);
+    border-radius: 5px;
+}
+.button-page-select-dashboard button:hover{
+    border-color: var(--color-text);
+    user-select: none;
+    cursor: pointer;
+}
+
+.page-identifier h3{
+    text-align: center;
+    font-weight: 400;
+    color: var(--color-text);
+}
+
 .dasboard-title{
     text-align: center;
     color: var(--color-text);
