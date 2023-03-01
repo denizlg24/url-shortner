@@ -89,18 +89,16 @@ function App() {
     handleAuthCallback();
   }, []);
 
-
-  const cancelError = (e) =>{
+  const cancelError = (e) => {
     e.preventDefault();
     displayErrorModal([]);
-  }
+  };
 
   const checkTokens = () => {
     const accessToken = localStorage.getItem("accessToken");
     const idToken = localStorage.getItem("idToken");
     if (accessToken && idToken) {
       const userInfoUrl = `https://dev-r8h4horutpz3j3g6.us.auth0.com/userinfo`;
-
       axios
         .get(userInfoUrl, {
           headers: {
@@ -117,7 +115,11 @@ function App() {
             loginSuccessHandler();
           } else {
             displayErrorModal([
-              <ErrorModal title={"Error Loging-in!"} errorDesc={"You have not verified your email yet!"} cancelError={cancelError}></ErrorModal>
+              <ErrorModal
+                title={"Error Loging-in!"}
+                errorDesc={"You have not verified your email yet!"}
+                cancelError={cancelError}
+              ></ErrorModal>,
             ]);
             handleLogout();
           }
@@ -125,10 +127,14 @@ function App() {
         .catch((error) => {
           // Handle error
           displayErrorModal([
-            <ErrorModal title={`Error ${error.statusCode}` } errorDesc={error.description} cancelError={cancelError}></ErrorModal>
+            <ErrorModal
+              title={`Error ${error.statusCode}`}
+              errorDesc={error.description}
+              cancelError={cancelError}
+            ></ErrorModal>,
           ]);
           console.error(error);
-          handleLogout();
+          
         });
     }
   };
@@ -257,7 +263,11 @@ function App() {
           clickLogoutHandler={handleLogout}
           userLogo={authData ? authData.picture : ""}
         ></ReducedHeader>
-        <Dashboard userId={authData ? authData.sub : ""} dark={theme === "dark"}></Dashboard>
+        <Dashboard
+          username={authData ? authData.nickname : ""}
+          userId={authData ? authData.sub : ""}
+          dark={theme === "dark"}
+        ></Dashboard>
       </>
     );
   }
