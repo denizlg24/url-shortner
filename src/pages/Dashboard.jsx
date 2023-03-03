@@ -51,6 +51,7 @@ const Dashboard = (props) => {
   const handleGetClickAnalytics = async (shortURL) => {
     const response = await Services.getStats(shortURL);
     if (response.response === "ok") {
+      console.log(response.data);
       setUrlData(response.data);
     } else {
       displayErrorModal([
@@ -94,10 +95,15 @@ const Dashboard = (props) => {
     });
   };
 
+  const cancelStatsPage = (e) =>{
+    e.preventDefault();
+    setUrlData();
+  }
+
   return (
     <>
       {errorState}
-      {urlData && <LinkStats data={urlData? urlData:{}} shortUrl={"test"}></LinkStats>}
+      {urlData && <LinkStats data={urlData.clicks} shortUrl={urlData.shortUrl} lastClicked={urlData.clicks.lastClick} dark={props.dark} closeStats={cancelStatsPage}></LinkStats>}
       <div className="main-dashboard-container">
         <div className="main-dashboard-content">
           <div className="main-content-dashboard">
