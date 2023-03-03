@@ -3,12 +3,14 @@ import LinkItem from "../components/LinkItem";
 import Services from "../services/Services";
 import ErrorModal from "../components/ErrorModal";
 import "./Dashboard.css";
+import LinkStats from "./LinkStats";
 
 const Dashboard = (props) => {
   const [myUrls, setUrls] = useState([]);
   const [currentLongUrl, changecurrentLongUrl] = useState("");
   const [errorState, displayErrorModal] = useState([]);
   const [selectedPage, selectPage] = useState(0);
+  const [urlData,setUrlData] = useState();
 
   const urlPerPage = 3;
 
@@ -49,7 +51,7 @@ const Dashboard = (props) => {
   const handleGetClickAnalytics = async (shortURL) => {
     const response = await Services.getStats(shortURL);
     if (response.response === "ok") {
-      console.log(response.data);
+      setUrlData(response.data);
     } else {
       displayErrorModal([
         <ErrorModal
@@ -95,6 +97,7 @@ const Dashboard = (props) => {
   return (
     <>
       {errorState}
+      {urlData && <LinkStats data={urlData? urlData:{}} shortUrl={"test"}></LinkStats>}
       <div className="main-dashboard-container">
         <div className="main-dashboard-content">
           <div className="main-content-dashboard">

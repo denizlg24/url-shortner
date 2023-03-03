@@ -1,0 +1,8 @@
+.main-stats-container{
+    width: 95%;
+    max-width: 800px;
+    background-color: var(--color-background);
+    align-self: center;
+    padding: 2rem;
+    border-radius: 12px;
+}

@@ -62,4 +62,5 @@
 .error-modal-desc p {
   max-width: 100%;
   word-wrap: break-word;
+  color: var(--color-text);
 }

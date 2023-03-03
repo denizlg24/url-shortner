@@ -79,6 +79,7 @@ function App() {
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("idToken");
+    localStorage.removeItem("expTime");
     setAuthData(null);
     setLoggedIn(false);
     displayPage("landing");
@@ -98,10 +99,12 @@ function App() {
     const accessToken = localStorage.getItem("accessToken");
     const idToken = localStorage.getItem("idToken");
     if (accessToken && idToken) {
-      const tokenExpirationTime = jwt_decode(idToken).exp;
-      const currentTime = Math.floor(Date.now() / 1000);
-      const tokenExpirationThreshold = 60;
-      if (tokenExpirationTime - currentTime < tokenExpirationThreshold) {
+      if (!localStorage.getItem("expTime")) {
+        const dateCopy = new Date();
+        dateCopy.setSeconds(dateCopy.getSeconds() + 2592000);
+        localStorage.setItem("expTime",dateCopy.toISOString())
+      }
+      if (new Date() >= Date(localStorage.getItem("expTime"))) {
         console.log("Outdated token, loggin out!");
         displayErrorModal([
           <ErrorModal
