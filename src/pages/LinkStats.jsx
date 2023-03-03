@@ -4,6 +4,7 @@ import "./LinkStats.css";
 const LinkStats = (props) => {
   const [filterUp, toggleFilter] = useState(true);
   const countries = Object.entries(props.data.byCountry);
+  const sortedData = filterUp ? countries.sort((a, b) => b[1] - a[1]) : countries.sort((a, b) => a[1] - b[1])
   const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
   const getDateInFormat = (dateIn) => {
     var date = new Date(dateIn);
@@ -89,7 +90,7 @@ const LinkStats = (props) => {
             </div>
           </div>
           <ul>
-            {countries.map((country) => {
+            {sortedData.map((country) => {
               return (
                 <li key={country[0]}>
                   <h1>
