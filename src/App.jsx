@@ -7,7 +7,7 @@ import auth from "./services/auth";
 import axios from "axios";
 import VerificationPage from "./pages/VerificationPage";
 import Dashboard from "./pages/Dashboard";
-import auth0 from "auth0-js";
+import jwt_decode from "jwt-decode";
 import ReducedHeader from "./components/ReducedHeader";
 import ErrorModal from "./components/ErrorModal";
 
@@ -94,48 +94,42 @@ function App() {
     displayErrorModal([]);
   };
 
-  const checkTokens = () => {
+  const checkTokens = async () => {
     const accessToken = localStorage.getItem("accessToken");
     const idToken = localStorage.getItem("idToken");
     if (accessToken && idToken) {
-      const userInfoUrl = `https://dev-r8h4horutpz3j3g6.us.auth0.com/userinfo`;
-      axios
-        .get(userInfoUrl, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((response) => {
-          console.log(response.data);
-          let origin = response.data.sub;
-          if (response.data.email_verified || origin.slice(0, 5) != "auth0") {
-            setLoggedIn(true);
-            displayPage("landing");
-            setAuthData(response.data);
-            loginSuccessHandler();
-          } else {
-            displayErrorModal([
-              <ErrorModal
-                title={"Error Loging-in!"}
-                errorDesc={"You have not verified your email yet!"}
-                cancelError={cancelError}
-              ></ErrorModal>,
-            ]);
-            handleLogout();
-          }
-        })
-        .catch((error) => {
-          // Handle error
-          displayErrorModal([
-            <ErrorModal
-              title={`Error ${error.statusCode}`}
-              errorDesc={error.description}
-              cancelError={cancelError}
-            ></ErrorModal>,
-          ]);
-          console.error(error);
-          
-        });
+      const tokenExpirationTime = jwt_decode(idToken).exp;
+      const currentTime = Math.floor(Date.now() / 1000);
+      const tokenExpirationThreshold = 60;
+      if (tokenExpirationTime - currentTime < tokenExpirationThreshold) {
+        console.log("Outdated token, loggin out!");
+        displayErrorModal([
+          <ErrorModal
+            title={"Error Loging-in!"}
+            errorDesc={"Your session has expired, login again!"}
+            cancelError={cancelError}
+          ></ErrorModal>,
+        ]);
+        handleLogout();
+        return;
+      }
+      const verified = jwt_decode(idToken).email_verified;
+      let origin = jwt_decode(idToken).sub;
+      if (verified || origin.slice(0, 5) != "auth0") {
+        setLoggedIn(true);
+        displayPage("landing");
+        setAuthData(jwt_decode(idToken));
+        loginSuccessHandler();
+      } else {
+        displayErrorModal([
+          <ErrorModal
+            title={"Error Loging-in!"}
+            errorDesc={"You have not verified your email yet!"}
+            cancelError={cancelError}
+          ></ErrorModal>,
+        ]);
+        handleLogout();
+      }
     }
   };
 
