@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./RegisterForm.css";
 import viewPass from "../assets/icons8-view-64.png";
 import hidePass from "../assets/icons8-hide-64.png";
-import auth from "../services/auth";
+import Services from "../services/Services";
 
 const RegisterForm = (props) => {
   const [userInput, setUserInput] = useState({
@@ -47,7 +47,7 @@ const RegisterForm = (props) => {
       if (!focusState.email && !isForced) {
         return "";
       }
-      if (!email.includes("@")) {
+      if (! /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         return "Email is not valid.";
       }
       return "";
@@ -153,7 +153,7 @@ const RegisterForm = (props) => {
     });
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
     let currentChecks = checkUserInputValidaty(userInput, true);
     if (
@@ -164,21 +164,24 @@ const RegisterForm = (props) => {
     ) {
       return;
     }
-    auth.signup(
+    const response = await Services.registerUser(
       {
-        connection: "Username-Password-Authentication",
         email: userInput.email,
         password: userInput.password,
-        nickname: userInput.username,
-      },
-      (err) => {
-        if (err) {
-          console.log(err);
-        } else {
-          props.registrationSuccess(userInput.email);
-        }
+        username: userInput.username,
+      })
+      if (response.response === "ok") {
+        console.log(response.data);
+        props.registrationSuccess(userInput.email);
+      } else {
+        displayErrorModal([
+          <ErrorModal
+            title={response.response.status}
+            errorDesc={response.response.data}
+            cancelError={cancelError}
+          ></ErrorModal>,
+        ]);
       }
-    );
   };
 
   const [showingPassword, setShowing] = useState(false);

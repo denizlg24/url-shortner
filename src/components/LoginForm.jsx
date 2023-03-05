@@ -1,9 +1,9 @@
 import { useState } from "react";
 import "./RegisterForm.css";
-import auth from "../services/auth";
 import viewPass from "../assets/icons8-view-64.png";
 import hidePass from "../assets/icons8-hide-64.png";
 import ErrorModal from "./ErrorModal";
+import Services from "../services/Services";
 
 const LoginForm = (props) => {
   const [errorState, displayErrorModal] = useState([]);
@@ -36,32 +36,25 @@ const LoginForm = (props) => {
     displayErrorModal([]);
   }
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
-    auth.client.login(
-      {
-        realm: "Username-Password-Authentication",
-        username: userInput.username,
-        password: userInput.password,
-      },
-      (err, authResult) => {
-        if (authResult && authResult.accessToken && authResult.idToken) {
-          localStorage.setItem("accessToken", authResult.accessToken);
-          localStorage.setItem("idToken", authResult.idToken);
-          // Redirect the user to the home page
-          props.loginSuccessHandler();
-        } else if (err) {
-          console.log(err);
-          displayErrorModal([
-            <ErrorModal
-              title={`Error ${err.statusCode}`}
-              errorDesc={err.description}
-              cancelError={cancelError}
-            ></ErrorModal>,
-          ]);
-        }
-      }
-    );
+    const response = await Services.loginUser({
+      emailOrUsername:userInput.username,
+      password:userInput.password, 
+    });
+    if (response.response === "ok") {
+      const accessToken = response.accessToken;
+      localStorage.setItem("accessToken",accessToken);
+      props.loginSuccessHandler();
+    } else {
+      displayErrorModal([
+        <ErrorModal
+          title={response.response.status}
+          errorDesc={response.response.data}
+          cancelError={cancelError}
+        ></ErrorModal>,
+      ]);
+    }
   };
 
   const [showingPassword, setShowing] = useState(false);

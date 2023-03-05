@@ -3,7 +3,7 @@ import AuthenticationPage from "./pages/AuthenticationPage";
 import Header from "./components/Header";
 import themes from "./themes/themes";
 import LandingPage from "./pages/LandingPage";
-import auth from "./services/auth";
+import Services from "./services/Services";
 import axios from "axios";
 import VerificationPage from "./pages/VerificationPage";
 import Dashboard from "./pages/Dashboard";
@@ -76,18 +76,29 @@ function App() {
     setLoggedIn(true);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("idToken");
-    localStorage.removeItem("expTime");
-    setAuthData(null);
-    setLoggedIn(false);
-    displayPage("landing");
+  const handleLogout = async () => {
+    const response = await Services.logoutUser(
+      localStorage.getItem("accessToken")
+    );
+    if (response.response === "ok") {
+      localStorage.removeItem("accessToken");
+      setAuthData([]);
+      setLoggedIn(false);
+      displayPage("landing");
+    } else {
+      displayErrorModal([
+        <ErrorModal
+          title={response.response.status}
+          errorDesc={response.response.data}
+          cancelError={cancelError}
+        ></ErrorModal>,
+      ]);
+    }
   };
 
   useEffect(() => {
-    checkTokens();
     handleAuthCallback();
+    checkTokens();
   }, []);
 
   const cancelError = (e) => {
@@ -97,44 +108,47 @@ function App() {
 
   const checkTokens = async () => {
     const accessToken = localStorage.getItem("accessToken");
-    const idToken = localStorage.getItem("idToken");
-    if (accessToken && idToken) {
-      if (!localStorage.getItem("expTime")) {
-        const dateCopy = new Date();
-        dateCopy.setSeconds(dateCopy.getSeconds() + 2592000);
-        localStorage.setItem("expTime",dateCopy.toISOString())
-      }
-      if (new Date() >= Date(localStorage.getItem("expTime"))) {
-        console.log("Outdated token, loggin out!");
-        displayErrorModal([
-          <ErrorModal
-            title={"Error Loging-in!"}
-            errorDesc={"Your session has expired, login again!"}
-            cancelError={cancelError}
-          ></ErrorModal>,
-        ]);
-        handleLogout();
-        return;
-      }
-      const verified = jwt_decode(idToken).email_verified;
-      let origin = jwt_decode(idToken).sub;
-      if (verified || origin.slice(0, 5) != "auth0") {
+    if (accessToken) {
+      const response = await Services.validateToken(accessToken);
+      if (response.response === "ok") {
+        if(!response.data.emailVerified){
+          displayErrorModal([
+            <ErrorModal
+              title={"Error Logging In!"}
+              errorDesc={"Your email hasnt been verified yet!"}
+              cancelError={cancelError}
+            ></ErrorModal>,
+          ]);
+          handleLogout();
+          return;
+        }
+        setAuthData(response.data);
         setLoggedIn(true);
         displayPage("landing");
-        setAuthData(jwt_decode(idToken));
         loginSuccessHandler();
       } else {
+        console.log(response);
         displayErrorModal([
           <ErrorModal
-            title={"Error Loging-in!"}
-            errorDesc={"You have not verified your email yet!"}
+            title={response.response.status}
+            errorDesc={response.response.data}
             cancelError={cancelError}
           ></ErrorModal>,
         ]);
-        handleLogout();
       }
     }
   };
+
+  const handleAuthCallback = async () =>{
+    const queryParams = new URLSearchParams(window.location.search)
+    const accessToken = queryParams.get("token");
+    if(accessToken){
+      localStorage.setItem("accessToken",accessToken);
+      window.history.replaceState(null, null, window.location.origin);
+      checkTokens();
+      return;
+    }
+  }
 
   const registrationSuccessHandler = (_email) => {
     setEmailToVerify(_email);
@@ -142,35 +156,16 @@ function App() {
   };
 
   const handleFacebookLogin = () => {
-    auth.authorize({
-      connection: "facebook",
-    });
+    window.location.href = "https://shortn.at/api/auth/facebook";
   };
 
   const handleGoogleLogin = () => {
-    auth.authorize({
-      connection: "google-oauth2",
-    });
+    window.location.href = "https://shortn.at/api/auth/google";
   };
 
   const handleGithubLogin = () => {
-    auth.authorize({
-      connection: "github",
-    });
+    window.location.href = "https://shortn.at/api/auth/github";
   };
-
-  function handleAuthCallback() {
-    auth.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken) {
-        localStorage.setItem("accessToken", authResult.accessToken);
-        localStorage.setItem("idToken", authResult.idToken);
-        checkTokens();
-      } else if (err) {
-        console.log(err);
-      }
-    });
-    window.history.replaceState(null, null, window.location.origin);
-  }
 
   const clickDashboardHandler = (e) => {
     e.preventDefault();
@@ -190,9 +185,9 @@ function App() {
           onClickLoginHandler={onClickLoginHandler}
           onClickIconHandler={onClickIconHandler}
           isLoggedIn={isLoggedIn}
-          currentUsername={authData ? authData.nickname : ""}
+          currentUsername={authData ? authData.username : ""}
           clickLogoutHandler={handleLogout}
-          userLogo={authData ? authData.picture : ""}
+          userLogo={authData ? authData.profilePicture : ""}
           clickDashboard={clickDashboardHandler}
         ></Header>
         <LandingPage dark={theme === "dark"}></LandingPage>
@@ -210,9 +205,9 @@ function App() {
           onClickLoginHandler={onClickLoginHandler}
           onClickIconHandler={onClickIconHandler}
           isLoggedIn={isLoggedIn}
-          currentUsername={authData ? authData.nickname : ""}
+          currentUsername={authData ? authData.username : ""}
           clickLogoutHandler={handleLogout}
-          userLogo={authData ? authData.picture : ""}
+          userLogo={authData ? authData.profilePicture : ""}
         ></Header>
         <AuthenticationPage
           dark={theme === "dark"}
@@ -237,9 +232,9 @@ function App() {
           onClickLoginHandler={onClickLoginHandler}
           onClickIconHandler={onClickIconHandler}
           isLoggedIn={isLoggedIn}
-          currentUsername={authData ? authData.nickname : ""}
+          currentUsername={authData ? authData.username : ""}
           clickLogoutHandler={handleLogout}
-          userLogo={authData ? authData.picture : ""}
+          userLogo={authData ? authData.profilePicture : ""}
         ></Header>
         <VerificationPage
           emailToVerify={emailToVerify}
@@ -256,12 +251,12 @@ function App() {
           changeThemeHandler={toggleTheme}
           onClickIconHandler={onClickIconHandler}
           isLoggedIn={isLoggedIn}
-          currentUsername={authData ? authData.nickname : ""}
+          currentUsername={authData ? authData.username : ""}
           clickLogoutHandler={handleLogout}
-          userLogo={authData ? authData.picture : ""}
+          userLogo={authData ? authData.profilePicture : ""}
         ></ReducedHeader>
         <Dashboard
-          username={authData ? authData.nickname : ""}
+          username={authData ? authData.username : ""}
           userId={authData ? authData.sub : ""}
           dark={theme === "dark"}
         ></Dashboard>
