@@ -22,6 +22,10 @@ const LandingPage = (props) => {
       return JSON.parse(localStorage.getItem('linkCreatedTest'));
     }
     const url = getUrlCreated();
+    if(!url){
+      setUrls([]);
+      return;
+    }
     setUrls(...url);
   },[])
 
