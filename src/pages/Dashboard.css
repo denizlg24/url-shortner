@@ -21,9 +21,25 @@
 }
 
 
+
+
 .main-content-dashboard{
     padding: 1rem;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px 12px 12px 12px;
+    filter: drop-shadow(0 0 .75rem rgba(0,0,0,.3));
+    transition: height 150ms ease-in-out;
+}
+
+.main-content-dashboard-landingpage{
+    padding: 1rem;
+    width: 100%;
+    max-width: 1440px;
+    margin-top: -1rem;
     display: flex;
     flex-direction: column;
     justify-content: center;

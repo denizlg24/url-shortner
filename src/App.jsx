@@ -4,10 +4,8 @@ import Header from "./components/Header";
 import themes from "./themes/themes";
 import LandingPage from "./pages/LandingPage";
 import Services from "./services/Services";
-import axios from "axios";
 import VerificationPage from "./pages/VerificationPage";
 import Dashboard from "./pages/Dashboard";
-import jwt_decode from "jwt-decode";
 import ReducedHeader from "./components/ReducedHeader";
 import ErrorModal from "./components/ErrorModal";
 
@@ -190,7 +188,7 @@ function App() {
           userLogo={authData ? authData.profilePicture : ""}
           clickDashboard={clickDashboardHandler}
         ></Header>
-        <LandingPage dark={theme === "dark"}></LandingPage>
+        <LandingPage dark={theme === "dark"} isLoggedIn={isLoggedIn}></LandingPage>
       </>
     );
   }
