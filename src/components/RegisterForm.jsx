@@ -3,8 +3,13 @@ import "./RegisterForm.css";
 import viewPass from "../assets/icons8-view-64.png";
 import hidePass from "../assets/icons8-hide-64.png";
 import Services from "../services/Services";
+import ErrorModal from "./ErrorModal";
 
 const RegisterForm = (props) => {
+  
+  const [errorModalState,displayErrorModal] = useState([]);
+
+
   const [userInput, setUserInput] = useState({
     username: "",
     email: "",
@@ -153,6 +158,10 @@ const RegisterForm = (props) => {
     });
   };
 
+  const cancelError = (e) => {
+    displayErrorModal([]);
+  }
+
   const submitHandler = async (event) => {
     event.preventDefault();
     let currentChecks = checkUserInputValidaty(userInput, true);
@@ -161,7 +170,7 @@ const RegisterForm = (props) => {
       currentChecks.email ||
       currentChecks.password ||
       currentChecks.repeatPassword
-    ) {
+    ) { 
       return;
     }
     const response = await Services.registerUser(
@@ -199,6 +208,7 @@ const RegisterForm = (props) => {
     });
   };
   return (
+    <>{errorModalState}
     <form onSubmit={submitHandler}>
       <h1 className="register-form-title">Create account</h1>
       <div className="register-form__inputs">
@@ -305,7 +315,9 @@ const RegisterForm = (props) => {
         </label>
       </div>
     </form>
+    </>
   );
+
 };
 
 export default RegisterForm;
