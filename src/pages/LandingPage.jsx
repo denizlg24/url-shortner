@@ -100,7 +100,7 @@ const LandingPage = (props) => {
             }}
           ></div>
         </div>
-        {!props.loggedIn && <div className="main-content-dashboard-landingpage">
+        {!props.isLoggedIn && <div className="main-content-dashboard-landingpage">
           <h1 className="dasboard-title">
             <span>Try it out! {`(${5-myUrls.length} remaining.)`}</span>
           </h1>
