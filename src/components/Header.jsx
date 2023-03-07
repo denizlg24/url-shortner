@@ -76,8 +76,8 @@ const Header = (props) => {
         ) : (
           <>
             <div className="header-navigation">
-              <Navlink title="Pricing"></Navlink>
               <Navlink title="Features" clickHandler={featuresClickHandler}></Navlink>
+              <Navlink title="Pricing"></Navlink>
               <Navlink title="Contact"></Navlink>
               {props.isLoggedIn && <Navlink title="Dashboard" clickHandler={props.clickDashboard}></Navlink>}
             </div>

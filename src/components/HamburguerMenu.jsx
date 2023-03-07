@@ -69,8 +69,8 @@ const HamburguerMenu = (props) => {
       >
         {!props.reduced ? (
           <>
-            <Navlink title="Pricing"></Navlink>
             <Navlink title="Features" clickHandler={clickFeaturesHandler}></Navlink>
+            <Navlink title="Pricing"></Navlink>
             <Navlink title="Contact"></Navlink>
             {props.isLoggedIn && (
               <Navlink
