@@ -1,5 +1,5 @@
 .feature-card-container{
-    width: 95%;
+    width: 90%;
     max-width: 500px;
     height: 350px;
     background-color: var(--color-backgroundSecondary);
@@ -14,7 +14,6 @@
     width: 100%;
     height: auto;
     min-height: 25%;
-    background-image: url('https://random.imagecdn.app/1920/1080');
     background-repeat: no-repeat;
     background-size: cover;
     border-radius: 12px 12px 0 0;

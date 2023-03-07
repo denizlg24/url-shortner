@@ -183,7 +183,7 @@ function App() {
           dark={theme === "dark"}
           isLoggedIn={isLoggedIn}
         ></LandingPage>
-        <Features></Features>
+        <Features dark={theme === "dark"}></Features>
       </>
     );
   }

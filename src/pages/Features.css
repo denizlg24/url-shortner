@@ -27,12 +27,12 @@
 .features-divider-bottom{
     border: none;
     border-top: 1px solid var(--color-text);
-    width: 95%;
+    width: 95vw;
     padding: 1rem;
 }  
 .features-divider-top{
     border: none;
     border-bottom: 1px solid var(--color-text);
-    width: 95%;
+    width: 95vw;
     padding: 1rem;
 }   
