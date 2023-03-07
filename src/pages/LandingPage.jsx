@@ -30,7 +30,7 @@ const LandingPage = (props) => {
   },[])
 
   const handleCreateShortUrl = async () => {
-    if(myUrls.length > 4){
+    if(myUrls.length > 2){
       displayErrorModal([
         <ErrorModal
           title={"403"}
@@ -103,7 +103,7 @@ const LandingPage = (props) => {
         {!props.isLoggedIn && <hr className="features-divider-bottom"/>}
         {!props.isLoggedIn && <div className="main-content-dashboard-landingpage">
           <h1 className="dasboard-title">
-            <span>Try it out! <span><h4>{`(${5-myUrls.length} remaining.)`}</h4></span></span>
+            <span>Try it out! <span><h4>{`(${3-myUrls.length} remaining.)`}</h4></span></span>
           </h1>
           <div className="input-actions-dashboard">
             <input
