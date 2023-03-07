@@ -38,6 +38,12 @@ const Header = (props) => {
     };
   });
 
+  const featuresClickHandler = (e) => {
+    e.preventDefault();
+    const featuresElement = document.getElementById("featuresID");
+    featuresElement.scrollIntoView();
+  }
+
   const clickLoginHandler = (e) => {
     props.onClickLoginHandler(e);
   };
@@ -65,12 +71,13 @@ const Header = (props) => {
             clickThemeChangeButton={clickThemeChangeButton}
             userLogo={props.userLogo}
             clickDashboard={props.clickDashboard}
+            clickFeatures={featuresClickHandler}
           ></HamburguerMenu>
         ) : (
           <>
             <div className="header-navigation">
               <Navlink title="Pricing"></Navlink>
-              <Navlink title="Features"></Navlink>
+              <Navlink title="Features" clickHandler={featuresClickHandler}></Navlink>
               <Navlink title="Contact"></Navlink>
               {props.isLoggedIn && <Navlink title="Dashboard" clickHandler={props.clickDashboard}></Navlink>}
             </div>

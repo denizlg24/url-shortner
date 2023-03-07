@@ -1,0 +1,42 @@
+.feature-card-container{
+    width: 95%;
+    max-width: 500px;
+    height: 350px;
+    background-color: var(--color-backgroundSecondary);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.image-feature-card{
+    flex: 1;
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    min-height: 25%;
+    background-image: url('https://random.imagecdn.app/1920/1080');
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 12px 12px 0 0;
+}
+
+
+.info-feature-card{
+    flex: 2;
+    padding: 1rem;
+    text-align: left;
+}
+
+.feature-title{
+    color: var(--color-text);
+    text-align: center;
+    font-size: 1rem;
+}
+
+.feature-desc{
+    color: var(--color-text);
+    padding: 1rem;
+    padding-left: .25rem;
+    padding-right: .25rem;
+    padding-top: .5rem;
+}

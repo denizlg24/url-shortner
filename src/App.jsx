@@ -8,6 +8,7 @@ import VerificationPage from "./pages/VerificationPage";
 import Dashboard from "./pages/Dashboard";
 import ReducedHeader from "./components/ReducedHeader";
 import ErrorModal from "./components/ErrorModal";
+import Features from "./pages/Features";
 
 function App() {
   const [theme, setTheme] = useState();
@@ -70,7 +71,7 @@ function App() {
   };
 
   const loginSuccessHandler = () => {
-    displayPage("landing");
+    displayPage("dashboard");
     setLoggedIn(true);
   };
 
@@ -78,20 +79,10 @@ function App() {
     const response = await Services.logoutUser(
       localStorage.getItem("accessToken")
     );
-    if (response.response === "ok") {
-      localStorage.removeItem("accessToken");
-      setAuthData([]);
-      setLoggedIn(false);
-      displayPage("landing");
-    } else {
-      displayErrorModal([
-        <ErrorModal
-          title={response.response.status}
-          errorDesc={response.response.data}
-          cancelError={cancelError}
-        ></ErrorModal>,
-      ]);
-    }
+    localStorage.removeItem("accessToken");
+    setAuthData([]);
+    setLoggedIn(false);
+    displayPage("landing");
   };
 
   useEffect(() => {
@@ -109,7 +100,7 @@ function App() {
     if (accessToken) {
       const response = await Services.validateToken(accessToken);
       if (response.response === "ok") {
-        if(!response.data.emailVerified){
+        if (!response.data.emailVerified) {
           displayErrorModal([
             <ErrorModal
               title={"Error Logging In!"}
@@ -125,7 +116,6 @@ function App() {
         displayPage("landing");
         loginSuccessHandler();
       } else {
-        console.log(response);
         displayErrorModal([
           <ErrorModal
             title={response.response.status}
@@ -133,20 +123,21 @@ function App() {
             cancelError={cancelError}
           ></ErrorModal>,
         ]);
+        handleLogout();
       }
     }
   };
 
-  const handleAuthCallback = async () =>{
-    const queryParams = new URLSearchParams(window.location.search)
+  const handleAuthCallback = async () => {
+    const queryParams = new URLSearchParams(window.location.search);
     const accessToken = queryParams.get("token");
-    if(accessToken){
-      localStorage.setItem("accessToken",accessToken);
+    if (accessToken) {
+      localStorage.setItem("accessToken", accessToken);
       window.history.replaceState(null, null, window.location.origin);
       checkTokens();
       return;
     }
-  }
+  };
 
   const registrationSuccessHandler = (_email) => {
     setEmailToVerify(_email);
@@ -188,7 +179,11 @@ function App() {
           userLogo={authData ? authData.profilePicture : ""}
           clickDashboard={clickDashboardHandler}
         ></Header>
-        <LandingPage dark={theme === "dark"} isLoggedIn={isLoggedIn}></LandingPage>
+        <LandingPage
+          dark={theme === "dark"}
+          isLoggedIn={isLoggedIn}
+        ></LandingPage>
+        <Features></Features>
       </>
     );
   }

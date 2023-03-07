@@ -100,9 +100,10 @@ const LandingPage = (props) => {
             }}
           ></div>
         </div>
+        <hr className="features-divider-bottom"/>
         {!props.isLoggedIn && <div className="main-content-dashboard-landingpage">
           <h1 className="dasboard-title">
-            <span>Try it out! {`(${5-myUrls.length} remaining.)`}</span>
+            <span>Try it out! <span><h4>{`(${5-myUrls.length} remaining.)`}</h4></span></span>
           </h1>
           <div className="input-actions-dashboard">
             <input
