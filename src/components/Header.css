@@ -36,15 +36,13 @@
   align-items: center;
 }
 
-.header-container__icon img {
-  max-width: 64px;
-  width: auto;
-  height: auto;
+.header-container__icon h1 {
+  width: fit-content;
   margin-left: 2rem;
   transition: all ease-in-out .15s;
 }
 
-.header-container__icon img:hover {
+.header-container__icon h1:hover {
   transform: scale(1.05);
   cursor: pointer;
 }

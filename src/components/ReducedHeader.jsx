@@ -43,7 +43,7 @@ const ReducedHeader = (props) => {
     <div className={headerClassNames}>
       <div className="header-content">
         <div className="header-container__icon">
-        <img src={props.icon} onClick={clickIconHandler}></img>
+          <h1 onClick={clickIconHandler}>Shortn</h1>
         </div>
         {hambugerDisplaying ? (
           <HamburguerMenu
@@ -67,8 +67,7 @@ const ReducedHeader = (props) => {
               </div>
               <div className="header-container__auth">
                 {!props.isLoggedIn ? (
-                  <>
-                  </>
+                  <></>
                 ) : (
                   <div className="welcome-back-header-holder">
                     <img
