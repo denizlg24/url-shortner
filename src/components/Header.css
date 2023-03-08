@@ -36,14 +36,16 @@
   align-items: center;
 }
 
-.header-container__icon h1 {
-  color: var(--color-text);
-  user-select: none;
-  width: fit-content;
+.header-container__icon img {
+  max-width: 64px;
+  width: auto;
+  height: auto;
   margin-left: 2rem;
+  transition: all ease-in-out .15s;
 }
 
-.header-container__icon h1:hover {
+.header-container__icon img:hover {
+  transform: scale(1.05);
   cursor: pointer;
 }
 .header-navigation{

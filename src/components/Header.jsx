@@ -58,7 +58,7 @@ const Header = (props) => {
     <div className={headerClassNames}>
       <div className="header-content">
         <div className="header-container__icon">
-          <h1 onClick={clickIconHandler}>Shortn</h1>
+          <img src={props.icon} onClick={clickIconHandler}></img>
         </div>
         {hambugerDisplaying ? (
           <HamburguerMenu

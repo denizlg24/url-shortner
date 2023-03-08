@@ -9,6 +9,8 @@ import Dashboard from "./pages/Dashboard";
 import ReducedHeader from "./components/ReducedHeader";
 import ErrorModal from "./components/ErrorModal";
 import Features from "./pages/Features";
+import darkLogo from "./assets/LOGODARK.png";
+import lightLogo from "./assets/LOGOWHITE.png";
 
 function App() {
   const [theme, setTheme] = useState();
@@ -18,6 +20,7 @@ function App() {
   const [authData, setAuthData] = useState();
   const [emailToVerify, setEmailToVerify] = useState();
   const [errorState, displayErrorModal] = useState([]);
+
 
   const toggleTheme = () => {
     setTheme((prevTheme) => {
@@ -43,6 +46,7 @@ function App() {
     Object.keys(currentTheme).forEach((key) => {
       root.style.setProperty(key, currentTheme[key]);
     });
+
   }, [theme]);
 
   const onClickLoginHandler = (e) => {
@@ -168,6 +172,7 @@ function App() {
       <>
         {errorState}
         <Header
+          icon={theme === "dark" ? darkLogo : lightLogo}
           dark={theme === "dark"}
           changeThemeHandler={toggleTheme}
           onClickRegisterHandler={onClickRegisterHandler}
@@ -192,6 +197,7 @@ function App() {
       <>
         {errorState}
         <Header
+          icon={theme === "dark" ? darkLogo : lightLogo}
           dark={theme === "dark"}
           changeThemeHandler={toggleTheme}
           onClickRegisterHandler={onClickRegisterHandler}
@@ -219,6 +225,7 @@ function App() {
       <>
         {errorState}
         <Header
+          icon={theme === "dark" ? darkLogo : lightLogo}
           dark={theme === "dark"}
           changeThemeHandler={toggleTheme}
           onClickRegisterHandler={onClickRegisterHandler}
@@ -240,6 +247,7 @@ function App() {
     return (
       <>
         <ReducedHeader
+          icon={theme === "dark" ? darkLogo : lightLogo}
           dark={theme === "dark"}
           changeThemeHandler={toggleTheme}
           onClickIconHandler={onClickIconHandler}
