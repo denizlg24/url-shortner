@@ -144,8 +144,8 @@ function App() {
     displayPage("verifyEmail");
   };
 
-  const handleFacebookLogin = () => {
-    window.location.href = "https://shortn.at/api/auth/facebook";
+  const handleSteamLogin = () => {
+    window.location.href = "https://shortn.at/api/auth/steam";
   };
 
   const handleGoogleLogin = () => {
@@ -207,7 +207,7 @@ function App() {
           register={authChosen}
           loginSuccessHandler={checkTokens}
           registrationSuccess={registrationSuccessHandler}
-          handleFacebookLogin={handleFacebookLogin}
+          handleSteamLogin={handleSteamLogin}
           handleGoogleLogin={handleGoogleLogin}
           handleGithubLogin={handleGithubLogin}
         ></AuthenticationPage>

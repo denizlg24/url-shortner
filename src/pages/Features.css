@@ -9,8 +9,8 @@
 
 .features-features-container{
     display: flex;
-    gap: 1rem;
-    row-gap: 1rem;
+    gap: 2rem;
+    row-gap: 2rem;
     flex-wrap: wrap;
     width: 100%;
     justify-content: center;

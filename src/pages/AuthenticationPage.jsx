@@ -1,6 +1,6 @@
 import loginPic from "../assets/auth-login-illust.png";
 import registPic from "../assets/auth-regist-illust.png";
-import facebookIcon from "../assets/icons8-facebook-24.png";
+import steamIcon from "../assets/icons8-steam-24.png";
 import githubIcon from "../assets/icons8-github-24.png";
 import googleIcon from "../assets/icons8-google-24.png";
 import Card from "../components/Card";
@@ -31,11 +31,11 @@ const AuthenticationPage = (props) => {
             <div className="social-auth-content">
               <button
                 className="social-auth-button"
-                onClick={props.handleFacebookLogin}
+                onClick={props.handleSteamLogin}
               >
                 <img
-                  src={facebookIcon}
-                  alt="Clickable Facebook Icon"
+                  src={steamIcon}
+                  alt="Clickable Steam Icon"
                   style={{
                     filter: props.dark
                       ? "invert(99%) sepia(99%) saturate(2%) hue-rotate(337deg) brightness(110%) contrast(101%)"
