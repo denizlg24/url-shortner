@@ -19,38 +19,43 @@ const LandingPage = (props) => {
   useEffect(() => {
     setUrls([]);
     const getUrlCreated = () => {
-      return JSON.parse(localStorage.getItem('linkCreatedTest'));
-    }
+      return JSON.parse(localStorage.getItem("linkCreatedTest"));
+    };
     const url = getUrlCreated();
-    if(!url){
+    if (!url) {
       setUrls([]);
       return;
     }
-    if(url[0].length > 1){
+    if (url[0].length > 1) {
       setUrls([]);
       return;
     }
     setUrls(...url);
-  },[])
+  }, []);
 
   const handleCreateShortUrl = async () => {
-    if(myUrls.length > 0){
+    if (myUrls.length > 0) {
       displayErrorModal([
         <ErrorModal
           title={"403"}
-          errorDesc={"You cannot create any more links without being logged in!"}
+          errorDesc={
+            "You cannot create any more links without being logged in!"
+          }
           cancelError={cancelError}
         ></ErrorModal>,
       ]);
       setLongUrl("");
       return;
     }
-    const response = await Services.createShortLink(longUrl, "authS|jvcz9epaebumxnqzyxfj");
+    const response = await Services.createShortLink(
+      longUrl,
+      "authS|jvcz9epaebumxnqzyxfj"
+    );
     setLongUrl("");
     if (response.response === "ok") {
       setUrls((prevState) => {
-        const newUrls = [...prevState,response];
-        localStorage.setItem('linkCreatedTest', JSON.stringify([newUrls]));
+        const newUrls = [...prevState, response];
+        localStorage.setItem("linkCreatedTest", JSON.stringify([newUrls]));
         return newUrls;
       });
     } else {
@@ -79,6 +84,12 @@ const LandingPage = (props) => {
     ]);
   };
 
+  const pricingClickHandler = (e) => {
+    e.preventDefault();
+    const pricingElement = document.getElementById("pricingsID");
+    pricingElement.scrollIntoView();
+  }
+
   return (
     <>
       {errorState}
@@ -95,6 +106,9 @@ const LandingPage = (props) => {
               Increase your brand's recognition and get detailed insights on how
               your links are performing.
             </h4>
+            <div className="landing-call-to-action-button">
+              <button onClick={pricingClickHandler}><p>Get Started</p></button>
+            </div>
           </div>
           <div
             className="landingpage-illustration-container"
@@ -104,41 +118,50 @@ const LandingPage = (props) => {
             }}
           ></div>
         </div>
-        {!props.isLoggedIn && <hr className="features-divider-bottom"/>}
-        {!props.isLoggedIn && <div className="main-content-dashboard-landingpage">
-          <h1 className="dasboard-title">
-            <span>Try it out! <span><h4>{`(${1-myUrls.length} remaining.)`}</h4></span></span>
-          </h1>
-          <div className="input-actions-dashboard">
-            <input
-              type="text"
-              placeholder="Enter your long url"
-              value={longUrl}
-              onChange={changeLongUrlHandler}
-            ></input>
-            <button onClick={handleCreateShortUrl}>Shortn</button>
-          </div>
-          <div className="created-links-dashboard">
-            {myUrls.length > 0 &&
-              myUrls.map((url) => {
-                return (
-                  <LinkItem
-                    longUrl={url.longUrl}
-                    shortUrl={url.shortUrl}
-                    key={url.shortUrl}
-                    onClickHandler={handleGetClickAnalytics}
-                    dark={props.dark}
-                  ></LinkItem>
-                );
-              })}
+        {!props.isLoggedIn && <hr className="features-divider-bottom" />}
+        {!props.isLoggedIn && (
+          <div className="main-content-dashboard-landingpage">
+            <h1 className="dasboard-title">
+              <span>
+                Try it out!{" "}
+                <span>
+                  <h4>{`(${1 - myUrls.length} remaining.)`}</h4>
+                </span>
+              </span>
+            </h1>
+            <div className="input-actions-dashboard">
+              <input
+                type="text"
+                placeholder="Enter your long url"
+                value={longUrl}
+                onChange={changeLongUrlHandler}
+              ></input>
+              <button onClick={handleCreateShortUrl}>Shortn</button>
+            </div>
+            <div className="created-links-dashboard">
+              {myUrls.length > 0 &&
+                myUrls.map((url) => {
+                  return (
+                    <LinkItem
+                      longUrl={url.longUrl}
+                      shortUrl={url.shortUrl}
+                      key={url.shortUrl}
+                      onClickHandler={handleGetClickAnalytics}
+                      dark={props.dark}
+                    ></LinkItem>
+                  );
+                })}
               {myUrls.length === 0 && (
                 <div className="no-links-holder">
-                  <h3>You haven't created any short link yet! Create one, it's free!</h3>
+                  <h3>
+                    You haven't created any short link yet! Create one, it's
+                    free!
+                  </h3>
                 </div>
               )}
+            </div>
           </div>
-        </div>}
-        
+        )}
       </div>
     </>
   );

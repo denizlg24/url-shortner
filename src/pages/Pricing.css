@@ -1,0 +1,47 @@
+.pricing-holder{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pricing-container{
+    width: 95vw;
+    max-width: 1440px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: .75rem;
+}
+
+.pricing-plans-holder{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 2rem;
+    row-gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.color-legend-pricing{
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    margin: 1rem;
+    margin-bottom: 0;
+    gap: .5rem;
+}
+
+#available{
+    color: green;
+}
+
+#medium{
+    color: rgb(148, 133, 0);
+}
+
+#not-available{
+    color: red;
+}

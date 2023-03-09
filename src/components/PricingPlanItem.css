@@ -1,0 +1,85 @@
+.pricing-item-container{
+    display: flex;
+    flex-direction: column;
+
+    width: 95%;
+    height: auto;
+    max-width: 300px;
+    background-color: var(--color-backgroundSecondary);
+    border-radius: 12px;
+    filter: drop-shadow(0 0 0.75rem rgba(0,0,0,.15));
+    padding-bottom: .5rem;
+}
+
+.pricing-item-title{
+    color: var(--color-background);
+    background-color: var(--color-text);
+    padding: 1rem;
+    border-radius: 12px 12px 0 0;
+    text-align: center;
+    flex: 1;
+}
+
+.pricing-item-price{
+    padding: 2rem 0 .5rem 0;
+    text-align: center;
+    color: var(--color-text);
+}
+
+.pricing-item-price span{
+    color: var(--color-accent);
+    font-size: .8rem;
+}
+
+.pricing-item-desc{
+    padding: 1rem;
+    padding-top: 0;
+    text-align: center;
+    color: var(--color-text);
+}
+
+.pricing-item-desc h3{
+    font-size: .8rem;
+    font-weight: 400;
+}
+
+.pricing-item-selling-points{
+    padding: 1rem;
+    text-align: left;
+    color: var(--color-text);
+}
+
+.pricing-item-selling-points li{
+    padding: 1rem;
+    padding-bottom: 0;
+}
+
+.pricing-item-actions{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 1rem;
+}
+
+.pricing-item-actions button{
+    padding: 1rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    font-size: 1.3rem;
+    border-radius: 12px;
+    color: var(--color-background);
+    background-color: var(--color-text);
+    border: 2px solid transparent;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pricing-item-actions button:hover{
+    cursor: pointer;
+    user-select: none;
+    border-color: var(--color-text);
+    color: var(--color-text);
+    background-color: transparent;
+}

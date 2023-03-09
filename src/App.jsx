@@ -11,6 +11,7 @@ import ErrorModal from "./components/ErrorModal";
 import Features from "./pages/Features";
 import darkLogo from "./assets/LOGODARK.png";
 import lightLogo from "./assets/LOGOWHITE.png";
+import Pricing from "./pages/Pricing";
 
 function App() {
   const [theme, setTheme] = useState();
@@ -167,6 +168,13 @@ function App() {
     }
   };
 
+  const clickFreeHandler = (e) =>{
+    if(!isLoggedIn && pageToDisplay!=="auth"){
+      chooseAuth(true);
+      displayPage("auth");
+    }
+  }
+
   if (pageToDisplay === "landing") {
     return (
       <>
@@ -189,6 +197,7 @@ function App() {
           isLoggedIn={isLoggedIn}
         ></LandingPage>
         <Features dark={theme === "dark"}></Features>
+        <Pricing clickFreeHandler={clickFreeHandler}></Pricing>
       </>
     );
   }

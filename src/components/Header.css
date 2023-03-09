@@ -38,8 +38,9 @@
 
 .header-container__icon h1 {
   width: fit-content;
-  margin-left: 2rem;
+  margin-left: 2.5rem;
   transition: all ease-in-out .15s;
+  color: var(--color-text);
 }
 
 .header-container__icon h1:hover {

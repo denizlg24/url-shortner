@@ -6,6 +6,7 @@
     border-radius: 12px;
     display: flex;
     flex-direction: column;
+    filter: drop-shadow(0 0 0.75rem rgba(0,0,0,.15));
 }
 
 .image-feature-card{

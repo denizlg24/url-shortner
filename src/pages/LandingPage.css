@@ -60,22 +60,35 @@
   position: relative;
 }
 
-.landing-button {
-  margin-top: 2rem;
-  border-radius: 12px;
-  padding: 1rem;
-  width: 50vw;
-  max-width: calc(1440px / 2);
-  font-weight: 400;
-  font-size: 0.7rem;
-  border: solid 3px;
-  border-color: transparent;
-  background-color: var(--color-text);
-  color: var(--color-background);
-  font-family: "Epilogue";
+
+.landing-call-to-action-button{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
-.landing-button:hover {
+.landing-call-to-action-button button{
+  color: var(--color-background);
+  padding: 1rem;
+  width: 75vw;
+  max-width: calc(1440px / 3);
+  margin-top: .5rem;
+  background-color: var(--color-text);
+  border: 3px solid transparent;
+  border-radius: 12px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: "Epilogue", sans-serif;
+  font-weight: 800;
+  font-size: 2rem;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+}
+
+.landing-call-to-action-button button:hover{
   cursor: pointer;
   user-select: none;
   background-color: transparent;
@@ -89,7 +102,7 @@
   }
 }
 
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 960px) {
   .landingpage-container {
     flex-direction: column-reverse;
     height: 500px;
@@ -138,7 +151,10 @@
     font-size: 1rem;
     font-weight: 600;
   }
-  .landing-button {
-    font-size: 0.5rem;
+
+  .landing-call-to-action-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
