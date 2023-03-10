@@ -157,7 +157,7 @@ Services.getPlan = async (accessToken) => {
     },
   };
   return axios
-    .get("https://shortn.at/api/auth/subscription", data, config)
+    .post("https://shortn.at/api/auth/subscription", data, config)
     .then((response) => {
       return { response: "ok", data: response.data };
     })
