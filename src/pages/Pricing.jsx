@@ -10,6 +10,7 @@ const Pricing = (props) => {
           <div className="features-title">
             <h1>Plans and Pricing</h1>
           </div>
+          <hr className="features-divider-bottom" />
           <div className="pricing-plans-holder">
             <PricingPlanItem
               title={"Free Plan"}
@@ -20,10 +21,10 @@ const Pricing = (props) => {
               }
               buttonText={"Join for Free."}
               features={[
-                { title: "Up to 3 shortn's/month.", id: "available" },
-                { title: "Get a url's total clicks", id: "medium" },
-                { title: "Advanced Stats", id: "not-available" },
-                { title: "Custom Short Url", id: "not-available" },
+                { title: "Up to 3 shortn's/month.", id: "available" ,key:0 },
+                { title: "Get a url's total clicks", id: "medium" ,key:1},
+                { title: "Advanced Stats", id: "not-available" ,key:2},
+                { title: "Custom Short Url", id: "not-available" ,key:3},
               ]}
               onClickHandler={props.clickFreeHandler}
             ></PricingPlanItem>
@@ -36,10 +37,10 @@ const Pricing = (props) => {
               }
               buttonText={"Get Basic."}
               features={[
-                { title: "Up to 25 shortn's/month.", id: "available" },
-                { title: "Get a url's total clicks", id: "available" },
-                { title: "Advanced Stats", id: "not-available" },
-                { title: "Custom Short Url", id: "not-available" },
+                { title: "Up to 25 shortn's/month.", id: "available" ,key:4},
+                { title: "Get a url's total clicks", id: "available" ,key:5},
+                { title: "Advanced Stats", id: "not-available" ,key:6},
+                { title: "Custom Short Url", id: "not-available" ,key:7},
               ]}
               onClickHandler={props.clickFreeHandler}
             ></PricingPlanItem>
@@ -52,10 +53,10 @@ const Pricing = (props) => {
               }
               buttonText={"Get Plus."}
               features={[
-                { title: "Up to 50 shortn's/month.", id: "available" },
-                { title: "Get a url's total clicks", id: "available" },
-                { title: "Advanced Stats", id: "medium" },
-                { title: "Custom Short Url", id: "not-available" },
+                { title: "Up to 50 shortn's/month.", id: "available",key:8 },
+                { title: "Get a url's total clicks", id: "available" ,key:9},
+                { title: "Advanced Stats", id: "medium" ,key:10},
+                { title: "Custom Short Url", id: "not-available",key:11 },
               ]}
               onClickHandler={props.clickFreeHandler}
             ></PricingPlanItem>

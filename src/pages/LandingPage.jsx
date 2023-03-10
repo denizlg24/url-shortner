@@ -88,7 +88,7 @@ const LandingPage = (props) => {
     e.preventDefault();
     const pricingElement = document.getElementById("pricingsID");
     pricingElement.scrollIntoView();
-  }
+  };
 
   return (
     <>
@@ -96,18 +96,22 @@ const LandingPage = (props) => {
       <div className="landingpage-main">
         <div className="landingpage-container">
           <div className="landingpage-info-container">
-            <h1 className="landingpage-info-hero">
-              Welcome to <span className="special-text-landing">Shortn</span>
-            </h1>
-            <h3 className="landingpage-info-catch">
-              We are more than just shorter links.
-            </h3>
-            <h4 className="landingpage-info-extra">
-              Increase your brand's recognition and get detailed insights on how
-              your links are performing.
-            </h4>
+            <div className="landing-page-text-holder">
+              <h1 className="landingpage-info-hero">
+                Welcome to <span className="special-text-landing">Shortn</span>
+              </h1>
+              <h3 className="landingpage-info-catch">
+                We are more than just shorter links.
+              </h3>
+              <h4 className="landingpage-info-extra">
+                Increase your brand's recognition and get detailed insights on
+                how your links are performing.
+              </h4>
+            </div>
             <div className="landing-call-to-action-button">
-              <button onClick={pricingClickHandler}><p>Get Started</p></button>
+              <button onClick={pricingClickHandler}>
+                <p>Get Started</p>
+              </button>
             </div>
           </div>
           <div

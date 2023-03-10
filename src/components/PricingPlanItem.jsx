@@ -16,7 +16,7 @@ const PricingPlanItem = (props) => {
         <h3>{props.desc}</h3>
         <ul className="pricing-item-selling-points">
           {props.features.map((feature) => {
-            return <li id={feature.id}>{feature.title}</li>
+            return <li id={feature.id} key={feature.key}>{feature.title}</li>
           })}
         </ul>
       </div>
