@@ -39,7 +39,7 @@ const Pricing = (props) => {
               desc={
                 "With this plan, you can enjoy limited features, but still experience the benefits of our product."
               }
-              buttonText={!myPlan ? ("Join for Free.") : (!props.isLoggedIn? "Join for Free." : (myPlan.subscription === "free" ? "Current Plan." : "Downgrade to Freec."))}
+              buttonText={!myPlan ? ("Join for Free.") : (!props.isLoggedIn? "Join for Free." : (myPlan.subscription === "free" ? "Current Plan." : "Downgrade to Free."))}
               features={[
                 { title: "Up to 3 shortn's/month.", id: "available" ,key:0 },
                 { title: "Get a url's total clicks", id: "medium" ,key:1},
