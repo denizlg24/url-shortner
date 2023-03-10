@@ -11,6 +11,8 @@
   height: 600px;
   max-width: 1440px;
   padding: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
   padding-top: 10rem;
   display: flex;
 }

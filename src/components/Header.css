@@ -31,14 +31,13 @@
   top: 50%;
   transform: translateY(-50%);
   position: absolute;
-  left: 0;
+  left: 1rem;
   display: flex;
   align-items: center;
 }
 
 .header-container__icon h1 {
   width: fit-content;
-  margin-left: 2.5rem;
   transition: all ease-in-out .15s;
   color: var(--color-text);
 }
