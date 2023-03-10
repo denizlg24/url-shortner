@@ -22,7 +22,6 @@ function App() {
   const [emailToVerify, setEmailToVerify] = useState();
   const [errorState, displayErrorModal] = useState([]);
 
-
   const toggleTheme = () => {
     setTheme((prevTheme) => {
       localStorage.setItem(
@@ -47,7 +46,6 @@ function App() {
     Object.keys(currentTheme).forEach((key) => {
       root.style.setProperty(key, currentTheme[key]);
     });
-
   }, [theme]);
 
   const onClickLoginHandler = (e) => {
@@ -81,9 +79,7 @@ function App() {
   };
 
   const handleLogout = async () => {
-    const response = await Services.logoutUser(
-      localStorage.getItem("accessToken")
-    );
+    await Services.logoutUser(localStorage.getItem("accessToken"));
     localStorage.removeItem("accessToken");
     setAuthData([]);
     setLoggedIn(false);
@@ -168,12 +164,12 @@ function App() {
     }
   };
 
-  const clickFreeHandler = (e) =>{
-    if(!isLoggedIn && pageToDisplay!=="auth"){
+  const clickFreeHandler = (e) => {
+    if (!isLoggedIn && pageToDisplay !== "auth") {
       chooseAuth(true);
       displayPage("auth");
     }
-  }
+  };
 
   if (pageToDisplay === "landing") {
     return (
@@ -197,7 +193,11 @@ function App() {
           isLoggedIn={isLoggedIn}
         ></LandingPage>
         <Features dark={theme === "dark"}></Features>
-        <Pricing clickFreeHandler={clickFreeHandler}></Pricing>
+        <Pricing
+          clickFreeHandler={clickFreeHandler}
+          isLoggedIn={isLoggedIn}
+          handleLogout={handleLogout}
+        ></Pricing>
       </>
     );
   }

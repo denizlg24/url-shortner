@@ -110,7 +110,7 @@ const LandingPage = (props) => {
             </div>
             <div className="landing-call-to-action-button">
               <button onClick={pricingClickHandler}>
-                <p>Get Started</p>
+                <p>{!props.isLoggedIn? "Get Started" : "Update Plan"}</p>
               </button>
             </div>
           </div>

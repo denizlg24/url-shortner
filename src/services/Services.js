@@ -55,7 +55,7 @@ Services.validateToken = (accessToken) => {
   return axios
     .get("https://shortn.at/api/auth/authenticate", config)
     .then((response) => {
-      return { response: "ok", data:response.data };
+      return { response: "ok", data: response.data };
     })
     .catch((error) => {
       return { response: "failed", ...error };
@@ -64,7 +64,7 @@ Services.validateToken = (accessToken) => {
 
 Services.logoutUser = (accessToken) => {
   const data = {
-    accessToken
+    accessToken,
   };
 
   const config = {
@@ -81,9 +81,7 @@ Services.logoutUser = (accessToken) => {
     .catch((error) => {
       return { response: "failed", ...error };
     });
-};  
-
-
+};
 
 Services.createShortLink = (longUrl, userId) => {
   const data = {
@@ -149,9 +147,26 @@ Services.getUrls = async (userId) => {
     });
 };
 
+Services.getPlan = async (accessToken) => {
+  const data = {
+    token: accessToken,
+  };
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  return axios
+    .get("https://shortn.at/api/auth/subscription", data, config)
+    .then((response) => {
+      return { response: "ok", data: response.data };
+    })
+    .catch((error) => {
+      return { response: "failed", ...error };
+    });
+};
 
-
-var keys = {37: 1, 38: 1, 39: 1, 40: 1};
+var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
 
 function preventDefault(e) {
   e.preventDefault();
@@ -167,29 +182,35 @@ function preventDefaultForScrollKeys(e) {
 // modern Chrome requires { passive: false } when adding event
 var supportsPassive = false;
 try {
-  window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
-    get: function () { supportsPassive = true; } 
-  }));
-} catch(e) {}
+  window.addEventListener(
+    "test",
+    null,
+    Object.defineProperty({}, "passive", {
+      get: function () {
+        supportsPassive = true;
+      },
+    })
+  );
+} catch (e) {}
 
 var wheelOpt = supportsPassive ? { passive: false } : false;
-var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+var wheelEvent =
+  "onwheel" in document.createElement("div") ? "wheel" : "mousewheel";
 
 // call this to Disable
-Services.disableScroll = ()  => {
-  window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
+Services.disableScroll = () => {
+  window.addEventListener("DOMMouseScroll", preventDefault, false); // older FF
   window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
-  window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
-  window.addEventListener('keydown', preventDefaultForScrollKeys, false);
-}
+  window.addEventListener("touchmove", preventDefault, wheelOpt); // mobile
+  window.addEventListener("keydown", preventDefaultForScrollKeys, false);
+};
 
 // call this to Enable
 Services.enableScroll = () => {
-  window.removeEventListener('DOMMouseScroll', preventDefault, false);
-  window.removeEventListener(wheelEvent, preventDefault, wheelOpt); 
-  window.removeEventListener('touchmove', preventDefault, wheelOpt);
-  window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
-}
-
+  window.removeEventListener("DOMMouseScroll", preventDefault, false);
+  window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
+  window.removeEventListener("touchmove", preventDefault, wheelOpt);
+  window.removeEventListener("keydown", preventDefaultForScrollKeys, false);
+};
 
 export default Services;
