@@ -126,7 +126,9 @@
     position: absolute;
     left: 50%;
     height: auto;
-    padding-top: 1rem;
+    padding: 1.75rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
     bottom: 0;
     transform: translateX(-50%);
     border-radius: 0 0 12px 12px;
