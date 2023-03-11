@@ -6,12 +6,11 @@ import Services from "../services/Services";
 import ErrorModal from "./ErrorModal";
 
 const RegisterForm = (props) => {
-  
-  const [errorModalState,displayErrorModal] = useState([]);
-
+  const [errorModalState, displayErrorModal] = useState([]);
 
   const [userInput, setUserInput] = useState({
     username: "",
+    displayName: "",
     email: "",
     password: "",
     repeatPassword: "",
@@ -19,6 +18,7 @@ const RegisterForm = (props) => {
 
   const [errorState, setErrorState] = useState({
     username: "",
+    displayName: "",
     email: "",
     password: "",
     repeatPassword: "",
@@ -26,12 +26,26 @@ const RegisterForm = (props) => {
 
   const [focusState, setFocusState] = useState({
     username: false,
+    displayName: false,
     email: false,
     password: false,
   });
 
   const checkUserInputValidaty = (inputToCheck, isForced) => {
     const { username, email, password, repeatPassword } = inputToCheck;
+    const displayNameError = () => {
+      if (!focusState.displayName && !isForced) {
+        return "";
+      }
+      if (username.trim().length === 0) {
+        return "Display name cannot be empty.";
+      }
+      var format = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+      if (format.test(username)) {
+        return "Display name cannot contain special characters.";
+      }
+      return "";
+    };
     const usernameError = () => {
       if (!focusState.username && !isForced) {
         return "";
@@ -52,7 +66,7 @@ const RegisterForm = (props) => {
       if (!focusState.email && !isForced) {
         return "";
       }
-      if (! /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         return "Email is not valid.";
       }
       return "";
@@ -69,7 +83,8 @@ const RegisterForm = (props) => {
     };
     const repeatError = () => {
       if (
-        (!errorState.password && password.trim().length >= 8) &&
+        !errorState.password &&
+        password.trim().length >= 8 &&
         password != repeatPassword
       ) {
         return "The passwords do not match.";
@@ -77,12 +92,14 @@ const RegisterForm = (props) => {
       return "";
     };
     setErrorState({
+      displayName: displayNameError(),
       username: usernameError(),
       email: emailError(),
       password: passwordError(),
       repeatPassword: repeatError(),
     });
     return {
+      displayName: displayNameError(),
       username: usernameError(),
       email: emailError(),
       password: passwordError(),
@@ -108,6 +125,16 @@ const RegisterForm = (props) => {
       };
     });
   };
+
+  const displayNameUpdateHandler = (event) => {
+    setUserInput((prevInput) => {
+      return {
+        ...prevInput,
+        displayName: event.target.value,
+      };
+    });
+  };
+
   const emailUpdateHandler = (event) => {
     setUserInput((prevInput) => {
       return {
@@ -141,6 +168,14 @@ const RegisterForm = (props) => {
       };
     });
   };
+  const displayNameFocusHandler = () => {
+    setFocusState((prevState) => {
+      return {
+        ...prevState,
+        displayName: true,
+      };
+    });
+  };
   const emailFocusHandler = () => {
     setFocusState((prevState) => {
       return {
@@ -160,7 +195,7 @@ const RegisterForm = (props) => {
 
   const cancelError = (e) => {
     displayErrorModal([]);
-  }
+  };
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -170,27 +205,26 @@ const RegisterForm = (props) => {
       currentChecks.email ||
       currentChecks.password ||
       currentChecks.repeatPassword
-    ) { 
+    ) {
       return;
     }
-    const response = await Services.registerUser(
-      {
-        email: userInput.email,
-        password: userInput.password,
-        username: userInput.username,
-      })
-      if (response.response === "ok") {
-        console.log(response.data);
-        props.registrationSuccess(userInput.email);
-      } else {
-        displayErrorModal([
-          <ErrorModal
-            title={response.response.status}
-            errorDesc={response.response.data}
-            cancelError={cancelError}
-          ></ErrorModal>,
-        ]);
-      }
+    const response = await Services.registerUser({
+      email: userInput.email,
+      password: userInput.password,
+      username: userInput.username,
+    });
+    if (response.response === "ok") {
+      console.log(response.data);
+      props.registrationSuccess(userInput.email);
+    } else {
+      displayErrorModal([
+        <ErrorModal
+          title={response.response.status}
+          errorDesc={response.response.data}
+          cancelError={cancelError}
+        ></ErrorModal>,
+      ]);
+    }
   };
 
   const [showingPassword, setShowing] = useState(false);
@@ -208,116 +242,136 @@ const RegisterForm = (props) => {
     });
   };
   return (
-    <>{errorModalState}
-    <form onSubmit={submitHandler}>
-      <h1 className="register-form-title">Create account</h1>
-      <div className="register-form__inputs">
-        <input
-          autoComplete="off"
-          type="text"
-          id="username"
-          placeholder="Username"
-          style={{
-            borderColor: !errorState.username ? "" : "rgb(250, 107, 107)",
-          }}
-          onChange={usernameUpdateHandler}
-          onFocus={usernameFocusHandler}
-        ></input>
-        <label
-          className="error-label-register"
-          htmlFor="username"
-          style={{ display: errorState.username ? "" : "none" }}
-        >
-          {errorState.username}
-        </label>
-        <input
-          autoComplete="off"
-          type="text"
-          id="email"
-          placeholder="Email"
-          style={{ borderColor: !errorState.email ? "" : "rgb(250, 107, 107)" }}
-          onChange={emailUpdateHandler}
-          onFocus={emailFocusHandler}
-        ></input>
-        <label
-          className="error-label-register"
-          htmlFor="email"
-          style={{ display: errorState.email ? "" : "none" }}
-        >
-          {errorState.email}
-        </label>
-        <div className="password-field">
+    <>
+      {errorModalState}
+      <form onSubmit={submitHandler}>
+        <h1 className="register-form-title">Create account</h1>
+        <div className="register-form__inputs">
           <input
             autoComplete="off"
-            type={showingPassword ? "text" : "password"}
-            id="password"
-            placeholder="Password"
+            type="text"
+            id="displayName"
+            placeholder="Display name"
             style={{
-              borderColor: !errorState.password ? "" : "rgb(250, 107, 107)",
+              borderColor: !errorState.displayName ? "" : "rgb(250, 107, 107)",
             }}
-            onChange={passwordUpdateHandler}
-            onFocus={passwordFocusHandler}
+            onChange={displayNameUpdateHandler}
+            onFocus={displayNameFocusHandler}
           ></input>
-          <button
-            className="show-password-button"
-            onClick={passwordShowHandler}
+          <label
+            className="error-label-register"
+            htmlFor="displayName"
+            style={{ display: errorState.displayName ? "" : "none" }}
           >
-            <img src={!showingPassword ? viewPass : hidePass}></img>
-          </button>
-        </div>
-        <label
-          className="error-label-register"
-          htmlFor="password"
-          style={{ display: errorState.password ? "" : "none" }}
-        >
-          {errorState.password}
-        </label>
-        <div className="password-field">
+            {errorState.displayName}
+          </label>
           <input
             autoComplete="off"
-            type={showingPasswordR ? "text" : "password"}
-            id="passwordRepeat"
-            placeholder="Repeat password"
+            type="text"
+            id="username"
+            placeholder="Username"
             style={{
-              borderColor: !errorState.repeatPassword
-                ? ""
-                : "rgb(250, 107, 107)",
+              borderColor: !errorState.username ? "" : "rgb(250, 107, 107)",
             }}
-            onChange={repeatUpdateHandler}
+            onChange={usernameUpdateHandler}
+            onFocus={usernameFocusHandler}
           ></input>
-          <button
-            className="show-password-button"
-            onClick={repeatPasswordShowHandler}
+          <label
+            className="error-label-register"
+            htmlFor="username"
+            style={{ display: errorState.username ? "" : "none" }}
           >
-            <img src={!showingPasswordR ? viewPass : hidePass}></img>
+            {errorState.username}
+          </label>
+          <input
+            autoComplete="off"
+            type="text"
+            id="email"
+            placeholder="Email"
+            style={{
+              borderColor: !errorState.email ? "" : "rgb(250, 107, 107)",
+            }}
+            onChange={emailUpdateHandler}
+            onFocus={emailFocusHandler}
+          ></input>
+          <label
+            className="error-label-register"
+            htmlFor="email"
+            style={{ display: errorState.email ? "" : "none" }}
+          >
+            {errorState.email}
+          </label>
+          <div className="password-field">
+            <input
+              autoComplete="off"
+              type={showingPassword ? "text" : "password"}
+              id="password"
+              placeholder="Password"
+              style={{
+                borderColor: !errorState.password ? "" : "rgb(250, 107, 107)",
+              }}
+              onChange={passwordUpdateHandler}
+              onFocus={passwordFocusHandler}
+            ></input>
+            <button
+              className="show-password-button"
+              onClick={passwordShowHandler}
+            >
+              <img src={!showingPassword ? viewPass : hidePass}></img>
+            </button>
+          </div>
+          <label
+            className="error-label-register"
+            htmlFor="password"
+            style={{ display: errorState.password ? "" : "none" }}
+          >
+            {errorState.password}
+          </label>
+          <div className="password-field">
+            <input
+              autoComplete="off"
+              type={showingPasswordR ? "text" : "password"}
+              id="passwordRepeat"
+              placeholder="Repeat password"
+              style={{
+                borderColor: !errorState.repeatPassword
+                  ? ""
+                  : "rgb(250, 107, 107)",
+              }}
+              onChange={repeatUpdateHandler}
+            ></input>
+            <button
+              className="show-password-button"
+              onClick={repeatPasswordShowHandler}
+            >
+              <img src={!showingPasswordR ? viewPass : hidePass}></img>
+            </button>
+          </div>
+          <label
+            className="error-label-register"
+            htmlFor="passwordRepeat"
+            style={{ display: errorState.repeatPassword ? "" : "none" }}
+          >
+            {errorState.repeatPassword}
+          </label>
+          <button
+            type="submit"
+            id="createAccount"
+            className="submit-button-register"
+          >
+            Create Account
           </button>
+          <label
+            className="error-label-register"
+            htmlFor="passwordRepeat"
+            style={{ display: "none" }}
+          >
+            Error State
+          </label>
         </div>
-        <label
-          className="error-label-register"
-          htmlFor="passwordRepeat"
-          style={{ display: errorState.repeatPassword ? "" : "none" }}
-        >
-          {errorState.repeatPassword}
-        </label>
-        <button
-          type="submit"
-          id="createAccount"
-          className="submit-button-register"
-        >
-          Create Account
-        </button>
-        <label
-          className="error-label-register"
-          htmlFor="passwordRepeat"
-          style={{ display: "none" }}
-        >
-          Error State
-        </label>
-      </div>
-    </form>
+      </form>
     </>
   );
-
 };
 
 export default RegisterForm;

@@ -1,9 +1,19 @@
+
 .auth-main-container {
-  width: 100vw;
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+
+.auth-main-content{
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }
 
 .auth-main-form {
@@ -97,6 +107,10 @@
   scale: 1.15;
 }
 
+.social-auth-button img{
+  max-width: 24px;
+}
+
 .social-auth-button:hover {
   cursor: pointer;
   scale: 1.225;
@@ -107,6 +121,10 @@
 }
 
 @media screen and (max-width: 800px) {
+  .auth-main-container{
+    margin-top:90px;
+    align-items: flex-start;
+  }
   .auth-illustration{
     display: none;
   }

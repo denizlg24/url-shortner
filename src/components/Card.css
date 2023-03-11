@@ -5,8 +5,9 @@
     justify-content: center;
     align-items: center;
     border-radius: 12px;
-    height: 80%;
-    max-height: 600px;
+    height: max-content;
+    min-height: max-content;
+    max-height: 625px;
     background-color: var(--color-backgroundSecondary);
     filter: drop-shadow(0 0 .75rem rgba(0, 0, 0,0.2));
 }
