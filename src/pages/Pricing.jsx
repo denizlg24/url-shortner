@@ -69,7 +69,7 @@ const Pricing = (props) => {
                 { title: "Custom Short Url", id: "not-available" ,key:7},
               ]}
               lookUpKey={import.meta.env.VITE_BASIC_PLAN_KEY}
-              isFree={myPlan ? myPlan.subscription === "basic" : false}
+              isFree={myPlan ? myPlan.subscription != "free" : false}
               sub={props.sub}
               onClickHandler={!props.isLoggedIn? props.clickFreeHandler : subscribed_clickHandler}
             ></PricingPlanItem>
@@ -88,7 +88,7 @@ const Pricing = (props) => {
                 { title: "Custom Short Url", id: "not-available",key:11 },
               ]}
               lookUpKey={import.meta.env.VITE_PLUS_PLAN_KEY}
-              isFree={myPlan ? myPlan.subscription === "plus": false}
+              isFree={myPlan ? myPlan.subscription != "free": false}
               sub={props.sub}
               onClickHandler={!props.isLoggedIn? props.clickFreeHandler : subscribed_clickHandler}
             ></PricingPlanItem>
@@ -107,7 +107,7 @@ const Pricing = (props) => {
                 { title: "Custom Short Url", id: "available",key:15  },
               ]}
               lookUpKey={import.meta.env.VITE_PRO_PLAN_KEY}
-              isFree={myPlan ? myPlan.subscription === "pro" : false}
+              isFree={myPlan ? myPlan.subscription != "free" : false}
               sub={props.sub}
               onClickHandler={!props.isLoggedIn? props.clickFreeHandler : subscribed_clickHandler}
             ></PricingPlanItem>
