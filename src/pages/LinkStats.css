@@ -78,6 +78,7 @@
 }
 .countries-info li h1 {
   font-size: 1.2rem;
+  width: fit-content;
   display: flex;
   align-items: center;
   text-align: left;
