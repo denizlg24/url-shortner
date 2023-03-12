@@ -95,7 +95,7 @@ const LinkStats = (props) => {
               return (
                 <li key={country[0]}>
                   <h1>
-                    {country[0] !== "Other" ? regionNames.of(country[0]) : "Other"}
+                    {country[0]}
                     <img
                       src={country[0] !== "Other" ? `https://flagcdn.com/w160/${country[0].toLowerCase()}.png` : questionMarkIcon}
                       alt={country[0] !== "Other" ? regionNames.of(country[0]) + "'s flag" : "Question Mark Icon"}
