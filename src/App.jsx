@@ -49,21 +49,7 @@ function App() {
     });
   }, [theme]);
 
-  const[myPlan,setPlan] = useState();
-  useEffect(() => {
-    const getSubscription = async () => { 
-      const response = await Services.getPlan(localStorage.getItem("accessToken"));
-      if(response.response === "ok"){
-        setPlan(response.data);
-      }
-      else{
-        props.handleLogout();
-      }
-    }
-    if(localStorage.getItem("accessToken")){
-      getSubscription();
-    }
-  },[])
+  const [myPlan, setPlan] = useState();
 
   const onClickLoginHandler = (e) => {
     e.preventDefault();
@@ -113,6 +99,17 @@ function App() {
     displayErrorModal([]);
   };
 
+  const getSubscription = async () => {
+    const response = await Services.getPlan(
+      localStorage.getItem("accessToken")
+    );
+    if (response.response === "ok") {
+      setPlan(response.data);
+    } else {
+      props.handleLogout();
+    }
+  };
+
   const checkTokens = async () => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
@@ -132,6 +129,7 @@ function App() {
         setAuthData(response.data);
         setLoggedIn(true);
         displayPage("landing");
+        getSubscription();
         loginSuccessHandler();
       } else {
         displayErrorModal([
@@ -216,7 +214,7 @@ function App() {
           isLoggedIn={isLoggedIn}
           handleLogout={handleLogout}
           sub={authData ? authData.sub : ""}
-          stripeId={authData ? authData.stripeId: ""}
+          stripeId={authData ? authData.stripeId : ""}
           myPlan={myPlan}
         ></Pricing>
       </>
@@ -290,7 +288,7 @@ function App() {
           username={authData ? authData.displayName : ""}
           userId={authData ? authData.sub : ""}
           dark={theme === "dark"}
-          myPlan={myPlan? myPlan.subscription : ""}
+          myPlan={myPlan ? myPlan.subscription : ""}
         ></Dashboard>
       </>
     );
