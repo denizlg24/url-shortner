@@ -185,7 +185,7 @@ function App() {
           onClickLoginHandler={onClickLoginHandler}
           onClickIconHandler={onClickIconHandler}
           isLoggedIn={isLoggedIn}
-          currentUsername={authData ? authData.username : ""}
+          currentUsername={authData ? authData.displayName : ""}
           clickLogoutHandler={handleLogout}
           userLogo={authData ? authData.profilePicture : ""}
           clickDashboard={clickDashboardHandler}
@@ -215,7 +215,7 @@ function App() {
           onClickLoginHandler={onClickLoginHandler}
           onClickIconHandler={onClickIconHandler}
           isLoggedIn={isLoggedIn}
-          currentUsername={authData ? authData.username : ""}
+          currentUsername={authData ? authData.displayName : ""}
           clickLogoutHandler={handleLogout}
           userLogo={authData ? authData.profilePicture : ""}
         ></Header>
@@ -243,7 +243,7 @@ function App() {
           onClickLoginHandler={onClickLoginHandler}
           onClickIconHandler={onClickIconHandler}
           isLoggedIn={isLoggedIn}
-          currentUsername={authData ? authData.username : ""}
+          currentUsername={authData ? authData.displayName : ""}
           clickLogoutHandler={handleLogout}
           userLogo={authData ? authData.profilePicture : ""}
         ></Header>
@@ -263,12 +263,12 @@ function App() {
           changeThemeHandler={toggleTheme}
           onClickIconHandler={onClickIconHandler}
           isLoggedIn={isLoggedIn}
-          currentUsername={authData ? authData.username : ""}
+          currentUsername={authData ? authData.displayName : ""}
           clickLogoutHandler={handleLogout}
           userLogo={authData ? authData.profilePicture : ""}
         ></ReducedHeader>
         <Dashboard
-          username={authData ? authData.username : ""}
+          username={authData ? authData.displayName : ""}
           userId={authData ? authData.sub : ""}
           dark={theme === "dark"}
         ></Dashboard>
