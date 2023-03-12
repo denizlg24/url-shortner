@@ -80,6 +80,7 @@
   font-size: 1.2rem;
   display: flex;
   align-items: center;
+  text-align: left;
 }
 .countries-info li p span {
   color: var(--color-accent);

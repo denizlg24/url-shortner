@@ -1,4 +1,5 @@
 import { useState } from "react";
+import questionMarkIcon from '../assets/icons8-question-mark-90.png'
 import "./LinkStats.css";
 
 const LinkStats = (props) => {
@@ -94,10 +95,10 @@ const LinkStats = (props) => {
               return (
                 <li key={country[0]}>
                   <h1>
-                    {regionNames.of(country[0])}
+                    {country[0] !== "Other" ? regionNames.of(country[0]) : "Other"}
                     <img
-                      src={`https://flagcdn.com/w160/${country[0].toLowerCase()}.png`}
-                      alt={regionNames.of(country[0]) + "'s flag"}
+                      src={country[0] !== "Other" ? `https://flagcdn.com/w160/${country[0].toLowerCase()}.png` : questionMarkIcon}
+                      alt={country[0] !== "Other" ? regionNames.of(country[0]) + "'s flag" : "Question Mark Icon"}
                     />
                   </h1>
                   <p>
