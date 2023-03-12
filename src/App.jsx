@@ -49,6 +49,22 @@ function App() {
     });
   }, [theme]);
 
+  const[myPlan,setPlan] = useState();
+  useEffect(() => {
+    const getSubscription = async () => { 
+      const response = await Services.getPlan(localStorage.getItem("accessToken"));
+      if(response.response === "ok"){
+        setPlan(response.data);
+      }
+      else{
+        props.handleLogout();
+      }
+    }
+    if(localStorage.getItem("accessToken")){
+      getSubscription();
+    }
+  },[])
+
   const onClickLoginHandler = (e) => {
     e.preventDefault();
     if (pageToDisplay !== "auth") {
@@ -201,6 +217,7 @@ function App() {
           handleLogout={handleLogout}
           sub={authData ? authData.sub : ""}
           stripeId={authData ? authData.stripeId: ""}
+          myPlan={myPlan}
         ></Pricing>
       </>
     );
@@ -273,6 +290,7 @@ function App() {
           username={authData ? authData.displayName : ""}
           userId={authData ? authData.sub : ""}
           dark={theme === "dark"}
+          myPlan={myPlan? myPlan.subscription : ""}
         ></Dashboard>
       </>
     );

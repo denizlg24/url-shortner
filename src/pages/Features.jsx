@@ -25,7 +25,7 @@ const Features = (props) => {
     },
     {
       id: 2,
-      title: "Amazing Privacy.",
+      title: "Complete Privacy.",
       desc: "Since we also use our own API for the authentication part of our service, we can ensure your data is safe! No one has access to your private data. With salt and pepper encryption we ensure your passwords are safe!",
       img: props.dark? securityPic : securityPicLight,
     },

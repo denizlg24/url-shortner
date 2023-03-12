@@ -5,21 +5,7 @@ import "./Pricing.css";
 
 const Pricing = (props) => {
 
-  const[myPlan,setPlan] = useState();
-  useEffect(() => {
-    const getSubscription = async () => { 
-      const response = await Services.getPlan(localStorage.getItem("accessToken"));
-      if(response.response === "ok"){
-        setPlan(response.data);
-      }
-      else{
-        props.handleLogout();
-      }
-    }
-    if(localStorage.getItem("accessToken")){
-      getSubscription();
-    }
-  },[])
+  const myPlan = props.myPlan;
 
   const subscribed_clickHandler = (e) =>{
     e.preventDefault();
@@ -99,7 +85,7 @@ const Pricing = (props) => {
               desc={
                 "Our Pro plan is designed for power users and those who need the most advanced features and capabilities."
               }
-              buttonText={!myPlan ? ("Get Pro.") : (!props.isLoggedIn? "Get Pro." : (myPlan.subscription === "pro" ? "Manage Plan" : "Upgrade to Plus."))}
+              buttonText={!myPlan ? ("Get Pro.") : (!props.isLoggedIn? "Get Pro." : (myPlan.subscription === "pro" ? "Manage Plan" : "Upgrade to Pro."))}
               features={[
                 { title: "Unlimited shortn's.", id: "available",key:12 },
                 { title: "Get a url's total clicks", id: "available",key:13  },
