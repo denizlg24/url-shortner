@@ -31,25 +31,6 @@ const Message = ({ message }) => (
 
 export default function PaymentPage() {
   let [message, setMessage] = useState('');
-  let [success, setSuccess] = useState(false);
-  let [sessionId, setSessionId] = useState('');
-
-  useEffect(() => {
-    // Check to see if this is a redirect back from Checkout
-    const query = new URLSearchParams(window.location.search);
-
-    if (query.get('success')) {
-      setSuccess(true);
-      setSessionId(query.get('session_id'));
-    }
-
-    if (query.get('canceled')) {
-      setSuccess(false);
-      setMessage(
-        "Order canceled -- continue to shop around and checkout when you're ready."
-      );
-    }
-  }, [sessionId]);
 
   if (success && sessionId !== '') {
     return <SuccessDisplay sessionId={sessionId} />;
