@@ -200,6 +200,7 @@ function App() {
           isLoggedIn={isLoggedIn}
           handleLogout={handleLogout}
           sub={authData ? authData.sub : ""}
+          stripeId={authData ? authData.stripeId: ""}
         ></Pricing>
       </>
     );

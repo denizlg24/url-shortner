@@ -188,6 +188,26 @@ Services.subscribeToPlan = async (lookUpKey, sub) => {
     });
 };
 
+Services.managePlan = async (stripeId) => {
+  const data = {
+    stripeId
+  };
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  return axios
+    .post(
+      "https://shortn.at/api/subscription/create-portal-session",
+      data,
+      config
+    )
+    .then((response) => {
+      window.location.href = response.data.url;
+    });
+}
+
 var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
 
 function preventDefault(e) {
