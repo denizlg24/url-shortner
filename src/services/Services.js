@@ -177,11 +177,15 @@ Services.subscribeToPlan = async (lookUpKey, sub) => {
       "Content-Type": "application/json",
     },
   };
-  return axios.post(
-    "https://shortn.at/api/subscription/create-checkout-session",
-    data,
-    config
-  );
+  return axios
+    .post(
+      "https://shortn.at/api/subscription/create-checkout-session",
+      data,
+      config
+    )
+    .then((response) => {
+      window.location.href = response.data.url;
+    });
 };
 
 var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
