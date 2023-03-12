@@ -174,7 +174,6 @@ Services.subscribeToPlan = async (lookUpKey, sub) => {
   };
   const config = {
     headers: {
-      Authorization: `Bearer ${import.meta.env.VITE_STRIPE_SECRET}`,
       "Content-Type": "application/json",
     },
   };
