@@ -7,6 +7,7 @@ Services.registerUser = (userData) => {
     username: userData.username,
     email: userData.email,
     password: userData.password,
+    displayName: userData.displayName,
   };
 
   const config = {

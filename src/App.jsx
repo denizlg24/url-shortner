@@ -12,6 +12,7 @@ import Features from "./pages/Features";
 import darkLogo from "./assets/LOGODARK.png";
 import lightLogo from "./assets/LOGOWHITE.png";
 import Pricing from "./pages/Pricing";
+import PaymentPage from "./pages/PaymentPage";
 
 function App() {
   const [theme, setTheme] = useState();
@@ -175,6 +176,7 @@ function App() {
     return (
       <>
         {errorState}
+        {/*<PaymentPage></PaymentPage>*/}
         <Header
           icon={theme === "dark" ? darkLogo : lightLogo}
           dark={theme === "dark"}

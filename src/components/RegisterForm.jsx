@@ -201,6 +201,7 @@ const RegisterForm = (props) => {
     event.preventDefault();
     let currentChecks = checkUserInputValidaty(userInput, true);
     if (
+      currentChecks.displayName ||
       currentChecks.username ||
       currentChecks.email ||
       currentChecks.password ||
@@ -212,9 +213,9 @@ const RegisterForm = (props) => {
       email: userInput.email,
       password: userInput.password,
       username: userInput.username,
+      displayName: userInput.displayName,
     });
     if (response.response === "ok") {
-      console.log(response.data);
       props.registrationSuccess(userInput.email);
     } else {
       displayErrorModal([
