@@ -64,3 +64,9 @@
   word-wrap: break-word;
   color: var(--color-text);
 }
+
+@media screen and (max-height: 900px) {
+  .main-error-modal{
+    align-items: center;
+  }
+}
