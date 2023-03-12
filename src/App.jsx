@@ -75,7 +75,7 @@ function App() {
   };
 
   const loginSuccessHandler = () => {
-    displayPage("dashboard");
+    displayPage("landing");
     setLoggedIn(true);
   };
 
@@ -199,6 +199,7 @@ function App() {
           clickFreeHandler={clickFreeHandler}
           isLoggedIn={isLoggedIn}
           handleLogout={handleLogout}
+          sub={authData ? authData.sub : ""}
         ></Pricing>
       </>
     );

@@ -167,6 +167,24 @@ Services.getPlan = async (accessToken) => {
     });
 };
 
+Services.subscribeToPlan = async (lookUpKey, sub) => {
+  const data = {
+    lookup_key: lookUpKey,
+    sub,
+  };
+  const config = {
+    headers: {
+      Authorization: `Bearer ${import.meta.env.VITE_STRIPE_SECRET}`,
+      "Content-Type": "application/json",
+    },
+  };
+  return axios.post(
+    "https://shortn.at/api/subscription/create-checkout-session",
+    data,
+    config
+  );
+};
+
 var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
 
 function preventDefault(e) {

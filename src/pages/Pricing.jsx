@@ -46,7 +46,8 @@ const Pricing = (props) => {
                 { title: "Advanced Stats", id: "not-available" ,key:2},
                 { title: "Custom Short Url", id: "not-available" ,key:3},
               ]}
-              onClickHandler={props.clickFreeHandler}
+              isFree={true}
+              onClickHandler={!props.isLoggedIn? props.clickFreeHandler : ""}
             ></PricingPlanItem>
             <PricingPlanItem
               title={"Basic Plan"}
@@ -62,7 +63,9 @@ const Pricing = (props) => {
                 { title: "Advanced Stats", id: "not-available" ,key:6},
                 { title: "Custom Short Url", id: "not-available" ,key:7},
               ]}
-              onClickHandler={props.clickFreeHandler}
+              lookUpKey={import.meta.env.VITE_BASIC_PLAN_KEY}
+              sub={props.sub}
+              onClickHandler={!props.isLoggedIn? props.clickFreeHandler : ""}
             ></PricingPlanItem>
             <PricingPlanItem
               title={"Plus Plan"}
@@ -78,7 +81,9 @@ const Pricing = (props) => {
                 { title: "Advanced Stats", id: "medium" ,key:10},
                 { title: "Custom Short Url", id: "not-available",key:11 },
               ]}
-              onClickHandler={props.clickFreeHandler}
+              lookUpKey={import.meta.env.VITE_PLUS_PLAN_KEY}
+              sub={props.sub}
+              onClickHandler={!props.isLoggedIn? props.clickFreeHandler : ""}
             ></PricingPlanItem>
             <PricingPlanItem
               title={"Pro Plan"}
@@ -94,7 +99,9 @@ const Pricing = (props) => {
                 { title: "Advanced Stats", id: "available",key:14  },
                 { title: "Custom Short Url", id: "available",key:15  },
               ]}
-              onClickHandler={props.clickFreeHandler}
+              lookUpKey={import.meta.env.VITE_PRO_PLAN_KEY}
+              sub={props.sub}
+              onClickHandler={!props.isLoggedIn? props.clickFreeHandler : ""}
             ></PricingPlanItem>
           </div>
           <div className="color-legend-pricing">
