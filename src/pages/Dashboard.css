@@ -20,7 +20,14 @@
   justify-content: center;
 }
 
-
+.bar-chart-holder-pro{
+    width: 100%;
+    height: 35vh;
+    min-height: 275px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 
 .main-content-dashboard{

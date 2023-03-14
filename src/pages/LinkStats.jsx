@@ -60,7 +60,7 @@ const LinkStats = (props) => {
             </span>
           </h3>
         </div>
-        {/*(props.myPlan === "pro" || props.myPlan === "plus") && <ProDashboard data={props.data}></ProDashboard>*/}
+        {/*props.myPlan === "plus") && <PlusDashboard data={props.data} dark={props.dark}></PlusDashboard>*/}
         {props.myPlan === "pro" && <ProDashboard data={props.data} dark={props.dark}></ProDashboard>}
       </div>
     </div>

@@ -10,19 +10,18 @@ const Dashboard = (props) => {
   const [currentLongUrl, changecurrentLongUrl] = useState("");
   const [errorState, displayErrorModal] = useState([]);
   const [selectedPage, selectPage] = useState(0);
-  const [urlData,setUrlData] = useState();
+  const [urlData, setUrlData] = useState();
 
   const urlPerPage = 3;
-
+  const getUrls = async () => {
+    let response = await Services.getUrls(props.userId);
+    if (response.response === "ok") {
+      setUrls(response.data);
+    } else {
+      setUrls([]);
+    }
+  };
   useEffect(() => {
-    const getUrls = async () => {
-      let response = await Services.getUrls(props.userId);
-      if (response.response === "ok") {
-        setUrls(response.data);
-      } else {
-        setUrls([]);
-      }
-    };
     getUrls();
   }, []);
 
@@ -51,6 +50,7 @@ const Dashboard = (props) => {
   const handleGetClickAnalytics = async (shortURL) => {
     const response = await Services.getStats(shortURL);
     if (response.response === "ok") {
+      console.log(response.data);
       setUrlData(response.data);
     } else {
       displayErrorModal([
@@ -94,19 +94,35 @@ const Dashboard = (props) => {
     });
   };
 
-  const cancelStatsPage = (e) =>{
+  const cancelStatsPage = (e) => {
     e.preventDefault();
     setUrlData();
-  }
+  };
+
+  const onDeleteHandler = async (shortUrl) => {
+    await Services.removeLink(shortUrl);
+    await getUrls();
+  };
 
   return (
     <>
       {errorState}
-      {urlData && <LinkStats data={urlData.clicks} myPlan={props.myPlan} shortUrl={urlData.shortUrl} lastClicked={urlData.clicks.lastClick} dark={props.dark} closeStats={cancelStatsPage}></LinkStats>}
+      {urlData && (
+        <LinkStats
+          data={urlData.clicks}
+          myPlan={props.myPlan}
+          shortUrl={urlData.shortUrl}
+          lastClicked={urlData.clicks.lastClick}
+          dark={props.dark}
+          closeStats={cancelStatsPage}
+        ></LinkStats>
+      )}
       <div className="main-dashboard-container">
         <div className="main-dashboard-content">
           <div className="main-content-dashboard">
-            <h1 className="dasboard-title"><span>{props.username}'s</span> Dashboard</h1>
+            <h1 className="dasboard-title">
+              <span>{props.username}'s</span> Dashboard
+            </h1>
             <div className="input-actions-dashboard">
               <input
                 type="text"
@@ -130,6 +146,7 @@ const Dashboard = (props) => {
                         shortUrl={url.shortUrl}
                         key={url.shortUrl}
                         onClickHandler={handleGetClickAnalytics}
+                        onDeleteHandler={onDeleteHandler}
                         dark={props.dark}
                       ></LinkItem>
                     );
@@ -155,7 +172,7 @@ const Dashboard = (props) => {
                   <h3>You haven't created any short link yet!</h3>
                 </div>
               )}
-            </div> 
+            </div>
           </div>
         </div>
       </div>

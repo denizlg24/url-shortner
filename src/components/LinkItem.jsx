@@ -5,6 +5,9 @@ const LinkItem = (props) =>{
     const onClickHandler = (e) =>{
         props.onClickHandler(props.shortUrl);
     }
+    const onDeleteHandler = (e) => {
+        props.onDeleteHandler(props.shortUrl);
+    }
     return (
         <div className="link-container" style={{border: "2px dashed " + (props.dark ? "rgba(255,255,255, 0.2)" : "rgba(0,0,0, 0.2)")}}>
             <div className="link-info">
@@ -13,6 +16,7 @@ const LinkItem = (props) =>{
             </div>
             <div className="link-actions">
                 <button onClick={onClickHandler}>Get Stats</button>
+                <button onClick={onDeleteHandler}>Delete</button>
             </div>
         </div>
     )

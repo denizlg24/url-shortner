@@ -110,6 +110,22 @@ function App() {
     }
   };
 
+  const removeTestLink = async () => {
+    const getUrlCreated = () => {
+      return JSON.parse(localStorage.getItem("linkCreatedTest"));
+    };
+    const url = getUrlCreated();
+    if (!url) {
+      return;
+    }
+    for (let index = 0; index < url[0].length; index++) {
+      setTimeout(async () => {
+        await Services.removeLink(url[0][index].shortUrl);
+        localStorage.removeItem("linkCreatedTest");
+      }, 200);
+    }
+  };
+
   const checkTokens = async () => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
@@ -126,6 +142,7 @@ function App() {
           handleLogout();
           return;
         }
+        removeTestLink();
         setAuthData(response.data);
         setLoggedIn(true);
         displayPage("landing");
@@ -135,7 +152,7 @@ function App() {
         displayErrorModal([
           <ErrorModal
             title={response.response.status}
-            errorDesc={response.response.data}
+            errorDesc={"You've been logged out. Log back in."}
             cancelError={cancelError}
           ></ErrorModal>,
         ]);
