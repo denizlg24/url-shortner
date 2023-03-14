@@ -15,8 +15,8 @@ const LinkItem = (props) =>{
                 <h3 id='long-url-linkitem'>Short URL: <a href={props.shortUrl} target="_blank">{props.shortUrl.slice(8)}</a></h3>
             </div>
             <div className="link-actions">
-                <button onClick={onClickHandler}>Get Stats</button>
-                <button onClick={onDeleteHandler}>Delete</button>
+                <button onClick={onClickHandler} id="stats-btn-linkitem">Get Stats</button>
+                <button onClick={onDeleteHandler} id="delete-btn-linkitem">Delete</button>
             </div>
         </div>
     )

@@ -1,81 +1,99 @@
-.link-container{
-    width: 100%;
-    padding: 1rem;
-    background-color: transparent;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1rem;
-    border-radius: 12px;
+.link-container {
+  width: 100%;
+  padding: 1rem;
+  background-color: transparent;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  border-radius: 12px;
 }
 
-.link-info{
+.link-info {
+  max-width: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--color-text);
+}
+.link-info a {
+  color: var(--color-text);
+  font-weight: 300;
+}
+
+#long-url-linkitem {
+  word-wrap: break-word;
+  margin-right: 1rem;
+}
+.link-info a:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.link-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+#stats-btn-linkitem {
+  width: max-content;
+  padding: 0.35rem;
+  border-radius: 5px;
+  border: 2px solid;
+  border-color: transparent;
+  font-size: 1rem;
+  color: var(--color-text);
+  background-color: var(--color-background);
+}
+#stats-btn-linkitem:hover {
+  cursor: pointer;
+  user-select: none;
+  background-color: transparent;
+  border-color: var(--color-text);
+}
+
+#delete-btn-linkitem {
+  width: max-content;
+  padding: 0.35rem;
+  border-radius: 5px;
+  border: 2px solid;
+  border-color: transparent;
+  font-size: 1rem;
+  color: white;
+  background-color: rgb(241, 88, 88);
+}
+
+#delete-btn-linkitem:hover {
+  color: var(--color-text);
+  cursor: pointer;
+  user-select: none;
+  background-color: transparent;
+  border-color: rgb(241, 88, 88);
+}
+
+@media screen and (max-width: 1099px) {
+  .link-container {
+    display: block;
+  }
+  .link-actions {
+    justify-content: center;
+  }
+  .link-actions button {
+    margin-top: 0.5rem;
+    width: 100%;
+  }
+  .link-info {
+    display: block;
     max-width: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
+  }
+  #long-url-linkitem {
+    max-width: none;
+    margin: 0.3rem;
+    margin-right: 0rem;
+    margin-left: 0;
+  }
+  .link-container {
     justify-content: space-between;
-    color: var(--color-text);
-}
-.link-info a{
-    color: var(--color-text);
-    font-weight: 300;
-    
-}
-
-#long-url-linkitem{
-    word-wrap: break-word;
-    margin-right: 1rem;
-}
-.link-info a:hover{
-    cursor: pointer;
-    text-decoration: underline;
-}
-.link-actions{
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: .5rem;
-}
-
-.link-actions button{
-    width: max-content;
-    padding: .35rem;
-    border-radius: 5px;
-    border: 2px solid;
-    border-color: transparent;
-    font-size: 1rem;
-    color: var(--color-text);
-    background-color: var(--color-background);
-}
-.link-actions button:hover{
-    cursor: pointer;
-    user-select: none;
-    background-color: transparent;
-    border-color: var(--color-text);
-}
-
-@media screen and (max-width: 1099px){
-    .link-container{
-        display: block;
-    }
-    .link-actions{
-        justify-content: center;
-    }
-    .link-actions button{
-        margin-top: .5rem;
-        width: 100%;
-    }
-    .link-info{
-        display: block;
-        max-width: 100%;
-    }
-    #long-url-linkitem{
-        max-width: none;
-        margin: .3rem;
-        margin-right: 0rem;
-        margin-left: 0;
-    }
-    .link-container{
-        justify-content: space-between;
-    }
+  }
 }
