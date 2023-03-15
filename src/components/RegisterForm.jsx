@@ -32,16 +32,16 @@ const RegisterForm = (props) => {
   });
 
   const checkUserInputValidaty = (inputToCheck, isForced) => {
-    const { username, email, password, repeatPassword } = inputToCheck;
+    const { username, email, password, repeatPassword, displayName } = inputToCheck;
     const displayNameError = () => {
       if (!focusState.displayName && !isForced) {
         return "";
       }
-      if (username.trim().length === 0) {
+      if (displayName.trim().length === 0) {
         return "Display name cannot be empty.";
       }
       var format = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-      if (format.test(username)) {
+      if (format.test(displayName)) {
         return "Display name cannot contain special characters.";
       }
       return "";

@@ -2,9 +2,14 @@
 .auth-main-container {
   display: flex;
   justify-content: center;
-  align-items: center;
   width: 100vw;
   height: 100vh;
+  position: relative;
+}
+
+.auth-main-content{
+  position: absolute;
+  top: 6rem;
 }
 
 .auth-main-form {
@@ -113,6 +118,9 @@
 }
 
 @media screen and (max-width: 800px) {
+  .auth-main-content{
+    top: 0;
+  }
   .auth-main-form{
     width: 100%;
   }
