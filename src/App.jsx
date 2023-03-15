@@ -9,9 +9,8 @@ import Dashboard from "./pages/Dashboard";
 import ReducedHeader from "./components/ReducedHeader";
 import ErrorModal from "./components/ErrorModal";
 import Features from "./pages/Features";
-import darkLogo from "./assets/LOGODARK.png";
-import lightLogo from "./assets/LOGOWHITE.png";
 import Pricing from "./pages/Pricing";
+import MoreInfo from "./pages/MoreInfo";
 
 function App() {
   const [theme, setTheme] = useState();
@@ -77,10 +76,10 @@ function App() {
 
   const tryFreeHandler = (e) => {
     const element = document.getElementById("try-free-id");
-    if(element){
+    if (element) {
       element.scrollIntoView();
     }
-  }
+  };
 
   const loginSuccessHandler = () => {
     displayPage("landing");
@@ -215,7 +214,6 @@ function App() {
         {errorState}
         {/*<PaymentPage></PaymentPage>*/}
         <Header
-          icon={theme === "dark" ? darkLogo : lightLogo}
           dark={theme === "dark"}
           changeThemeHandler={toggleTheme}
           onClickRegisterHandler={onClickRegisterHandler}
@@ -242,6 +240,7 @@ function App() {
           stripeId={authData ? authData.stripeId : ""}
           myPlan={myPlan}
         ></Pricing>
+        <MoreInfo></MoreInfo>
       </>
     );
   }
@@ -250,7 +249,6 @@ function App() {
       <>
         {errorState}
         <Header
-          icon={theme === "dark" ? darkLogo : lightLogo}
           dark={theme === "dark"}
           changeThemeHandler={toggleTheme}
           onClickRegisterHandler={onClickRegisterHandler}
@@ -278,7 +276,6 @@ function App() {
       <>
         {errorState}
         <Header
-          icon={theme === "dark" ? darkLogo : lightLogo}
           dark={theme === "dark"}
           changeThemeHandler={toggleTheme}
           onClickRegisterHandler={onClickRegisterHandler}
@@ -300,7 +297,6 @@ function App() {
     return (
       <>
         <ReducedHeader
-          icon={theme === "dark" ? darkLogo : lightLogo}
           dark={theme === "dark"}
           changeThemeHandler={toggleTheme}
           onClickIconHandler={onClickIconHandler}

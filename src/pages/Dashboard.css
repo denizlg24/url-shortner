@@ -129,6 +129,13 @@
   text-align: center;
 }
 
+.custom-tooltip{
+  padding: 1rem;
+  background-color: var(--color-text);
+  border-radius: 12px;
+  color: var(--color-background);
+}
+
 .back-home-dashboard:hover{
   cursor: pointer;
 }

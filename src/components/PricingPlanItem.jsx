@@ -42,9 +42,10 @@ const PricingPlanItem = (props) => {
           </form>
         ) : (
           <button onClick={props.onClickHandler}>
-            <p>{props.buttonText}</p>
+            {props.buttonText}
           </button>
         )}
+        <p>Learn More</p>
       </div>
     </div>
   );

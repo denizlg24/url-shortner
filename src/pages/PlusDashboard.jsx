@@ -20,6 +20,24 @@ const PlusDashboard = (props) => {
   const [advancedTab, selectAdvancedTab] = useState(0);
   const [lineBarTickCount, toggleSize] = useState(24);
 
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      const hours = Math.floor(label);
+      const minutes = Math.round((label - hours) * 60);
+      const formattedTime = hours + ":" + (minutes < 10 ? "0" : "") + minutes;
+      return (
+        <div className="custom-tooltip">
+          <p className="label">Time: {formattedTime}</p>
+          <p className="intro">
+            Clicks: <span>{payload[0].value}</span>
+          </p>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
   useEffect(() => {
     function handleResize() {
       toggleSize(window.innerWidth < 600 ? 12 : 24);
@@ -29,25 +47,28 @@ const PlusDashboard = (props) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const times = Object.entries(props.data.byTimeOfDay);
-  const timesData = [];
+  const times = [];
   for (let i = 0; i < 24; i++) {
-    const hour = i.toString();
-
-    const existingItem = times.find((item) => item[0] === hour);
-
-    if (!existingItem) {
-      timesData.push({
-        name: ("0" + hour).slice(-2),
-        value: 0,
-      });
-    } else {
-      timesData.push({
-        name: existingItem[0],
-        value: +existingItem[1],
+    times.push({
+      time: i,
+      value: 0,
+    });
+  }
+  for (const key in props.data.byTimeOfDay) {
+    if (Object.hasOwnProperty.call(props.data.byTimeOfDay, key)) {
+      times.push({
+        time:
+          parseInt(key.split(":")[0]) +
+          parseFloat((parseInt(key.split(":")[1]) / 60).toFixed(2)),
+        value: props.data.byTimeOfDay[key],
       });
     }
   }
+  times.sort(function (a, b) {
+    if (a.time <= b.time) return -1;
+    if (a.time > b.time) return 1;
+    return 0;
+  });
 
   const rawData = props.data.devices;
   const browserData = rawData.map((item) => {
@@ -145,7 +166,7 @@ const PlusDashboard = (props) => {
                 selectPlusTab(2);
               }}
             >
-              Advanced Data
+              System Data
             </button>
           </span>
         </div>
@@ -186,59 +207,53 @@ const PlusDashboard = (props) => {
       </div>
       {plusTab === 1 && (
         <div className="bar-chart-holder-pro">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart
-              margin={{ top: 50, right: 0, left: 0, bottom: 0 }}
-              data={timesData}
-            >
-              <XAxis
-                dataKey="name"
-                type="number"
-                domain={[0, 23]}
-                tickCount={lineBarTickCount}
-                tick={{ fill: "var(--color-text)" }}
-                tickLine={{ fill: "var(--color-text)" }}
-                padding={{ left: 25 }}
-                interval={0}
-              />
-              <YAxis
-                type="number"
-                allowDecimals={false}
-                domain={[0, "dataMax + 1"]}
-                tick={{ fill: "var(--color-text)" }}
-                tickLine={{ fill: "var(--color-text)" }}
-                tickCount={props.data.total + 2}
-                padding={{ bottom: 15 }}
-                mirror={true}
-              />
-              <Tooltip
-                cursor={{ fill: "var(--color-background)" }}
-                wrapperStyle={{ backgroundColor: "transparent" }}
-                contentStyle={{
-                  padding: "1rem",
-                  backgroundColor: "var(--color-text)",
-                  color: "var(--color-background)",
-                  borderRadius: "12px",
-                }}
-                itemStyle={{ color: "var(--color-background)", padding: 0 }}
-                formatter={(value, name, props) => [`Clicks: ${value}`]}
-              />
-              <Legend
-                formatter={(value, entry, index) => (
-                  <span style={{ color: "var(--color-text)" }}>
-                    Clicks by Time of Day
-                  </span>
-                )}
-                wrapperStyle={{ top: 20, left: 0 }}
-              />
-              <Line
-                type="monotoneX"
-                dataKey="value"
-                stroke="var(--color-lightSpecial)"
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart
+            margin={{ top: 50, right: 0, left: 0, bottom: 0 }}
+            data={times}
+          >
+            <XAxis
+              dataKey="time"
+              type="number"
+              tickCount={lineBarTickCount}
+              domain={[0, 24]}
+              tick={{ fill: "var(--color-text)" }}
+              tickLine={{ fill: "var(--color-text)" }}
+              padding={{ left: 25 }}
+              interval={"preserveEnd"}
+            />
+            <YAxis
+              type="number"
+              allowDecimals={false}
+              domain={[0, "dataMax + 1"]}
+              tick={{ fill: "var(--color-text)" }}
+              tickLine={{ fill: "var(--color-text)" }}
+              tickCount={props.data.total + 2}
+              padding={{ bottom: 15 }}
+              mirror={true}
+            />
+            <Tooltip
+              cursor={{ fill: "var(--color-background)" }}
+              wrapperStyle={{ backgroundColor: "transparent" }}
+              itemStyle={{ color: "var(--color-background)", padding: 0 }}
+              content={<CustomTooltip />}
+            />
+            <Legend
+              formatter={(value, entry, index) => (
+                <span style={{ color: "var(--color-text)" }}>
+                  Clicks by Time of Day
+                </span>
+              )}
+              wrapperStyle={{ top: 20, left: 0 }}
+            />
+            <Line
+              type="basis"
+              dataKey="value"
+              stroke="var(--color-lightSpecial)"
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
       )}
       {plusTab === 0 && (
         <div className="countries-info">

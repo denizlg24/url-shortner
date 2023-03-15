@@ -27,10 +27,28 @@ const ProDashboard = (props) => {
   let DefaultIcon = L.icon({
     iconUrl: icon,
     shadowUrl: iconShadow,
-    iconSize: [25,41],
-    iconAnchor: [12,41]
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
   });
   L.Marker.prototype.options.icon = DefaultIcon;
+
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      const hours = Math.floor(label);
+      const minutes = Math.round((label - hours) * 60);
+      const formattedTime = hours + ":" + (minutes < 10 ? "0" : "") + minutes;
+      return (
+        <div className="custom-tooltip">
+          <p className="label">Time: {formattedTime}</p>
+          <p className="intro">
+            Clicks: <span>{payload[0].value}</span>
+          </p>
+        </div>
+      );
+    }
+
+    return null;
+  };
 
   useEffect(() => {
     function handleResize() {
@@ -89,25 +107,28 @@ const ProDashboard = (props) => {
     }
   });
 
-  const times = Object.entries(props.data.byTimeOfDay);
-  const timesData = [];
-  for (let i = 0; i < 24; i++) {
-    const hour = i.toString();
-
-    const existingItem = times.find((item) => item[0] === hour);
-
-    if (!existingItem) {
-      timesData.push({
-        name: ("0" + hour).slice(-2),
-        value: 0,
-      });
-    } else {
-      timesData.push({
-        name: existingItem[0],
-        value: +existingItem[1],
+  const times = [];
+  for (let i = 0; i < 25; i++) {
+    times.push({
+      time: i,
+      value: 0,
+    });
+  }
+  for (const key in props.data.byTimeOfDay) {
+    if (Object.hasOwnProperty.call(props.data.byTimeOfDay, key)) {
+      times.push({
+        time:
+          parseInt(key.split(":")[0]) +
+          parseFloat((parseInt(key.split(":")[1]) / 60).toFixed(2)),
+        value: props.data.byTimeOfDay[key],
       });
     }
   }
+  times.sort(function (a, b) {
+    if (a.time <= b.time) return -1;
+    if (a.time > b.time) return 1;
+    return 0;
+  });
 
   const rawData = props.data.devices;
   const browserData = rawData.map((item) => {
@@ -261,7 +282,7 @@ const ProDashboard = (props) => {
                 selectProTab(2);
               }}
             >
-              Advanced Data
+              System Data
             </button>
           </span>
         </div>
@@ -305,17 +326,17 @@ const ProDashboard = (props) => {
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               margin={{ top: 50, right: 0, left: 0, bottom: 0 }}
-              data={timesData}
+              data={times}
             >
               <XAxis
-                dataKey="name"
+                dataKey="time"
                 type="number"
-                domain={[0, 23]}
+                domain={[0, 24]}
                 tickCount={lineBarTickCount}
                 tick={{ fill: "var(--color-text)" }}
                 tickLine={{ fill: "var(--color-text)" }}
                 padding={{ left: 25 }}
-                interval={0}
+                interval={"preserveEnd"}
               />
               <YAxis
                 type="number"
@@ -330,14 +351,8 @@ const ProDashboard = (props) => {
               <Tooltip
                 cursor={{ fill: "var(--color-background)" }}
                 wrapperStyle={{ backgroundColor: "transparent" }}
-                contentStyle={{
-                  padding: "1rem",
-                  backgroundColor: "var(--color-text)",
-                  color: "var(--color-background)",
-                  borderRadius: "12px",
-                }}
                 itemStyle={{ color: "var(--color-background)", padding: 0 }}
-                formatter={(value, name, props) => [`Clicks: ${value}`]}
+                content={<CustomTooltip />}
               />
               <Legend
                 formatter={(value, entry, index) => (
@@ -348,7 +363,7 @@ const ProDashboard = (props) => {
                 wrapperStyle={{ top: 20, left: 0 }}
               />
               <Line
-                type="monotoneX"
+                type="basis"
                 dataKey="value"
                 stroke="var(--color-lightSpecial)"
               />
