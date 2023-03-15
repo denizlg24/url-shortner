@@ -13,204 +13,320 @@
   padding-top: 0;
   background-color: var(--color-backgroundSecondary);
   border-radius: 12px;
-  filter: drop-shadow(0 0 .75rem rgba(0,0,0,.3));
+  filter: drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.3));
   display: flex;
   align-items: stretch;
   justify-content: center;
 }
 
-.bar-chart-holder-pro{
-    width: 100%;
-    height: 35vh;
-    min-height: 275px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.bar-chart-holder-pro {
+  width: 100%;
+  height: 35vh;
+  min-height: 275px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+.main-content-dashboard {
+  padding: 1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px 12px 12px 12px;
+  filter: drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.3));
+  transition: height 150ms ease-in-out;
+}
 
-.main-content-dashboard{
-    padding: 1rem;
-    width: 100%;
-    display: flex;
+.main-content-dashboard-landingpage {
+  padding: 1rem;
+  width: 100%;
+  max-width: 1440px;
+  margin-top: -1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px 12px 12px 12px;
+  filter: drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.3));
+  transition: height 150ms ease-in-out;
+}
+.input-actions-dashboard {
+  width: 100%;
+  padding-right: 1rem;
+  border-radius: 12px;
+  position: relative;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+#input-actions-dashboard-shortCode {
+  width: 100%;
+  padding-right: 1rem;
+  border-radius: 12px;
+  position: relative;
+  display: flex;
+  position: relative;
+  align-items: center;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+#input-actions-dashboard-shortCode input {
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--color-background);
+  border: 2px solid;
+  border-color: transparent;
+  border-radius: 12px;
+  outline: none;
+  color: var(--color-text);
+}
+
+.edit-shortCode-container {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+}
+
+#input-actions-dashboard-shortCode input:focus {
+  border: 2px dashed;
+  border-color: var(--color-darkSpecial);
+}
+
+#input-actions-dashboard-shortCode-button {
+  padding: 0.5rem;
+  height: fit-content;
+  align-self: center;
+  margin-right: -1rem;
+  border-radius: 5px;
+  border: 3px solid;
+  border-color: transparent;
+  background-color: var(--color-lightSpecial);
+  color: white;
+}
+
+.leaflet-container {
+  min-height: 200px;
+  height: 40vh;
+  max-height: 500px;
+  top: 1rem;
+  border-radius: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.leaflet-pane img {
+  position: absolute;
+}
+
+#input-actions-dashboard-shortCode-button:hover {
+  cursor: pointer;
+  user-select: none;
+  background-color: transparent;
+  border-color: var(--color-lightSpecial);
+  color: var(--color-text);
+}
+
+#short-code-info-button {
+  padding: 0.5rem;
+  height: fit-content;
+  align-self: center;
+  margin-right: -1rem;
+  border-radius: 5px;
+  border: 3px solid;
+  border-color: transparent;
+  background-color: rgb(241, 88, 88);
+  color: white;
+}
+
+#short-code-info-button:hover {
+  cursor: pointer;
+  user-select: none;
+  background-color: transparent;
+  border-color: rgb(241, 88, 88);
+  color: var(--color-text);
+}
+
+#edit-shortCode {
+  color: var(--color-text);
+  flex: 1;
+  text-align: center;
+  height: fit-content;
+  margin-left: 0.5rem;
+}
+
+.short-code-info-container {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.short-code-info-container h3 {
+  width: fit-content;
+  align-self: center;
+  text-align: center;
+  color: var(--color-text);
+}
+
+.short-code-info-container h3 span {
+  color: var(--color-accent);
+}
+
+.input-actions-dashboard input {
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--color-background);
+  border: 2px solid;
+  border-color: transparent;
+  border-radius: 12px;
+  outline: none;
+  color: var(--color-text);
+}
+
+.input-actions-dashboard input:focus {
+  border: 2px dashed;
+  border-color: var(--color-darkSpecial);
+}
+
+.input-actions-dashboard button {
+  padding: 0.5rem;
+  height: fit-content;
+  align-self: center;
+  margin-right: -1rem;
+  border-radius: 5px;
+  border: 3px solid;
+  border-color: transparent;
+  background-color: var(--color-lightSpecial);
+  color: white;
+}
+.input-actions-dashboard button:hover {
+  cursor: pointer;
+  user-select: none;
+  background-color: transparent;
+  border-color: var(--color-lightSpecial);
+  color: var(--color-text);
+}
+
+.created-links-dashboard {
+  margin: 1rem;
+  margin-bottom: 0;
+  width: 100%;
+}
+
+.dashboard-page-select {
+  width: 100%;
+  padding: 1rem;
+  background-color: transparent;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  margin-bottom: -1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.button-page-select-dashboard button {
+  background-color: transparent;
+  border: 2px dashed;
+  border-color: transparent;
+  padding: 0.3rem;
+  color: var(--color-text);
+  border-radius: 5px;
+}
+.button-page-select-dashboard button:hover {
+  border-color: var(--color-text);
+  user-select: none;
+  cursor: pointer;
+}
+
+.page-identifier h3 {
+  text-align: center;
+  font-weight: 400;
+  color: var(--color-text);
+}
+
+.dasboard-title {
+  text-align: center;
+  color: var(--color-text);
+  margin: 1rem;
+}
+.dasboard-title span {
+  color: var(--color-accent);
+}
+
+.dasboard-title span span h4 {
+  font-size: 1rem;
+  color: var(--color-text);
+  margin: 0.3rem;
+}
+
+.no-links-holder {
+  font-weight: 400;
+  color: var(--color-text);
+  font-size: 1rem;
+  text-align: center;
+}
+
+.page-select-pro-dashboard {
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.page-select-pro-dashboard h2 {
+  color: var(--color-text);
+  padding: 0.3rem;
+}
+
+.page-select-pro-content {
+  padding-top: 0.5rem;
+  display: flex;
+  gap: 3px;
+}
+.page-select-pro-item {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.page-select-pro-item button {
+  width: 100%;
+  color: var(--color-text);
+  background-color: transparent;
+  border: none;
+  outline: solid 3px var(--color-text);
+  padding: 0.5rem;
+  padding-left: 0;
+  padding-right: 0;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.page-select-pro-item button:hover {
+  cursor: pointer;
+  user-select: none;
+}
+
+.page-select-pro-item #selected {
+  color: var(--color-background);
+  background-color: var(--color-text);
+}
+
+@media screen and (max-width: 1099px) {
+  .main-dashboard-content {
+    padding: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 1250px) {
+  #input-actions-dashboard-shortCode {
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 12px 12px 12px 12px;
-    filter: drop-shadow(0 0 .75rem rgba(0,0,0,.3));
-    transition: height 150ms ease-in-out;
+  }
 }
-
-.main-content-dashboard-landingpage{
-    padding: 1rem;
-    width: 100%;
-    max-width: 1440px;
-    margin-top: -1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 12px 12px 12px 12px;
-    filter: drop-shadow(0 0 .75rem rgba(0,0,0,.3));
-    transition: height 150ms ease-in-out;
-}
-.input-actions-dashboard{
-    width: 100%;
-    padding-right: 1rem;
-    border-radius: 12px;
-    position: relative;
-    display: flex;
-    gap: 1rem;
-}
-
-.input-actions-dashboard input{
-    width: 100%;
-    padding: 1rem;
-    background-color: var(--color-background);
-    border: 2px solid;
-    border-color: transparent;
-    border-radius: 12px;
-    outline: none;
-    color: var(--color-text);
-}
-.input-actions-dashboard input:focus{
-    border: 2px dashed;
-    border-color: var(--color-darkSpecial);
-}
-
-.input-actions-dashboard button{
-    padding: .5rem;
-    height: fit-content;
-    align-self: center;
-    margin-right: -1rem;
-    border-radius: 5px;
-    border: 3px solid;
-    border-color: transparent;
-    background-color: var(--color-lightSpecial);
-    color: white;
-}
-.input-actions-dashboard button:hover{
-    cursor: pointer;
-    user-select: none;
-    background-color: transparent;
-    border-color: var(--color-lightSpecial);
-    color: var(--color-text);
-}   
-
-.created-links-dashboard{
-    margin: 1rem;
-    margin-bottom: 0;
-    width: 100%;
-}
-
-.dashboard-page-select{
-    width: 100%;
-    padding: 1rem;
-    background-color: transparent;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2rem;
-    margin-bottom: -1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.button-page-select-dashboard button{
-    background-color: transparent;
-    border: 2px dashed;
-    border-color: transparent;
-    padding: .3rem;
-    color: var(--color-text);
-    border-radius: 5px;
-}
-.button-page-select-dashboard button:hover{
-    border-color: var(--color-text);
-    user-select: none;
-    cursor: pointer;
-}
-
-.page-identifier h3{
-    text-align: center;
-    font-weight: 400;
-    color: var(--color-text);
-}
-
-.dasboard-title{
-    text-align: center;
-    color: var(--color-text);
-    margin: 1rem;
-}
-.dasboard-title span{
-    color: var(--color-accent);
-}
-
-.dasboard-title span span h4{
-    font-size: 1rem;
-    color: var(--color-text);
-    margin: .3rem;
-}
-
-.no-links-holder{
-    font-weight: 400;
-    color: var(--color-text);
-    font-size: 1rem;
-    text-align: center;
-}
-
-
-.page-select-pro-dashboard{
-    padding-top: 1rem;
-    display: flex;
-    flex-direction: column;
-}
-.page-select-pro-dashboard h2{
-    color: var(--color-text);
-    padding: .3rem;
-}
-
-
-.page-select-pro-content{
-    padding-top: .5rem;
-    display: flex;
-    gap: 3px;
-}
-.page-select-pro-item{
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center ;
-}
-.page-select-pro-item button{
-    width: 100%;
-    color: var(--color-text);
-    background-color: transparent;
-    border: none;
-    outline: solid 3px var(--color-text);
-    padding: .5rem;
-    padding-left: 0;
-    padding-right: 0;
-    font-weight: 600;
-    font-size: 1rem;
-}
-
-.page-select-pro-item button:hover{
-    cursor: pointer;
-    user-select: none;
-}
-
-.page-select-pro-item #selected{
-    color: var(--color-background);
-    background-color: var(--color-text);
-}
-
-
-
-@media screen and (max-width: 1099px){
-    .main-dashboard-content{
-        padding: .5rem;
-    }
-}
-
-

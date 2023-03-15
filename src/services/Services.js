@@ -2,7 +2,7 @@ import axios from "axios";
 
 const Services = {};
 
-Services.registerUser = (userData) => {
+Services.registerUser = async (userData) => {
   const data = {
     username: userData.username,
     email: userData.email,
@@ -16,17 +16,19 @@ Services.registerUser = (userData) => {
     },
   };
 
-  return axios
-    .post("https://shortn.at/api/auth/register", data, config)
-    .then((response) => {
-      return { response: "ok", ...response.data };
-    })
-    .catch((error) => {
-      return { response: "failed", ...error };
-    });
+  try {
+    const response = await axios.post(
+      "https://shortn.at/api/auth/register",
+      data,
+      config
+    );
+    return { response: "ok", ...response.data };
+  } catch (error) {
+    return { response: "failed", ...error };
+  }
 };
 
-Services.loginUser = (userData) => {
+Services.loginUser = async (userData) => {
   const data = {
     emailOrUsername: userData.emailOrUsername,
     password: userData.password,
@@ -38,32 +40,35 @@ Services.loginUser = (userData) => {
     },
   };
 
-  return axios
-    .post("https://shortn.at/api/auth/login", data, config)
-    .then((response) => {
-      return { response: "ok", ...response.data };
-    })
-    .catch((error) => {
-      return { response: "failed", ...error };
-    });
+  try {
+    const response = await axios.post(
+      "https://shortn.at/api/auth/login",
+      data,
+      config
+    );
+    return { response: "ok", ...response.data };
+  } catch (error) {
+    return { response: "failed", ...error };
+  }
 };
 
-Services.validateToken = (accessToken) => {
+Services.validateToken = async (accessToken) => {
   const config = {
     headers: { Authorization: `Bearer ${accessToken}` },
   };
 
-  return axios
-    .get("https://shortn.at/api/auth/authenticate", config)
-    .then((response) => {
-      return { response: "ok", data: response.data };
-    })
-    .catch((error) => {
-      return { response: "failed", ...error };
-    });
+  try {
+    const response = await axios.get(
+      "https://shortn.at/api/auth/authenticate",
+      config
+    );
+    return { response: "ok", data: response.data };
+  } catch (error) {
+    return { response: "failed", ...error };
+  }
 };
 
-Services.logoutUser = (accessToken) => {
+Services.logoutUser = async (accessToken) => {
   const data = {
     accessToken,
   };
@@ -74,21 +79,29 @@ Services.logoutUser = (accessToken) => {
     },
   };
 
-  return axios
-    .post("https://shortn.at/api/auth/logout", data, config)
-    .then((response) => {
-      return { response: "ok", ...response.data };
-    })
-    .catch((error) => {
-      return { response: "failed", ...error };
-    });
+  try {
+    const response = await axios.post(
+      "https://shortn.at/api/auth/logout",
+      data,
+      config
+    );
+    return { response: "ok", ...response.data };
+  } catch (error) {
+    return { response: "failed", ...error };
+  }
 };
 
-Services.createShortLink = (longUrl, userId) => {
-  const data = {
-    longUrl: longUrl,
-    userId: userId,
-  };
+Services.createShortLink = async (longUrl, userId, customCode) => {
+  const data = customCode
+    ? {
+        longUrl: longUrl,
+        userId: userId,
+        customCode,
+      }
+    : {
+        longUrl: longUrl,
+        userId: userId,
+      };
 
   const config = {
     headers: {
@@ -96,14 +109,16 @@ Services.createShortLink = (longUrl, userId) => {
     },
   };
 
-  return axios
-    .post("https://shortn.at/api/url/shorten", data, config)
-    .then((response) => {
-      return { response: "ok", ...response.data };
-    })
-    .catch((error) => {
-      return { response: "failed", ...error };
-    });
+  try {
+    const response = await axios.post(
+      "https://shortn.at/api/url/shorten",
+      data,
+      config
+    );
+    return { response: "ok", ...response.data };
+  } catch (error) {
+    return { response: "failed", ...error };
+  }
 };
 
 Services.getStats = async (shortUrl) => {
@@ -150,12 +165,12 @@ Services.getUrls = async (userId) => {
 
 Services.removeLink = async (shortUrl) => {
   const data = {
-    shortUrl
+    shortUrl,
   };
 
   const config = {
-    "Content-Type": "application/json"
-  }
+    "Content-Type": "application/json",
+  };
   return axios
     .post("https://shortn.at/api/url/remove", data, config)
     .then((response) => {
@@ -164,7 +179,7 @@ Services.removeLink = async (shortUrl) => {
     .catch((error) => {
       return { response: "failed", ...error };
     });
-}
+};
 
 Services.getPlan = async (accessToken) => {
   const data = {
@@ -208,7 +223,7 @@ Services.subscribeToPlan = async (lookUpKey, sub) => {
 
 Services.managePlan = async (stripeId) => {
   const data = {
-    stripeId
+    stripeId,
   };
   const config = {
     headers: {
@@ -224,7 +239,7 @@ Services.managePlan = async (stripeId) => {
     .then((response) => {
       window.location.href = response.data.url;
     });
-}
+};
 
 var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
 

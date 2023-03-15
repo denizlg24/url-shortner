@@ -8,6 +8,8 @@ import LinkStats from "./LinkStats";
 const Dashboard = (props) => {
   const [myUrls, setUrls] = useState([]);
   const [currentLongUrl, changecurrentLongUrl] = useState("");
+  const [currentShortCode, changecurrentShortCode] = useState("");
+  const [shortCodeApplied, applyCode] = useState(false);
   const [errorState, displayErrorModal] = useState([]);
   const [selectedPage, selectPage] = useState(0);
   const [urlData, setUrlData] = useState();
@@ -21,6 +23,7 @@ const Dashboard = (props) => {
       setUrls([]);
     }
   };
+
   useEffect(() => {
     getUrls();
   }, []);
@@ -28,10 +31,12 @@ const Dashboard = (props) => {
   const handleCreateShortUrl = async () => {
     const response = await Services.createShortLink(
       currentLongUrl,
-      props.userId
+      props.userId,
+      currentShortCode
     );
     changecurrentLongUrl("");
     if (response.response === "ok") {
+      cancelApplyCodeHandler();
       setUrls((prevUrls) => {
         let newUrls = [...prevUrls, response];
         return newUrls;
@@ -65,6 +70,10 @@ const Dashboard = (props) => {
 
   const changeHandler = (e) => {
     changecurrentLongUrl(e.target.value);
+  };
+
+  const changeCodeHandler = (e) => {
+    changecurrentShortCode(e.target.value);
   };
 
   const cancelError = (e) => {
@@ -104,6 +113,46 @@ const Dashboard = (props) => {
     await getUrls();
   };
 
+  const applyCodeHandler = (e) => {
+    if (!currentShortCode) {
+      displayErrorModal([
+        <ErrorModal
+          title={"400"}
+          errorDesc={"No short code was entered!"}
+          cancelError={cancelError}
+        ></ErrorModal>,
+      ]);
+      return;
+    }
+    if (currentShortCode.trim().length <= 0) {
+      displayErrorModal([
+        <ErrorModal
+          title={"400"}
+          errorDesc={"No short code was entered!"}
+          cancelError={cancelError}
+        ></ErrorModal>,
+      ]);
+      return;
+    }
+    const regex = /^[a-zA-Z0-9_-]+$/;
+    if (!regex.test(currentShortCode)) {
+      displayErrorModal([
+        <ErrorModal
+          title={"400"}
+          errorDesc={"The short code is not valid!"}
+          cancelError={cancelError}
+        ></ErrorModal>,
+      ]);
+      return;
+    }
+    applyCode(true);
+  };
+
+  const cancelApplyCodeHandler = (e) => {
+    changecurrentShortCode("");
+    applyCode(false);
+  }
+
   return (
     <>
       {errorState}
@@ -132,6 +181,39 @@ const Dashboard = (props) => {
               ></input>{" "}
               <button onClick={handleCreateShortUrl}>Shortn</button>
             </div>
+            {props.myPlan === "pro" && (
+              <div id="input-actions-dashboard-shortCode">
+                {shortCodeApplied && (
+                  <div className="short-code-info-container">
+                    <h3>
+                      Your link will look like:{" "}
+                      <span>shortn.at/{currentShortCode}</span>
+                    </h3>
+                    <div>
+                    <button id="short-code-info-button" onClick={cancelApplyCodeHandler}>Cancel</button>
+                    </div>
+                  </div>
+                )}
+
+                {!shortCodeApplied && (
+                  <>
+                    <div className="edit-shortCode-container">
+                      <input
+                        type="text"
+                        placeholder="Enter your short code"
+                        value={currentShortCode}
+                        onChange={changeCodeHandler}
+                      ></input>{" "}
+                      <button id="input-actions-dashboard-shortCode-button" onClick={applyCodeHandler}>Apply</button>
+                    </div>
+                    <h3 id="edit-shortCode">
+                      Applying will make your link look like shortn.at/customcode
+                    </h3>
+                  </>
+                )}
+              </div>
+            )}
+
             <div className="created-links-dashboard">
               {myUrls.length > 0 &&
                 myUrls

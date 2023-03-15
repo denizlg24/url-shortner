@@ -22,7 +22,7 @@
 }
 
 #long-url-linkitem {
-  word-wrap: break-word;
+  word-break: break-all;
   margin-right: 1rem;
 }
 .link-info a:hover {
@@ -81,10 +81,11 @@
   }
   .link-actions button {
     margin-top: 0.5rem;
+    flex: 1;
     width: 100%;
   }
   .link-info {
-    display: block;
+    display: flex;
     max-width: 100%;
   }
   #long-url-linkitem {
@@ -95,5 +96,12 @@
   }
   .link-container {
     justify-content: space-between;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .link-info {
+    display: flex;
+    flex-direction: column;
   }
 }

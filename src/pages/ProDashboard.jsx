@@ -15,9 +15,11 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import "./Dashboard.css";
+import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
 const ProDashboard = (props) => {
-  const [filterUp, toggleFilter] = useState(true);
+  //const [filterUp, toggleFilter] = useState(true);
   const [proTab, selectProTab] = useState(0);
   const [advancedTab, selectAdvancedTab] = useState(0);
   const [lineBarTickCount, toggleSize] = useState(24);
@@ -31,11 +33,42 @@ const ProDashboard = (props) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const countries = Object.entries(props.data.byCountry);
-  const sortedCountries = filterUp
-    ? countries.sort((a, b) => b[1] - a[1])
-    : countries.sort((a, b) => a[1] - b[1]);
   const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
+
+  const rawCountryData = props.data.byCountry;
+  const countryData = rawCountryData.map((countryObject) => {
+    return {
+      ...countryObject,
+      value: 1,
+    };
+  });
+  const groupedCountryData = countryData.reduce((acc, curr) => {
+    const index = acc.findIndex(
+      (item) => item.ll[0] === curr.ll[0] && item.ll[1] === curr.ll[1]
+    );
+    if (index !== -1) {
+      acc[index].value += curr.value;
+    } else {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
+  const markers = groupedCountryData.map((click) => {
+    if (click.ll) {
+      return (
+        <Marker
+          key={[click.ll[0], click.ll[1]]}
+          position={[click.ll[0], click.ll[1]]}
+        >
+          <Popup>
+            {click.moreInfo[0].city + ", " + regionNames.of(click.moreInfo[0].countryCode)}{" "}
+            <br /> {"Clicks: " + click.value}
+          </Popup>
+        </Marker>
+      );
+    }
+  });
+
   const times = Object.entries(props.data.byTimeOfDay);
   const timesData = [];
   for (let i = 0; i < 24; i++) {
@@ -45,7 +78,7 @@ const ProDashboard = (props) => {
 
     if (!existingItem) {
       timesData.push({
-        name: hour,
+        name: ("0" + hour).slice(-2),
         value: 0,
       });
     } else {
@@ -262,7 +295,7 @@ const ProDashboard = (props) => {
                 tick={{ fill: "var(--color-text)" }}
                 tickLine={{ fill: "var(--color-text)" }}
                 padding={{ left: 25 }}
-                interval={1}
+                interval={0}
               />
               <YAxis
                 type="number"
@@ -270,7 +303,7 @@ const ProDashboard = (props) => {
                 domain={[0, "dataMax + 1"]}
                 tick={{ fill: "var(--color-text)" }}
                 tickLine={{ fill: "var(--color-text)" }}
-                tickCount={props.data.total + 1}
+                tickCount={props.data.total + 2}
                 padding={{ bottom: 15 }}
                 mirror={true}
               />
@@ -304,8 +337,15 @@ const ProDashboard = (props) => {
         </div>
       )}
       {proTab === 0 && (
-        <div className="countries-info">
-          <div className="sorting-countries-container">
+        <div id="geoMapHolder">
+          <MapContainer center={[0, 0]} zoom={1} scrollWheelZoom={true}>
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            {markers}
+          </MapContainer>
+          {/*<div className="sorting-countries-container">
             <div className="displaying-x-countries">
               {countries.length > 0 ? (
                 <h3>
@@ -337,7 +377,7 @@ const ProDashboard = (props) => {
                   alt="Sort Button"
                 />
               </button>
-            </div>
+                </div>
           </div>
           <ul>
             {sortedCountries.map((country) => {
@@ -364,7 +404,7 @@ const ProDashboard = (props) => {
                 </li>
               );
             })}
-          </ul>
+          </ul>*/}
         </div>
       )}
       {proTab === 2 &&
@@ -389,7 +429,7 @@ const ProDashboard = (props) => {
                   domain={[0, "dataMax + 1"]}
                   tick={{ fill: "var(--color-text)" }}
                   tickLine={{ fill: "var(--color-text)" }}
-                  tickCount={props.data.total + 1}
+                  tickCount={props.data.total + 2}
                   padding={{ bottom: 15 }}
                   mirror={true}
                 />
@@ -427,134 +467,138 @@ const ProDashboard = (props) => {
           <div className="countries-info">
             <div className="sorting-countries-container">
               <div className="displaying-x-countries">
-                  <h3>No browser data to display.</h3>
+                <h3>No browser data to display.</h3>
               </div>
             </div>
           </div>
         ))}
-      {proTab === 2 && advancedTab === 1 && (groupedOsData.length > 0 ?(
-        <div className="bar-chart-holder-pro">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              margin={{ top: 50, right: 0, left: 0, bottom: 0 }}
-              data={groupedOsData}
-            >
-              <XAxis
-                tickLine={{ fill: "var(--color-text)" }}
-                padding={{ left: 25 }}
-                dataKey="name"
-                interval={0}
-                tick={<CustomizedAxisTick />}
-              />
-              <YAxis
-                type="number"
-                allowDecimals={false}
-                domain={[0, "dataMax + 1"]}
-                tick={{ fill: "var(--color-text)" }}
-                tickLine={{ fill: "var(--color-text)" }}
-                tickCount={props.data.total + 1}
-                padding={{ bottom: 15 }}
-                mirror={true}
-              />
-              <Tooltip
-                cursor={{ fill: "var(--color-background)" }}
-                wrapperStyle={{ backgroundColor: "transparent" }}
-                contentStyle={{
-                  padding: "1rem",
-                  backgroundColor: "var(--color-text)",
-                  color: "var(--color-background)",
-                  borderRadius: "12px",
-                }}
-                itemStyle={{ color: "var(--color-background)", padding: 0 }}
-              />
-              <Legend
-                formatter={(value, entry, index) => (
-                  <span style={{ color: "var(--color-text)" }}>
-                    Clicks by Operating System
-                  </span>
-                )}
-                wrapperStyle={{ top: 20, left: 0 }}
-              />
-              <Bar dataKey="value" fill="transparent">
-                {groupedOsData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={osBarColors[index % 2]} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      ): (
-        <div className="countries-info">
+      {proTab === 2 &&
+        advancedTab === 1 &&
+        (groupedOsData.length > 0 ? (
+          <div className="bar-chart-holder-pro">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                margin={{ top: 50, right: 0, left: 0, bottom: 0 }}
+                data={groupedOsData}
+              >
+                <XAxis
+                  tickLine={{ fill: "var(--color-text)" }}
+                  padding={{ left: 25 }}
+                  dataKey="name"
+                  interval={0}
+                  tick={<CustomizedAxisTick />}
+                />
+                <YAxis
+                  type="number"
+                  allowDecimals={false}
+                  domain={[0, "dataMax + 1"]}
+                  tick={{ fill: "var(--color-text)" }}
+                  tickLine={{ fill: "var(--color-text)" }}
+                  tickCount={props.data.total + 2}
+                  padding={{ bottom: 15 }}
+                  mirror={true}
+                />
+                <Tooltip
+                  cursor={{ fill: "var(--color-background)" }}
+                  wrapperStyle={{ backgroundColor: "transparent" }}
+                  contentStyle={{
+                    padding: "1rem",
+                    backgroundColor: "var(--color-text)",
+                    color: "var(--color-background)",
+                    borderRadius: "12px",
+                  }}
+                  itemStyle={{ color: "var(--color-background)", padding: 0 }}
+                />
+                <Legend
+                  formatter={(value, entry, index) => (
+                    <span style={{ color: "var(--color-text)" }}>
+                      Clicks by Operating System
+                    </span>
+                  )}
+                  wrapperStyle={{ top: 20, left: 0 }}
+                />
+                <Bar dataKey="value" fill="transparent">
+                  {groupedOsData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={osBarColors[index % 2]} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        ) : (
+          <div className="countries-info">
             <div className="sorting-countries-container">
               <div className="displaying-x-countries">
-                  <h3>No OS data to display.</h3>
+                <h3>No OS data to display.</h3>
               </div>
             </div>
           </div>
-      ))}
-      {proTab === 2 && advancedTab === 2 && (groupedDeviceData.length > 0 ? (
-        <div className="bar-chart-holder-pro">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              margin={{ top: 50, right: 0, left: 0, bottom: 0 }}
-              data={groupedDeviceData}
-            >
-              <XAxis
-                tickLine={{ fill: "var(--color-text)" }}
-                padding={{ left: 25 }}
-                dataKey="name"
-                interval={0}
-                tick={<CustomizedAxisTick />}
-              />
-              <YAxis
-                type="number"
-                allowDecimals={false}
-                domain={[0, "dataMax + 1"]}
-                tick={{ fill: "var(--color-text)" }}
-                tickLine={{ fill: "var(--color-text)" }}
-                tickCount={100}
-                padding={{ bottom: 15 }}
-                mirror={true}
-              />
-              <Tooltip
-                cursor={{ fill: "var(--color-background)" }}
-                wrapperStyle={{ backgroundColor: "transparent" }}
-                contentStyle={{
-                  padding: "1rem",
-                  backgroundColor: "var(--color-text)",
-                  color: "var(--color-background)",
-                  borderRadius: "12px",
-                }}
-                itemStyle={{ color: "var(--color-background)", padding: 0 }}
-              />
-              <Legend
-                formatter={(value, entry, index) => (
-                  <span style={{ color: "var(--color-text)" }}>
-                    Clicks by Device Type
-                  </span>
-                )}
-                wrapperStyle={{ top: 20, left: 0 }}
-              />
-              <Bar dataKey="value" fill="transparent">
-                {groupedDeviceData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={browserBarColors[index % 2]}
-                  />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      ):(
-        <div className="countries-info">
+        ))}
+      {proTab === 2 &&
+        advancedTab === 2 &&
+        (groupedDeviceData.length > 0 ? (
+          <div className="bar-chart-holder-pro">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                margin={{ top: 50, right: 0, left: 0, bottom: 0 }}
+                data={groupedDeviceData}
+              >
+                <XAxis
+                  tickLine={{ fill: "var(--color-text)" }}
+                  padding={{ left: 25 }}
+                  dataKey="name"
+                  interval={0}
+                  tick={<CustomizedAxisTick />}
+                />
+                <YAxis
+                  type="number"
+                  allowDecimals={false}
+                  domain={[0, "dataMax + 1"]}
+                  tick={{ fill: "var(--color-text)" }}
+                  tickLine={{ fill: "var(--color-text)" }}
+                  tickCount={props.data.total + 2}
+                  padding={{ bottom: 15 }}
+                  mirror={true}
+                />
+                <Tooltip
+                  cursor={{ fill: "var(--color-background)" }}
+                  wrapperStyle={{ backgroundColor: "transparent" }}
+                  contentStyle={{
+                    padding: "1rem",
+                    backgroundColor: "var(--color-text)",
+                    color: "var(--color-background)",
+                    borderRadius: "12px",
+                  }}
+                  itemStyle={{ color: "var(--color-background)", padding: 0 }}
+                />
+                <Legend
+                  formatter={(value, entry, index) => (
+                    <span style={{ color: "var(--color-text)" }}>
+                      Clicks by Device Type
+                    </span>
+                  )}
+                  wrapperStyle={{ top: 20, left: 0 }}
+                />
+                <Bar dataKey="value" fill="transparent">
+                  {groupedDeviceData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={browserBarColors[index % 2]}
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        ) : (
+          <div className="countries-info">
             <div className="sorting-countries-container">
               <div className="displaying-x-countries">
-                  <h3>No device data to display.</h3>
+                <h3>No device data to display.</h3>
               </div>
             </div>
           </div>
-      ))}
+        ))}
     </>
   );
 };
