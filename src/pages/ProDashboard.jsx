@@ -3,11 +3,9 @@ import { useState, useEffect } from "react";
 import {
   BarChart,
   Bar,
-  CartesianGrid,
   XAxis,
   YAxis,
   Tooltip,
-  Pie,
   Cell,
   LineChart,
   Line,
@@ -16,13 +14,23 @@ import {
 } from "recharts";
 import "./Dashboard.css";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import icon from "leaflet/dist/images/marker-icon.png";
+import iconShadow from "leaflet/dist/images/marker-shadow.png";
 
 const ProDashboard = (props) => {
   //const [filterUp, toggleFilter] = useState(true);
   const [proTab, selectProTab] = useState(0);
   const [advancedTab, selectAdvancedTab] = useState(0);
   const [lineBarTickCount, toggleSize] = useState(24);
+  let DefaultIcon = L.icon({
+    iconUrl: icon,
+    shadowUrl: iconShadow,
+    iconSize: [25,41],
+    iconAnchor: [12,41]
+  });
+  L.Marker.prototype.options.icon = DefaultIcon;
 
   useEffect(() => {
     function handleResize() {
@@ -61,8 +69,20 @@ const ProDashboard = (props) => {
           position={[click.ll[0], click.ll[1]]}
         >
           <Popup>
-            {click.moreInfo[0].city + ", " + regionNames.of(click.moreInfo[0].countryCode)}{" "}
-            <br /> {"Clicks: " + click.value}
+            {click.moreInfo && (
+              <>
+                {click.moreInfo[0].city +
+                  ", " +
+                  regionNames.of(click.moreInfo[0].countryCode)}{" "}
+                <br /> {"Clicks: " + click.value}
+              </>
+            )}
+            {!click.moreInfo && (
+              <>
+                {click.city + ", " + regionNames.of(click.country)} <br />{" "}
+                {"Clicks: " + click.value}
+              </>
+            )}
           </Popup>
         </Marker>
       );
