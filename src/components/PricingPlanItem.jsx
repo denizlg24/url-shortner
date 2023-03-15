@@ -16,7 +16,7 @@ const PricingPlanItem = (props) => {
       </div>
       <div className="pricing-item-price">
         <h2>
-          {props.price}$<span>/month</span>
+          {props.price}€<span>/month</span>
         </h2>
       </div>
       <div className="pricing-item-desc">

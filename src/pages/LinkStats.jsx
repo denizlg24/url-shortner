@@ -1,6 +1,5 @@
-import { useState } from "react";
-import questionMarkIcon from "../assets/icons8-question-mark-90.png";
 import ProDashboard from "./ProDashboard";
+import PlusDashboard from "./PlusDashboard";
 import "./LinkStats.css";
 
 const LinkStats = (props) => {
@@ -60,7 +59,7 @@ const LinkStats = (props) => {
             </span>
           </h3>
         </div>
-        {/*props.myPlan === "plus") && <PlusDashboard data={props.data} dark={props.dark}></PlusDashboard>*/}
+        {props.myPlan === "plus" && <PlusDashboard data={props.data} dark={props.dark}></PlusDashboard>}
         {props.myPlan === "pro" && <ProDashboard data={props.data} dark={props.dark}></ProDashboard>}
       </div>
     </div>
