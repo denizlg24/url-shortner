@@ -49,7 +49,7 @@ const LandingPage = (props) => {
     }
     const response = await Services.createShortLink(
       longUrl,
-      "authS|jvcz9epaebumxnqzyxfj"
+      "authS|n2xi24u6cosk64t2oyfp"
     );
     setLongUrl("");
     if (response.response === "ok") {
@@ -97,7 +97,7 @@ const LandingPage = (props) => {
         <div className="landingpage-container">
           <div className="landingpage-info-container">
             <div className="landing-page-text-holder">
-              <h1 className="landingpage-info-hero">
+              <h1 style={{color:props.dark? "var(--color-lightAccent)":"var(--color-darkAccent)"}} className="landingpage-info-hero">
                 Welcome to <span className="special-text-landing">Shortn</span>
               </h1>
               <h3 className="landingpage-info-catch">
@@ -108,10 +108,26 @@ const LandingPage = (props) => {
                 how your links are performing.
               </h4>
             </div>
-            <div className="landing-call-to-action-button">
-              <button onClick={pricingClickHandler}>
-                <p>{!props.isLoggedIn? "Get Started" : "Update Plan"}</p>
-              </button>
+            <div className="landing-call-to-action-button" id="try-free-id">
+              {!props.isLoggedIn ? (
+                <>
+                  <button onClick={pricingClickHandler}>
+                    <p>Get Started</p>
+                  </button>
+                  <button id="secondary-call-to-action" style={{backgroundColor:props.dark? "var(--color-lightAccent)":"var(--color-darkAccent)",borderColor:props.dark? "var(--color-lightAccent)":"var(--color-darkAccent)"}}onClick={props.tryFree}>
+                    <p>Try for free</p>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button onClick={props.clickDashboard}>
+                    <p>Shorten Here</p>
+                  </button>
+                  <button id="secondary-call-to-action" style={{backgroundColor:props.dark? "var(--color-lightAccent)":"var(--color-darkAccent)",borderColor:props.dark? "var(--color-lightAccent)":"var(--color-darkAccent)"}}onClick={pricingClickHandler}>
+                    <p>Update Plan</p>
+                  </button>
+                </>
+              )}
             </div>
           </div>
           <div

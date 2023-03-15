@@ -75,6 +75,13 @@ function App() {
     }
   };
 
+  const tryFreeHandler = (e) => {
+    const element = document.getElementById("try-free-id");
+    if(element){
+      element.scrollIntoView();
+    }
+  }
+
   const loginSuccessHandler = () => {
     displayPage("landing");
     setLoggedIn(true);
@@ -223,6 +230,8 @@ function App() {
         <LandingPage
           dark={theme === "dark"}
           isLoggedIn={isLoggedIn}
+          clickDashboard={clickDashboardHandler}
+          tryFree={tryFreeHandler}
         ></LandingPage>
         <Features dark={theme === "dark"}></Features>
         <Pricing
@@ -305,6 +314,7 @@ function App() {
           userId={authData ? authData.sub : ""}
           dark={theme === "dark"}
           myPlan={myPlan ? myPlan.subscription : ""}
+          home={onClickIconHandler}
         ></Dashboard>
       </>
     );

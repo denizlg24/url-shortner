@@ -151,7 +151,7 @@ const Dashboard = (props) => {
   const cancelApplyCodeHandler = (e) => {
     changecurrentShortCode("");
     applyCode(false);
-  }
+  };
 
   return (
     <>
@@ -168,6 +168,17 @@ const Dashboard = (props) => {
       )}
       <div className="main-dashboard-container">
         <div className="main-dashboard-content">
+          <div className="back-home-dashboard" onClick={props.home}>
+            <img
+              src="https://img.icons8.com/ios-filled/50/null/back.png"
+              style={{
+                filter: props.dark
+                  ? "invert(91%) sepia(99%) saturate(34%) hue-rotate(254deg) brightness(106%) contrast(100%)"
+                  : "",
+              }}
+            />{" "}
+            <p>Home</p>
+          </div>
           <div className="main-content-dashboard">
             <h1 className="dasboard-title">
               <span>{props.username}'s</span> Dashboard
@@ -190,7 +201,12 @@ const Dashboard = (props) => {
                       <span>shortn.at/{currentShortCode}</span>
                     </h3>
                     <div>
-                    <button id="short-code-info-button" onClick={cancelApplyCodeHandler}>Cancel</button>
+                      <button
+                        id="short-code-info-button"
+                        onClick={cancelApplyCodeHandler}
+                      >
+                        Cancel
+                      </button>
                     </div>
                   </div>
                 )}
@@ -204,10 +220,16 @@ const Dashboard = (props) => {
                         value={currentShortCode}
                         onChange={changeCodeHandler}
                       ></input>{" "}
-                      <button id="input-actions-dashboard-shortCode-button" onClick={applyCodeHandler}>Apply</button>
+                      <button
+                        id="input-actions-dashboard-shortCode-button"
+                        onClick={applyCodeHandler}
+                      >
+                        Apply
+                      </button>
                     </div>
                     <h3 id="edit-shortCode">
-                      Applying will make your link look like shortn.at/customcode
+                      Applying will make your link look like
+                      shortn.at/customcode
                     </h3>
                   </>
                 )}
