@@ -61,6 +61,7 @@
   position: relative;
   margin-bottom: 1rem;
   display: flex;
+  align-items: stretch;
   gap: 1rem;
 }
 
@@ -71,7 +72,7 @@
   position: relative;
   display: flex;
   position: relative;
-  align-items: center;
+  align-items: stretch;
   gap: 1rem;
   justify-content: space-between;
 }
@@ -90,7 +91,7 @@
 .edit-shortCode-container {
   display: flex;
   gap: 1rem;
-  flex: 1;
+  flex: 1.5;
 }
 
 #input-actions-dashboard-shortCode input:focus {
@@ -99,12 +100,14 @@
 }
 
 #input-actions-dashboard-shortCode-button {
-  padding: 0.5rem;
-  height: fit-content;
+  height: 100%;
+  min-height: 3rem;
+  padding: 0 .5rem;
   align-self: center;
-  margin-right: -1rem;
-  border-radius: 5px;
+  border-radius: 12px;
+  min-width: 92px;
   border: 3px solid;
+  white-space: nowrap;
   border-color: transparent;
   background-color: var(--color-lightSpecial);
   color: white;
@@ -124,8 +127,8 @@
   justify-content: flex-start;
   align-items: center;
   color: var(--color-text);
-  padding: .3rem;
-  padding-top: .5rem;
+  padding: .5rem;
+  padding-top: .8rem;
   text-align: center;
 }
 
@@ -163,11 +166,12 @@
 }
 
 #short-code-info-button {
-  padding: 0.5rem;
-  height: fit-content;
+  padding: 0 0.5rem;
+  min-width: 92px;
+  height: 100%;
+  min-height: 3rem;
   align-self: center;
-  margin-right: -1rem;
-  border-radius: 5px;
+  border-radius: 12px;
   border: 3px solid;
   border-color: transparent;
   background-color: rgb(241, 88, 88);
@@ -186,6 +190,7 @@
   color: var(--color-text);
   flex: 1;
   text-align: center;
+  word-break: keep-all;
   height: fit-content;
   margin-left: 0.5rem;
 }
@@ -210,7 +215,7 @@
 }
 
 .input-actions-dashboard input {
-  width: 100%;
+  flex: 2;
   padding: 1rem;
   background-color: var(--color-background);
   border: 2px solid;
@@ -226,12 +231,15 @@
 }
 
 .input-actions-dashboard button {
-  padding: 0.5rem;
-  height: fit-content;
+  flex: .5;
+  height: 100%;
+  min-height: 3rem;
   align-self: center;
   margin-right: -1rem;
-  border-radius: 5px;
+  border-radius: 12px;
   border: 3px solid;
+  font-size: 1.2rem;
+  font-weight: 600;
   border-color: transparent;
   background-color: var(--color-lightSpecial);
   color: white;
@@ -360,4 +368,33 @@
   #input-actions-dashboard-shortCode {
     flex-direction: column;
   }
+
+  .edit-shortCode-container{
+    flex-direction: column;
+    width: 100%;
+    gap: .5rem;
+  }
+
+  #input-actions-dashboard-shortCode-button{
+    width: 100%;
+  }
+
+  #short-code-info-button{
+    width: 100%;
+  }
+
+  .short-code-info-container{
+    flex-direction: column;
+  }
+
+  .input-actions-dashboard{
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .input-actions-dashboard button{
+    width: 100%;
+    margin: 0;
+  }
+  
 }

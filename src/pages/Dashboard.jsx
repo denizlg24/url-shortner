@@ -13,12 +13,27 @@ const Dashboard = (props) => {
   const [errorState, displayErrorModal] = useState([]);
   const [selectedPage, selectPage] = useState(0);
   const [urlData, setUrlData] = useState();
+  const [urlStartedCreation, starturlCreation] = useState(false);
 
   const urlPerPage = 3;
+
   const getUrls = async () => {
     let response = await Services.getUrls(props.userId);
     if (response.response === "ok") {
+      response.data.sort(function (a, b) {
+        var keyA = new Date(a.date),
+          keyB = new Date(b.date);
+        // Compare the 2 dates
+        if (keyA >= keyB) return -1;
+        if (keyA < keyB) return 1;
+      });
       setUrls(response.data);
+      const numberOfPages = Math.ceil(response.data.length / urlPerPage);
+      if (numberOfPages >= 2) {
+        if (selectedPage >= numberOfPages) {
+          selectPage(numberOfPages - 1);
+        }
+      }
     } else {
       setUrls([]);
     }
@@ -32,15 +47,10 @@ const Dashboard = (props) => {
     const response = await Services.createShortLink(
       currentLongUrl,
       props.userId,
-      currentShortCode
+      applyCode ? currentShortCode : ""
     );
-    changecurrentLongUrl("");
     if (response.response === "ok") {
-      cancelApplyCodeHandler();
-      setUrls((prevUrls) => {
-        let newUrls = [...prevUrls, response];
-        return newUrls;
-      });
+      getUrls();
     } else {
       displayErrorModal([
         <ErrorModal
@@ -50,6 +60,7 @@ const Dashboard = (props) => {
         ></ErrorModal>,
       ]);
     }
+    cancelApplyCodeHandler();
   };
 
   const handleGetClickAnalytics = async (shortURL) => {
@@ -118,20 +129,22 @@ const Dashboard = (props) => {
       displayErrorModal([
         <ErrorModal
           title={"400"}
-          errorDesc={"No short code was entered!"}
+          errorDesc={"The short code cannot be empty!"}
           cancelError={cancelError}
         ></ErrorModal>,
       ]);
+      changecurrentShortCode("");
       return;
     }
     if (currentShortCode.trim().length <= 0) {
       displayErrorModal([
         <ErrorModal
           title={"400"}
-          errorDesc={"No short code was entered!"}
+          errorDesc={"The short code cannot be blank!"}
           cancelError={cancelError}
         ></ErrorModal>,
       ]);
+      changecurrentShortCode("");
       return;
     }
     const regex = /^[a-zA-Z0-9_-]+$/;
@@ -139,10 +152,11 @@ const Dashboard = (props) => {
       displayErrorModal([
         <ErrorModal
           title={"400"}
-          errorDesc={"The short code is not valid!"}
+          errorDesc={"The short code can only contain letters digits or '-_' !"}
           cancelError={cancelError}
         ></ErrorModal>,
       ]);
+      changecurrentShortCode("");
       return;
     }
     applyCode(true);
@@ -150,7 +164,13 @@ const Dashboard = (props) => {
 
   const cancelApplyCodeHandler = (e) => {
     changecurrentShortCode("");
+    changecurrentLongUrl("")
+    starturlCreation(false);
     applyCode(false);
+  };
+
+  const handleStartShortCodeCreation = (e) => {
+    starturlCreation(true);
   };
 
   return (
@@ -183,16 +203,26 @@ const Dashboard = (props) => {
             <h1 className="dasboard-title">
               <span>{props.username}'s</span> Dashboard
             </h1>
-            <div className="input-actions-dashboard">
-              <input
-                type="text"
-                placeholder="Enter your long url"
-                value={currentLongUrl}
-                onChange={changeHandler}
-              ></input>{" "}
-              <button onClick={handleCreateShortUrl}>Shortn</button>
-            </div>
-            {props.myPlan === "pro" && (
+            {!urlStartedCreation && (
+              <div className="input-actions-dashboard">
+                <input
+                  type="text"
+                  placeholder="Enter your long url"
+                  value={currentLongUrl}
+                  onChange={changeHandler}
+                ></input>{" "}
+                <button
+                  onClick={
+                    props.myPlan === "pro"
+                      ? handleStartShortCodeCreation
+                      : handleCreateShortUrl
+                  }
+                >
+                  Shortn
+                </button>
+              </div>
+            )}
+            {props.myPlan === "pro" && urlStartedCreation && (
               <div id="input-actions-dashboard-shortCode">
                 {shortCodeApplied && (
                   <div className="short-code-info-container">
@@ -200,14 +230,18 @@ const Dashboard = (props) => {
                       Your link will look like:{" "}
                       <span>shortn.at/{currentShortCode}</span>
                     </h3>
-                    <div>
-                      <button
-                        id="short-code-info-button"
-                        onClick={cancelApplyCodeHandler}
-                      >
-                        Cancel
-                      </button>
-                    </div>
+                    <button
+                      id="input-actions-dashboard-shortCode-button"
+                      onClick={handleCreateShortUrl}
+                    >
+                      Shortn
+                    </button>
+                    <button
+                      id="short-code-info-button"
+                      onClick={cancelApplyCodeHandler}
+                    >
+                      Cancel
+                    </button>
                   </div>
                 )}
 
@@ -216,7 +250,7 @@ const Dashboard = (props) => {
                     <div className="edit-shortCode-container">
                       <input
                         type="text"
-                        placeholder="Enter your short code"
+                        placeholder="Enter short code"
                         value={currentShortCode}
                         onChange={changeCodeHandler}
                       ></input>{" "}
@@ -224,12 +258,17 @@ const Dashboard = (props) => {
                         id="input-actions-dashboard-shortCode-button"
                         onClick={applyCodeHandler}
                       >
-                        Apply
+                        Apply Code
+                      </button>
+                      <button
+                        id="short-code-info-button"
+                        onClick={handleCreateShortUrl}
+                      >
+                        No thanks.
                       </button>
                     </div>
                     <h3 id="edit-shortCode">
-                      Applying will make your link look like
-                      shortn.at/customcode
+                      Since you are a Pro customer you can choose your own custom short link.
                     </h3>
                   </>
                 )}
@@ -237,7 +276,7 @@ const Dashboard = (props) => {
             )}
 
             <div className="created-links-dashboard">
-              {myUrls.length > 0 &&
+              {myUrls.length > 0 &&  !urlStartedCreation &&
                 myUrls
                   .slice(
                     0 + urlPerPage * selectedPage,
@@ -271,7 +310,7 @@ const Dashboard = (props) => {
                   </div>
                 </div>
               )}
-              {myUrls.length === 0 && (
+              {myUrls.length === 0 && !urlStartedCreation && (
                 <div className="no-links-holder">
                   <h3>You haven't created any short link yet!</h3>
                 </div>
