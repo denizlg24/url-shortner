@@ -1,9 +1,141 @@
 .more-info-outer-container{
-    width: 100vw;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.more-info-inner-container{
+    width: 95vw;
     max-width: 1440px;
-    position: absolute;
-    transform: translateX(-50%);
+    margin-bottom: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: .75rem;
+}
+
+.more-info-title h2{
+    color: var(--color-text);
+    font-size: 1.5rem;
+    padding: 1rem 0;
+}
+
+.more-info-table-holder{
+    width: 100%;
+}
+
+.more-info-table-holder{
+    margin-top: 2rem;
+}
+
+#more-info-table{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#more-info-table-head{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+}
+#more-info-table-body{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#more-info-table-title{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#more-info-table-title th{
+    width: 18.75%;
+    background-color: var(--color-backgroundSecondary);
     padding: 1rem;
-    margin-top: 6rem;
-    left: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: var(--color-text);
+    align-items: center;
+    border: 1px solid var(--color-text);
+    border-top: 0;
+}
+
+#more-info-table-title th:nth-child(odd){
+    background-color: var(--color-background);
+    border-left: 0;
+    border-right: 0;
+}
+#more-info-table-title td:nth-child(odd){
+    background-color: var(--color-background);
+    border-left: 0;
+    border-right: 0;
+}
+
+#more-info-table-desc{
+    text-align: center;
+}
+
+#more-info-table-desc svg{
+    min-height: 20px;
+    width: auto;
+}
+
+#more-info-table-title td{
+    width: 18.75%;
+    background-color: var(--color-backgroundSecondary);
+    padding: 1rem;
+    height: 4rem;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--color-text);
+    border: 1px solid var(--color-text);
+    border-top: 0;
+}
+
+#more-info-table-title 
+
+
+#more-info-table-title th h3{
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+#more-info-table-title th h4{
+    font-weight: 400;
+}
+
+#more-info-table-title th button{
+    background-color: var(--color-text);
+    border: none;
+    border: 2px solid transparent;
+    color: var(--color-backgroundSecondary);
+    width: 100%;
+    border-radius: 12px;
+    margin-top: 1rem;
+    padding: .5rem;
+    font-family: "Epilogue", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+#more-info-table-title th button:hover{
+    cursor: pointer;
+    user-select: none;
+    background-color: transparent;
+    border-color: var(--color-text);
+    color: var(--color-text);
+}
+
+@media screen and (max-width: 1439px) {
+    
 }

@@ -240,7 +240,6 @@ function App() {
           stripeId={authData ? authData.stripeId : ""}
           myPlan={myPlan}
         ></Pricing>
-        <MoreInfo></MoreInfo>
       </>
     );
   }

@@ -4,6 +4,7 @@ import Services from "../services/Services";
 import ErrorModal from "../components/ErrorModal";
 import "./Dashboard.css";
 import LinkStats from "./LinkStats";
+import { BsChevronDoubleRight, BsChevronDoubleLeft, BsFillReplyFill } from "react-icons/bs";
 
 const Dashboard = (props) => {
   const [myUrls, setUrls] = useState([]);
@@ -189,14 +190,7 @@ const Dashboard = (props) => {
       <div className="main-dashboard-container">
         <div className="main-dashboard-content">
           <div className="back-home-dashboard" onClick={props.home}>
-            <img
-              src="https://img.icons8.com/ios-filled/50/null/back.png"
-              style={{
-                filter: props.dark
-                  ? "invert(91%) sepia(99%) saturate(34%) hue-rotate(254deg) brightness(106%) contrast(100%)"
-                  : "",
-              }}
-            />{" "}
+            <BsFillReplyFill/>
             <p>Home</p>
           </div>
           <div className="main-content-dashboard">
@@ -297,7 +291,7 @@ const Dashboard = (props) => {
               {myUrls.length > 3 && (
                 <div className="dashboard-page-select">
                   <div className="button-page-select-dashboard">
-                    <button onClick={prevPageHandler}>Prev.</button>
+                    <button onClick={prevPageHandler}><BsChevronDoubleLeft/></button>
                   </div>
                   <div className="page-identifier">
                     <h3>
@@ -306,7 +300,7 @@ const Dashboard = (props) => {
                     </h3>
                   </div>
                   <div className="button-page-select-dashboard">
-                    <button onClick={nextPageHandler}>Next.</button>
+                    <button onClick={nextPageHandler}><BsChevronDoubleRight/></button>
                   </div>
                 </div>
               )}

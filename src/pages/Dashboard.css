@@ -113,8 +113,8 @@
   color: white;
 }
 
-.back-home-dashboard img{
-  max-width: 24px;
+.back-home-dashboard svg{
+  min-width: 32px;
   height: auto;
 }
 
@@ -125,10 +125,9 @@
   top: 0;
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-end;
   color: var(--color-text);
-  padding: .5rem;
-  padding-top: .8rem;
+  padding: 1rem;
   text-align: center;
 }
 
@@ -268,7 +267,8 @@
   margin-bottom: -1rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 1rem;
 }
 
 .button-page-select-dashboard button {

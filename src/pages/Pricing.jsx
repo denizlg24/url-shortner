@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import PricingPlanItem from "../components/PricingPlanItem";
 import Services from "../services/Services";
 import "./Pricing.css";
+import MoreInfo from "./MoreInfo";
 
 const Pricing = (props) => {
 
@@ -47,7 +48,7 @@ const Pricing = (props) => {
               desc={
                 "Perfect for individuals or small businesses who need essential features at an affordable price."
               }
-              buttonText={!myPlan ? ("Get Basic.") : (!props.isLoggedIn? "Get Basic." : (myPlan.subscription === "basic" ? "Manage Plan" : (myPlan.subscription === "free" ? "Upgrade to Basic." : "Downgrade to Basic.")))}
+              buttonText={!myPlan ? ("Get Basic.") : (!props.isLoggedIn? "Get Basic." : (myPlan.subscription === "basic" ? "Manage Plan." : (myPlan.subscription === "free" ? "Upgrade to Basic." : "Downgrade to Basic.")))}
               features={[
                 { title: "Up to 25 shortn's/month.", id: "available" ,key:4},
                 { title: "Get a url's total clicks", id: "available" ,key:5},
@@ -66,7 +67,7 @@ const Pricing = (props) => {
               desc={
                 "Our Plus plan is perfect for those who want more advanced features and link analytics."
               }
-              buttonText={!myPlan ? ("Get Plus.") : (!props.isLoggedIn? "Get Plus." : (myPlan.subscription === "plus" ? "Manage Plan" : ((myPlan.subscription === "free" || myPlan.subscription === "basic") ? "Upgrade to Plus." : "Downgrade to Plus.")))}
+              buttonText={!myPlan ? ("Get Plus.") : (!props.isLoggedIn? "Get Plus." : (myPlan.subscription === "plus" ? "Manage Plan." : ((myPlan.subscription === "free" || myPlan.subscription === "basic") ? "Upgrade to Plus." : "Downgrade to Plus.")))}
               features={[
                 { title: "Up to 50 shortn's/month.", id: "available",key:8 },
                 { title: "Get a url's total clicks", id: "available" ,key:9},
@@ -85,7 +86,7 @@ const Pricing = (props) => {
               desc={
                 "Our Pro plan is designed for power users and those who need the most advanced features and capabilities."
               }
-              buttonText={!myPlan ? ("Get Pro.") : (!props.isLoggedIn? "Get Pro." : (myPlan.subscription === "pro" ? "Manage Plan" : "Upgrade to Pro."))}
+              buttonText={!myPlan ? ("Get Pro.") : (!props.isLoggedIn? "Get Pro." : (myPlan.subscription === "pro" ? "Manage Plan." : "Upgrade to Pro."))}
               features={[
                 { title: "Unlimited shortn's.", id: "available",key:12 },
                 { title: "Get a url's total clicks", id: "available",key:13  },
@@ -126,6 +127,7 @@ const Pricing = (props) => {
           </div>
         </div>
       </div>
+      <MoreInfo isLoggedIn={props.isLoggedIn} myPlan={myPlan?myPlan.subscription : ""} clickFreeHandler={props.clickFreeHandler} subscribed_clickHandler={subscribed_clickHandler}></MoreInfo>
     </>
   );
 };

@@ -2,11 +2,10 @@ import "./PricingPlanItem.css";
 import Services from "../services/Services";
 
 const PricingPlanItem = (props) => {
-
   const submitHandler = (e) => {
     e.preventDefault();
-    Services.subscribeToPlan(props.lookUpKey,props.sub);
-  }
+    Services.subscribeToPlan(props.lookUpKey, props.sub);
+  };
 
   return (
     <div className="pricing-item-container">
@@ -32,20 +31,25 @@ const PricingPlanItem = (props) => {
         </ul>
       </div>
       <div className="pricing-item-actions">
-        {(props.lookUpKey && !props.isFree) ? (
-          <form
-            onSubmit={submitHandler}
-          >
+        {props.lookUpKey && !props.isFree ? (
+          <form onSubmit={submitHandler}>
             <button id="checkout-and-portal-button" type="submit">
               {props.buttonText}
             </button>
           </form>
         ) : (
-          <button onClick={props.onClickHandler}>
-            {props.buttonText}
-          </button>
+          <button onClick={props.onClickHandler}>{props.buttonText}</button>
         )}
-        <p>Learn More</p>
+        <p
+          onClick={() => {
+            const element = document.getElementById("more-info-table");
+            if(element){
+              element.scrollIntoView();
+            }
+          }}
+        >
+          Learn More
+        </p>
       </div>
     </div>
   );
