@@ -35,6 +35,9 @@ const Dashboard = (props) => {
           selectPage(numberOfPages - 1);
         }
       }
+      else{
+        selectPage(0);
+      }
     } else {
       setUrls([]);
     }
