@@ -1,10 +1,11 @@
 import Services from "../services/Services";
 import "./MoreInfo.css";
-import { BsCheckLg, BsXLg } from "react-icons/bs";
+import { BsCheckLg, BsXLg,BsChevronDown,BsChevronRight } from "react-icons/bs";
 import { useState, useEffect } from "react";
+import { feature } from "topojson-client";
 
 const MoreInfo = (props) => {
-  const [smallerScreen, toggleSize] = useState(false);
+  const [isMobile, toggleSize] = useState(false);
 
   useEffect(() => {
     function handleResize() {
@@ -102,6 +103,18 @@ const MoreInfo = (props) => {
     ],
   };
 
+  const [activeDesc, activateDesc] = useState([]);
+
+  const clickDescHandler = (e, index) => {
+    e.preventDefault();
+    activateDesc((prevState) => {
+        const newArr = [...(prevState.indexOf(index) === -1 ? [...prevState,index]:[...[...prevState].filter(x => x!=index)])];
+        return newArr;
+    });
+  };
+
+  const plansNames = ["Free Plan", "Basic Plan", "Plus Plan", "Pro Plan"];
+
   const getPlanHandler = (lookUpKey) => {
     e.preventDefault();
     Services.subscribeToPlan(lookUpKey);
@@ -113,7 +126,7 @@ const MoreInfo = (props) => {
         <div className="more-info-title">
           <h2>Detailed Feature Comparison</h2>
         </div>
-        {!smallerScreen ? (
+        {!isMobile ? (
           <div className="more-info-table-holder">
             <table id="more-info-table">
               <thead id="more-info-table-head">
@@ -171,17 +184,33 @@ const MoreInfo = (props) => {
               <tbody id="more-info-table-body">
                 {Object.keys(actualFeatures).map((feature) => {
                   return (
-                    <tr id="more-info-table-title">
+                    <tr key={feature} id="more-info-table-title">
                       <td id="more-info-table-desc" style={{ width: "25%" }}>
                         {feature}
                       </td>
                       {actualFeatures[feature].map((desc) => {
                         if (desc.type === "text") {
-                          return <td id="more-info-table-desc">{desc.val}</td>;
+                          return (
+                            <td
+                              key={
+                                feature +
+                                actualFeatures[feature].indexOf(desc).toString()
+                              }
+                              id="more-info-table-desc"
+                            >
+                              {desc.val}
+                            </td>
+                          );
                         }
                         if (desc.type === "img") {
                           return (
-                            <td id="more-info-table-desc">
+                            <td
+                              key={
+                                feature +
+                                actualFeatures[feature].indexOf(desc).toString()
+                              }
+                              id="more-info-table-desc"
+                            >
                               <desc.val
                                 style={{
                                   color: desc.val === BsXLg ? "red" : "green",
@@ -198,7 +227,89 @@ const MoreInfo = (props) => {
             </table>
           </div>
         ) : (
-          <h1>Advanced plan details for smaller screens will be available soon! Sorry for the inconvinience.</h1>
+          <div className="mobile-more-info-container">
+            <ul id="mobile-more-info-identifier">
+              {Object.keys(actualFeatures).map((feature) => {
+                return (
+                  <li key={feature}>
+                    <div
+                      className={"feature-title-more-info " + (((activeDesc.filter(x => x==(Object.keys(actualFeatures).indexOf(feature))).length % 2) === 0) ? " feature-title-more-info-not-expanded-more-info" : "")}
+                      onClick={(e) => {
+                        clickDescHandler(
+                          e,
+                          Object.keys(actualFeatures).indexOf(feature)
+                        );
+                      }}
+                    >
+                      <p>{feature}</p>
+                      {(((activeDesc.filter(x => x==(Object.keys(actualFeatures).indexOf(feature))).length % 2) === 0))? <BsChevronDown/> : <BsChevronRight/>}
+                    </div>
+                    {actualFeatures[feature].map((desc) => {
+                      if (desc.type === "text") {
+                        return (
+                          <div
+                            key={
+                              feature +
+                              actualFeatures[feature].indexOf(desc).toString()
+                            }
+                            className={"mobile-more-info-desc-holder " + (((activeDesc.filter(x => x==(Object.keys(actualFeatures).indexOf(feature))).length % 2) === 0) ? "not-expanded-more-info" : "")}
+                            style={{
+                              borderTopWidth:
+                                actualFeatures[feature].indexOf(desc) === 0
+                                  ? "1px"
+                                  : "",
+                            }}
+                          >
+                            <div>
+                              {
+                                plansNames[
+                                  actualFeatures[feature].indexOf(desc)
+                                ]
+                              }
+                            </div>
+                            <div>{desc.val}</div>
+                          </div>
+                        );
+                      }
+                      if (desc.type === "img") {
+                        return (
+                          <div
+                            key={
+                              feature +
+                              actualFeatures[feature].indexOf(desc).toString()
+                            }
+                            className={"mobile-more-info-desc-holder " + (((activeDesc.filter(x => x==(Object.keys(actualFeatures).indexOf(feature))).length % 2) === 0) ? "not-expanded-more-info" : "")}
+                            style={{
+                              borderTopWidth:
+                                actualFeatures[feature].indexOf(desc) === 0
+                                  ? "1px"
+                                  : "",
+                            }}
+                          >
+                            <div>
+                              {
+                                plansNames[
+                                  actualFeatures[feature].indexOf(desc)
+                                ]
+                              }
+                            </div>
+                            <div>
+                              {" "}
+                              <desc.val
+                                style={{
+                                  color: desc.val === BsXLg ? "red" : "green",
+                                }}
+                              />
+                            </div>
+                          </div>
+                        );
+                      }
+                    })}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         )}
       </div>
     </div>

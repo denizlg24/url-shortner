@@ -43,8 +43,12 @@ const PricingPlanItem = (props) => {
         <p
           onClick={() => {
             const element = document.getElementById("more-info-table");
+            const element2 = document.getElementById("mobile-more-info-identifier");
             if(element){
               element.scrollIntoView();
+            }
+            if(element2){
+              element2.scrollIntoView();
             }
           }}
         >

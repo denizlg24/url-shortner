@@ -127,7 +127,8 @@
   justify-content: flex-start;
   align-items: flex-end;
   color: var(--color-text);
-  padding: 1rem;
+  padding: .3rem;
+  padding-top: 0rem;
   text-align: center;
 }
 
