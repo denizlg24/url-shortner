@@ -117,7 +117,7 @@ const MoreInfo = (props) => {
   const planIds = ["free","basic","plus","pro"];
 
   const getPlanHandler = (lookUpKey) => {
-    Services.subscribeToPlan(lookUpKey);
+    Services.subscribeToPlan(lookUpKey,props.sub);
   };
 
   return (
