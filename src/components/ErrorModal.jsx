@@ -15,7 +15,7 @@ const ErrorModal = (props) =>{
     return (
         <div className='main-error-modal'>
             <div className='error-modal-container'>
-                <div className='error-modal-title-bar'>
+                <div className='error-modal-title-bar' style={{backgroundColor: !props.success? "rgb(241, 88, 88)" : "rgb(0, 75, 34)"}}>
                     <h3>{props.title}</h3>
                     <button className="close-modal"onClick={cancelHandler}><img src="https://img.icons8.com/ios-glyphs/30/null/macos-close.png"/></button>
                 </div>

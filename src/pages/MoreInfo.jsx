@@ -123,7 +123,7 @@ const MoreInfo = (props) => {
   return (
     <div className="more-info-outer-container">
       <div className="more-info-inner-container">
-        <div className="more-info-title">
+        <div className="more-info-title" id="mobile-more-info-identifier">
           <h2>Detailed Feature Comparison</h2>
         </div>
         {!isMobile ? (
@@ -228,7 +228,7 @@ const MoreInfo = (props) => {
           </div>
         ) : (
           <div className="mobile-more-info-container">
-            <ul id="mobile-more-info-identifier">
+            <ul>
               {Object.keys(actualFeatures).map((feature) => {
                 return (
                   <li key={feature}>

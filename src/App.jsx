@@ -169,10 +169,23 @@ function App() {
   const handleAuthCallback = async () => {
     const queryParams = new URLSearchParams(window.location.search);
     const accessToken = queryParams.get("token");
+    const confirmedId = queryParams.get("confirmed");
     if (accessToken) {
       localStorage.setItem("accessToken", accessToken);
       window.history.replaceState(null, null, window.location.origin);
       checkTokens();
+      return;
+    }
+    if (confirmedId) {
+      displayErrorModal([
+        <ErrorModal
+          success={true}
+          title={"Success"}
+          errorDesc={"Thanks for confirming your email. You can now log in"}
+          cancelError={cancelError}
+        ></ErrorModal>,
+      ]);
+      window.history.replaceState(null, null, window.location.origin);
       return;
     }
   };
