@@ -114,9 +114,9 @@ const MoreInfo = (props) => {
   };
 
   const plansNames = ["Free Plan", "Basic Plan", "Plus Plan", "Pro Plan"];
+  const planIds = ["free","basic","plus","pro"];
 
   const getPlanHandler = (lookUpKey) => {
-    e.preventDefault();
     Services.subscribeToPlan(lookUpKey);
   };
 
@@ -163,7 +163,7 @@ const MoreInfo = (props) => {
                           {props.isLoggedIn
                             ? featuresData[feature].planId === props.myPlan
                               ? "Manage Plan."
-                              : featuresData[feature].planId > props.myPlan
+                              : featuresData[feature].planIndx > planIds.indexOf(props.myPlan)
                               ? "Upgrade to " +
                                 featuresData[feature].planName +
                                 "."
