@@ -11,6 +11,7 @@ import ErrorModal from "./components/ErrorModal";
 import Features from "./pages/Features";
 import Pricing from "./pages/Pricing";
 import MoreInfo from "./pages/MoreInfo";
+import HelpCenter from "./pages/HelpCenter";
 
 function App() {
   const [theme, setTheme] = useState();
@@ -253,6 +254,7 @@ function App() {
           stripeId={authData ? authData.stripeId : ""}
           myPlan={myPlan}
         ></Pricing>
+        <HelpCenter></HelpCenter>
       </>
     );
   }

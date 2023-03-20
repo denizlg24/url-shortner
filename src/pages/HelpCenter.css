@@ -1,0 +1,36 @@
+.help-center-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.help-center-content{
+    width: 100%;
+    max-width: 1440px;
+    color: var(--color-text);
+    padding: 1rem;
+    padding-top: 0;
+}
+
+.help-center-content p{
+    padding: 1rem;
+    padding-bottom: 0;
+}
+
+.help-center-content p a{
+    color: var(--color-text);
+}
+
+.help-center-content p ul {
+    padding-top: .5rem;
+    padding-left: 2rem;
+    list-style-type:decimal;
+
+}
+
+.help-center-content h2{
+    padding-left: 1rem;
+    padding-top: 1rem;
+}

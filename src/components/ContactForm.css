@@ -1,0 +1,113 @@
+.contact-form-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: auto;
+  padding-bottom: 3rem;
+}
+
+.contact-form-content {
+  width: 100%;
+  max-width: 1440px;
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.contact-form-form {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+  position: relative;
+}
+
+.contact-form-form input[type="text"],
+.contact-form-form input[type="email"] {
+  background-color: var(--color-backgroundSecondary);
+  padding: 1rem;
+  margin: 0.5rem 0;
+  outline: none;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  color: var(--color-text);
+  filter: drop-shadow(0 0 .2rem rgba(0,0,0,0.3));
+}
+
+.contact-form-form textarea{
+    background-color: var(--color-backgroundSecondary);
+  padding: 1rem;
+  margin: 0.5rem 0;
+  outline: none;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  color: var(--color-text);
+  filter: drop-shadow(0 0 .2rem rgba(0,0,0,0.3));
+  font-size: 1rem;
+  resize: none;
+}
+
+.contact-form-form textarea:focus{
+    border: 2px dashed;
+    border-color: var(--color-darkSpecial);
+    filter: drop-shadow(0 0 .2rem rgba(0,0,0,0));
+}
+
+.contact-form-form input[type="button"]{
+    background-color: var(--color-text);
+    color: var(--color-background);
+    padding: 1rem;
+    border-radius: 5px;
+    border: 2px solid;
+    border-color: transparent;
+    margin-top: 1rem;
+    font-size: 1.2rem;
+}
+
+.contact-form-form input[type="button"]:hover{
+    background-color:transparent ;
+    color: var(--color-text);
+    border-color: var(--color-text);
+    cursor: pointer;
+    user-select: none;
+}
+
+.contact-form-form input[type="text"]:focus,
+.contact-form-form input[type="email"]:focus {
+  border: 2px dashed;
+  border-color: var(--color-darkSpecial);
+  filter: drop-shadow(0 0 .2rem rgba(0,0,0,0));
+}
+
+.contact-form-text {
+  flex: 1;
+  margin: 1rem;
+  color: var(--color-text);
+  text-align: justify;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1rem;
+}
+
+.contact-form-text img{
+    max-width: 500px;
+    max-height: 100%;
+    width: 100%;
+    height: 100%;
+}
+
+@media screen and (max-width:1024px) {
+    .contact-form-content{
+        flex-direction: column;
+    }
+
+    .contact-form-text {
+        text-align: center;
+        padding-top: 0;
+        margin-top: 0;
+    }
+}

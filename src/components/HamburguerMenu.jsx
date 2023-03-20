@@ -76,7 +76,7 @@ const HamburguerMenu = (props) => {
           <>
             <Navlink title="Features" clickHandler={clickFeaturesHandler}></Navlink>
             <Navlink title="Pricing" clickHandler={clickPricingHandler}></Navlink>
-            <Navlink title="Contact"></Navlink>
+            <Navlink title="Help Center"></Navlink>
             {props.isLoggedIn && (
               <Navlink
                 title="Dashboard"

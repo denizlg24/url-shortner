@@ -59,37 +59,37 @@ const MoreInfo = (props) => {
       { type: "img", val: BsCheckLg },
       { type: "img", val: BsCheckLg },
     ],
-    "Get a link's total click": [
+    "Get total clicks for a link": [
       { type: "img", val: BsXLg },
       { type: "img", val: BsCheckLg },
       { type: "img", val: BsCheckLg },
       { type: "img", val: BsCheckLg },
     ],
-    "Get a link's clicks by time of day": [
+    "Get clicks by time of day for a link": [
       { type: "img", val: BsXLg },
       { type: "img", val: BsXLg },
       { type: "img", val: BsCheckLg },
       { type: "img", val: BsCheckLg },
     ],
-    "Get a link's clicks by browser type": [
+    "Get clicks by browser type for a link": [
       { type: "img", val: BsXLg },
       { type: "img", val: BsXLg },
       { type: "img", val: BsCheckLg },
       { type: "img", val: BsCheckLg },
     ],
-    "Get a link's clicks by operating system": [
+    "Get clicks by operating system for a link": [
       { type: "img", val: BsXLg },
       { type: "img", val: BsXLg },
       { type: "img", val: BsXLg },
       { type: "img", val: BsCheckLg },
     ],
-    "Get a link's clicks by device type": [
+    "Get clicks by device type for a link": [
       { type: "img", val: BsXLg },
       { type: "img", val: BsXLg },
       { type: "img", val: BsXLg },
       { type: "img", val: BsCheckLg },
     ],
-    "Get a link's clicks by city": [
+    "Get clicks by city for a link": [
       { type: "img", val: BsXLg },
       { type: "img", val: BsXLg },
       { type: "img", val: BsXLg },

@@ -41,14 +41,19 @@ const Header = (props) => {
   const featuresClickHandler = (e) => {
     e.preventDefault();
     const featuresElement = document.getElementById("featuresID");
-    featuresElement.scrollIntoView();
-  }
+    featuresElement?.scrollIntoView();
+  };
 
   const pricingClickHandler = (e) => {
     e.preventDefault();
     const pricingElement = document.getElementById("pricingsID");
-    pricingElement.scrollIntoView();
-  }
+    pricingElement?.scrollIntoView();
+  };
+  const helpCenterHandler = (e) => {
+    e.preventDefault();
+    const helpCenterElement = document.getElementById("help-center-id");
+    helpCenterElement?.scrollIntoView();
+  };
 
   const clickLoginHandler = (e) => {
     props.onClickLoginHandler(e);
@@ -60,6 +65,7 @@ const Header = (props) => {
   const clickIconHandler = (e) => {
     props.onClickIconHandler(e);
   };
+
   return (
     <div className={headerClassNames}>
       <div className="header-content">
@@ -83,10 +89,24 @@ const Header = (props) => {
         ) : (
           <>
             <div className="header-navigation">
-              <Navlink title="Features" clickHandler={featuresClickHandler}></Navlink>
-              <Navlink title="Pricing" clickHandler={pricingClickHandler}></Navlink>
-              <Navlink title="Contact"></Navlink>
-              {props.isLoggedIn && <Navlink title="Dashboard" clickHandler={props.clickDashboard}></Navlink>}
+              <Navlink
+                title="Features"
+                clickHandler={featuresClickHandler}
+              ></Navlink>
+              <Navlink
+                title="Pricing"
+                clickHandler={pricingClickHandler}
+              ></Navlink>
+              <Navlink
+                title="Help Center"
+                clickHandler={helpCenterHandler}
+              ></Navlink>
+              {props.isLoggedIn && (
+                <Navlink
+                  title="Dashboard"
+                  clickHandler={props.clickDashboard}
+                ></Navlink>
+              )}
             </div>
             <div className="header-container__actions">
               <div className="header-container__theme">
