@@ -85,6 +85,7 @@ const Header = (props) => {
             clickDashboard={props.clickDashboard}
             clickFeatures={featuresClickHandler}
             clickPricing={pricingClickHandler}
+            clickHelp={helpCenterHandler}
           ></HamburguerMenu>
         ) : (
           <>

@@ -28,6 +28,11 @@ const HamburguerMenu = (props) => {
     props.clickPricing(e);
   }
 
+  const clickHelpCenter = (e) => {
+    toggleExpand(false);
+    props.clickHelp(e);
+  }
+
   const clickLoginHandler = (e) => {
     console.log("ClickedLogin");
     toggleExpand((prevState) => {
@@ -76,7 +81,7 @@ const HamburguerMenu = (props) => {
           <>
             <Navlink title="Features" clickHandler={clickFeaturesHandler}></Navlink>
             <Navlink title="Pricing" clickHandler={clickPricingHandler}></Navlink>
-            <Navlink title="Help Center"></Navlink>
+            <Navlink title="Help Center" clickHandler={clickHelpCenter}></Navlink>
             {props.isLoggedIn && (
               <Navlink
                 title="Dashboard"
