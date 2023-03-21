@@ -9,6 +9,7 @@ const HelpCenter = (props) => {
         <h1>Help Center</h1>
       </div>
       <hr className="features-divider-bottom" />
+      <ContactForm sub={props.sub}/>
       <div className="help-center-content">
         <h2>Data Policy:</h2>
         <p>
@@ -72,7 +73,6 @@ const HelpCenter = (props) => {
           service. Your subscription is subject to Stripe's cancellation policy.
         </p>
       </div>
-      <ContactForm/>
     </div>
   );
 };

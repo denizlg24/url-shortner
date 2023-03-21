@@ -254,7 +254,7 @@ function App() {
           stripeId={authData ? authData.stripeId : ""}
           myPlan={myPlan}
         ></Pricing>
-        <HelpCenter></HelpCenter>
+        <HelpCenter sub={authData ? authData.sub : ""}></HelpCenter>
       </>
     );
   }

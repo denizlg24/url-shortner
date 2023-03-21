@@ -241,6 +241,28 @@ Services.managePlan = async (stripeId) => {
     });
 };
 
+Services.contactHelp = async (name, fromEmail, message, sub) => {
+  const data = {
+    name,
+    fromEmail,
+    message,
+    sub,
+  };
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  return axios
+    .post("https://shortn.at/api/contact/send", data, config)
+    .then((response) => {
+      return { response: "ok", data: response.data };
+    })
+    .catch((error) => {
+      return { response: "failed", ...error };
+    });
+};
+
 var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
 
 function preventDefault(e) {
