@@ -38,8 +38,11 @@ const Pricing = (props) => {
                 { title: "Advanced Stats", id: "not-available" ,key:2},
                 { title: "Custom Short Url", id: "not-available" ,key:3},
               ]}
-              isFree={true}
-              onClickHandler={!props.isLoggedIn? props.clickFreeHandler : subscribed_clickHandler}
+              isLoggedIn={props.isLoggedIn}
+              clickFreeHandler={props.clickFreeHandler}
+              subscribed_clickHandler={subscribed_clickHandler}
+              sub={props.sub}
+              myPlan={myPlan?.subscription}
             ></PricingPlanItem>
             <PricingPlanItem
               title={"Basic Plan"}
@@ -56,9 +59,11 @@ const Pricing = (props) => {
                 { title: "Custom Short Url", id: "not-available" ,key:7},
               ]}
               lookUpKey={import.meta.env.VITE_BASIC_PLAN_KEY}
-              isFree={myPlan ? myPlan.subscription != "free" : !props.isLoggedIn}
+              isLoggedIn={props.isLoggedIn}
+              clickFreeHandler={props.clickFreeHandler}
+              subscribed_clickHandler={subscribed_clickHandler}
               sub={props.sub}
-              onClickHandler={!props.isLoggedIn? props.clickFreeHandler : subscribed_clickHandler}
+              myPlan={myPlan?.subscription}
             ></PricingPlanItem>
             <PricingPlanItem
               title={"Plus Plan"}
@@ -75,9 +80,12 @@ const Pricing = (props) => {
                 { title: "Custom Short Url", id: "not-available",key:11 },
               ]}
               lookUpKey={import.meta.env.VITE_PLUS_PLAN_KEY}
-              isFree={myPlan ? myPlan.subscription != "free": !props.isLoggedIn}
+              clickFreeHandler={props.clickFreeHandler}
+              subscribed_clickHandler={subscribed_clickHandler}
               sub={props.sub}
-              onClickHandler={!props.isLoggedIn? props.clickFreeHandler : subscribed_clickHandler}
+              isLoggedIn={props.isLoggedIn}
+              myPlan={myPlan?.subscription}
+              upgradeLookupKey={import.meta.env.VITE_BASIC_PLUS_KEY}
             ></PricingPlanItem>
             <PricingPlanItem
               title={"Pro Plan"}
@@ -94,9 +102,12 @@ const Pricing = (props) => {
                 { title: "Custom Short Url", id: "available",key:15  },
               ]}
               lookUpKey={import.meta.env.VITE_PRO_PLAN_KEY}
-              isFree={myPlan ? myPlan.subscription != "free" : !props.isLoggedIn}
+              clickFreeHandler={props.clickFreeHandler}
+              subscribed_clickHandler={subscribed_clickHandler}
+              isLoggedIn={props.isLoggedIn}
               sub={props.sub}
-              onClickHandler={!props.isLoggedIn? props.clickFreeHandler : subscribed_clickHandler}
+              myPlan={myPlan?.subscription}
+              upgradeLookupKey={myPlan?.subscription === "basic"? import.meta.env.VITE_BASIC_PRO_KEY : import.meta.env.VITE_PLUS_PRO_KEY}
             ></PricingPlanItem>
           </div>
           <div className="color-legend-pricing">

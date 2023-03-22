@@ -221,6 +221,27 @@ Services.subscribeToPlan = async (lookUpKey, sub) => {
     });
 };
 
+Services.upgradePlan = async (lookUpKey, sub) => {
+  const data = {
+    lookup_key: lookUpKey,
+    sub,
+  };
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  return axios
+    .post(
+      "https://shortn.at/api/subscription/create-upgrade-session",
+      data,
+      config
+    )
+    .then((response) => {
+      window.location.href = response.data.url;
+    });
+};
+
 Services.managePlan = async (stripeId) => {
   const data = {
     stripeId,
