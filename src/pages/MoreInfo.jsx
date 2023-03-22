@@ -1,6 +1,11 @@
 import Services from "../services/Services";
 import "./MoreInfo.css";
-import { BsCheckLg, BsXLg,BsChevronDown,BsChevronRight } from "react-icons/bs";
+import {
+  BsCheckLg,
+  BsXLg,
+  BsChevronDown,
+  BsChevronRight,
+} from "react-icons/bs";
 import { useState, useEffect } from "react";
 import { feature } from "topojson-client";
 
@@ -34,6 +39,7 @@ const MoreInfo = (props) => {
       price: "15€/month",
       planId: "plus",
       lookUpKey: import.meta.env.VITE_PLUS_PLAN_KEY,
+      upgrade: import.meta.env.VITE_BASIC_PLUS_KEY,
       planIndx: 2,
       planName: "Plus",
     },
@@ -41,6 +47,10 @@ const MoreInfo = (props) => {
       price: "25€/month",
       planId: "pro",
       lookUpKey: import.meta.env.VITE_PRO_PLAN_KEY,
+      upgrade:
+        props.myPlan === "basic"
+          ? import.meta.env.VITE_BASIC_PRO_KEY
+          : import.meta.env.VITE_BASIC_PLUS_PRO,
       planIndx: 3,
       planName: "Pro",
     },
@@ -108,16 +118,41 @@ const MoreInfo = (props) => {
   const clickDescHandler = (e, index) => {
     e.preventDefault();
     activateDesc((prevState) => {
-        const newArr = [...(prevState.indexOf(index) === -1 ? [...prevState,index]:[...[...prevState].filter(x => x!=index)])];
-        return newArr;
+      const newArr = [
+        ...(prevState.indexOf(index) === -1
+          ? [...prevState, index]
+          : [...[...prevState].filter((x) => x != index)]),
+      ];
+      return newArr;
     });
   };
 
   const plansNames = ["Free Plan", "Basic Plan", "Plus Plan", "Pro Plan"];
-  const planIds = ["free","basic","plus","pro"];
+  const planIds = ["free", "basic", "plus", "pro"];
 
-  const getPlanHandler = (lookUpKey) => {
-    Services.subscribeToPlan(lookUpKey,props.sub);
+  const getPlanHandler = (e, lookUpKey, feature) => {
+    e.preventDefault();
+    if (
+      feature.planIndx > planIds.indexOf(props.myPlan) &&
+      props.isLoggedIn &&
+      props.myPlan != "free"
+    ) {
+      //mean the button is upgrade to
+      Services.upgradePlan(feature.upgrade, props.sub);
+    } else if (
+      feature.planIndx > planIds.indexOf(props.myPlan) &&
+      props.isLoggedIn &&
+      props.myPlan === "free"
+    ) {
+      Services.subscribeToPlan(lookUpKey, props.sub);
+    } else if (
+      feature.planIndx <= planIds.indexOf(props.myPlan) &&
+      props.isLoggedIn
+    ) {
+      props.subscribed_clickHandler(e);
+    } else if (!props.isLoggedIn) {
+      props.clickFreeHandler(e);
+    }
   };
 
   return (
@@ -148,22 +183,19 @@ const MoreInfo = (props) => {
                         <h4>{featuresData[feature].price}</h4>
                         <button
                           type="button"
-                          onClick={
-                            props.isLoggedIn
-                              ? props.myPlan != "free"
-                                ? props.subscribed_clickHandler
-                                : () => {
-                                    getPlanHandler(
-                                      featuresData[feature].lookUpKey
-                                    );
-                                  }
-                              : props.clickFreeHandler
-                          }
+                          onClick={(e) => {
+                            getPlanHandler(
+                              e,
+                              featuresData[feature].lookUpKey,
+                              featuresData[feature]
+                            );
+                          }}
                         >
                           {props.isLoggedIn
                             ? featuresData[feature].planId === props.myPlan
                               ? "Manage Plan."
-                              : featuresData[feature].planIndx > planIds.indexOf(props.myPlan)
+                              : featuresData[feature].planIndx >
+                                planIds.indexOf(props.myPlan)
                               ? "Upgrade to " +
                                 featuresData[feature].planName +
                                 "."
@@ -233,7 +265,17 @@ const MoreInfo = (props) => {
                 return (
                   <li key={feature}>
                     <div
-                      className={"feature-title-more-info " + (((activeDesc.filter(x => x==(Object.keys(actualFeatures).indexOf(feature))).length % 2) === 0) ? " feature-title-more-info-not-expanded-more-info" : "")}
+                      className={
+                        "feature-title-more-info " +
+                        (activeDesc.filter(
+                          (x) =>
+                            x == Object.keys(actualFeatures).indexOf(feature)
+                        ).length %
+                          2 ===
+                        0
+                          ? " feature-title-more-info-not-expanded-more-info"
+                          : "")
+                      }
                       onClick={(e) => {
                         clickDescHandler(
                           e,
@@ -242,7 +284,15 @@ const MoreInfo = (props) => {
                       }}
                     >
                       <p>{feature}</p>
-                      {(((activeDesc.filter(x => x==(Object.keys(actualFeatures).indexOf(feature))).length % 2) === 0))? <BsChevronDown/> : <BsChevronRight/>}
+                      {activeDesc.filter(
+                        (x) => x == Object.keys(actualFeatures).indexOf(feature)
+                      ).length %
+                        2 ===
+                      0 ? (
+                        <BsChevronDown />
+                      ) : (
+                        <BsChevronRight />
+                      )}
                     </div>
                     {actualFeatures[feature].map((desc) => {
                       if (desc.type === "text") {
@@ -252,7 +302,18 @@ const MoreInfo = (props) => {
                               feature +
                               actualFeatures[feature].indexOf(desc).toString()
                             }
-                            className={"mobile-more-info-desc-holder " + (((activeDesc.filter(x => x==(Object.keys(actualFeatures).indexOf(feature))).length % 2) === 0) ? "not-expanded-more-info" : "")}
+                            className={
+                              "mobile-more-info-desc-holder " +
+                              (activeDesc.filter(
+                                (x) =>
+                                  x ==
+                                  Object.keys(actualFeatures).indexOf(feature)
+                              ).length %
+                                2 ===
+                              0
+                                ? "not-expanded-more-info"
+                                : "")
+                            }
                             style={{
                               borderTopWidth:
                                 actualFeatures[feature].indexOf(desc) === 0
@@ -278,7 +339,18 @@ const MoreInfo = (props) => {
                               feature +
                               actualFeatures[feature].indexOf(desc).toString()
                             }
-                            className={"mobile-more-info-desc-holder " + (((activeDesc.filter(x => x==(Object.keys(actualFeatures).indexOf(feature))).length % 2) === 0) ? "not-expanded-more-info" : "")}
+                            className={
+                              "mobile-more-info-desc-holder " +
+                              (activeDesc.filter(
+                                (x) =>
+                                  x ==
+                                  Object.keys(actualFeatures).indexOf(feature)
+                              ).length %
+                                2 ===
+                              0
+                                ? "not-expanded-more-info"
+                                : "")
+                            }
                             style={{
                               borderTopWidth:
                                 actualFeatures[feature].indexOf(desc) === 0

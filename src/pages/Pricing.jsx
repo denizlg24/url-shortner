@@ -138,7 +138,7 @@ const Pricing = (props) => {
           </div>
         </div>
       </div>
-      <MoreInfo isLoggedIn={props.isLoggedIn} sub={props.sub} myPlan={myPlan?myPlan.subscription : ""} clickFreeHandler={props.clickFreeHandler} subscribed_clickHandler={subscribed_clickHandler}></MoreInfo>
+      <MoreInfo stripeId={props.stripeId} isLoggedIn={props.isLoggedIn} sub={props.sub} myPlan={myPlan?myPlan.subscription : ""} clickFreeHandler={props.clickFreeHandler} subscribed_clickHandler={subscribed_clickHandler}></MoreInfo>
     </>
   );
 };
