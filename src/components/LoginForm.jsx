@@ -8,6 +8,13 @@ import Services from "../services/Services";
 const LoginForm = (props) => {
   const [errorState, displayErrorModal] = useState([]);
 
+
+  const resetPasswordHandler = (e) => {
+    e.preventDefault();
+    props.startPasswordResetFlow();
+  }
+
+
   const [userInput, setUserInput] = useState({
     username: "",
     password: "",
@@ -103,6 +110,7 @@ const LoginForm = (props) => {
             htmlFor="password"
             style={{ display: false ? "" : "none" }}
           ></label>
+          
           <button
             type="submit"
             id="loginAccount"
@@ -110,6 +118,7 @@ const LoginForm = (props) => {
           >
             Log In
           </button>
+          <button type="button" className="reset-pass-login-btn" onClick={resetPasswordHandler}><p>Forgot password?</p></button>
         </div>
       </form>
     </>

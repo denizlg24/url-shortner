@@ -53,6 +53,8 @@ const ReducedHeader = (props) => {
             currentUsername={props.currentUsername}
             clickThemeChangeButton={clickThemeChangeButton}
             userLogo={props.userLogo}
+            clickLoginHandler={props.clickLoginHandler}
+            clickRegisterHandler={props.clickRegisterHandler}
             reduced={true}
           ></HamburguerMenu>
         ) : (
@@ -67,7 +69,20 @@ const ReducedHeader = (props) => {
               </div>
               <div className="header-container__auth">
                 {!props.isLoggedIn ? (
-                  <></>
+                  <>
+                  <button
+                    className="header-auth__button login"
+                    onClick={props.clickLoginHandler}
+                  >
+                    Login
+                  </button>
+                  <button
+                    className="header-auth__button signup"
+                    onClick={props.clickRegisterHandler}
+                  >
+                    Sign Up
+                  </button>{" "}
+                </>
                 ) : (
                   <div className="welcome-back-header-holder">
                     <img

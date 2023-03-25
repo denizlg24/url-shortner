@@ -91,3 +91,27 @@ input:-moz-placeholder {
   /* Firefox 18- */
   font-size: 1rem;
 }
+
+.reset-pass-login-btn{
+  color: var(--color-text);
+  width: 100%;
+  text-align: center;
+  padding: .3rem;
+  margin-top: .8rem;
+  margin-bottom: -1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  font-family: "Epilogue";
+  font-weight: 200;
+  font-size: .8rem;
+}
+
+.reset-pass-login-btn p:hover{
+  text-decoration: underline;
+  cursor: pointer;
+  user-select: none;
+}

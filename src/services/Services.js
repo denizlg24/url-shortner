@@ -181,6 +181,43 @@ Services.removeLink = async (shortUrl) => {
     });
 };
 
+Services.startResetFlow = async (email) => {
+  const data = {
+    email,
+  };
+
+  const config = {
+    "Content-Type": "application/json",
+  };
+  return axios
+    .post("https://shortn.at/api/auth/user/reset/password", data, config)
+    .then((response) => {
+      return { response: "ok", data: response.data };
+    })
+    .catch((error) => {
+      return { response: "failed", ...error };
+    });
+};
+
+Services.syncPasswordChange = async (bcryptPassword, resetToken) => {
+  const data = {
+    resetToken,
+    bcryptPassword,
+  };
+
+  const config = {
+    "Content-Type": "application/json",
+  };
+  return axios
+    .post("https://shortn.at/api/auth/user/reset/sync", data, config)
+    .then((response) => {
+      return { response: "ok", data: response.data };
+    })
+    .catch((error) => {
+      return { response: "failed", ...error };
+    });
+};
+
 Services.getPlan = async (accessToken) => {
   const data = {
     token: accessToken,

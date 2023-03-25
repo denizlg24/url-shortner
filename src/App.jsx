@@ -12,6 +12,7 @@ import Features from "./pages/Features";
 import Pricing from "./pages/Pricing";
 import MoreInfo from "./pages/MoreInfo";
 import HelpCenter from "./pages/HelpCenter";
+import PasswordReset from "./pages/PasswordReset";
 
 function App() {
   const [theme, setTheme] = useState();
@@ -21,6 +22,7 @@ function App() {
   const [authData, setAuthData] = useState();
   const [emailToVerify, setEmailToVerify] = useState();
   const [errorState, displayErrorModal] = useState([]);
+  const [resetToken,setResetToken] = useState("");
 
   const toggleTheme = () => {
     setTheme((prevTheme) => {
@@ -171,6 +173,13 @@ function App() {
     const queryParams = new URLSearchParams(window.location.search);
     const accessToken = queryParams.get("token");
     const confirmedId = queryParams.get("confirmed");
+    const resetToken = queryParams.get("reset");
+    if(resetToken){
+      setResetToken(resetToken);
+      displayPage("passReset");
+      window.history.replaceState(null, null, window.location.origin);
+      return;
+    }
     if (accessToken) {
       localStorage.setItem("accessToken", accessToken);
       window.history.replaceState(null, null, window.location.origin);
@@ -221,6 +230,22 @@ function App() {
       displayPage("auth");
     }
   };
+
+  const clickLogInPasswordResetHandler = (e) => {
+    e.preventDefault();
+    if (!isLoggedIn && pageToDisplay !== "auth") {
+      chooseAuth(false);
+      displayPage("auth");
+    }
+  }
+
+  const startPasswordResetFlowHandler = () => {
+    displayPage("passReset");
+  };
+
+  const resetTokenResetHandler = () => {
+    setResetToken("");
+  }
 
   if (pageToDisplay === "landing") {
     return (
@@ -281,6 +306,7 @@ function App() {
           handleSteamLogin={handleSteamLogin}
           handleGoogleLogin={handleGoogleLogin}
           handleGithubLogin={handleGithubLogin}
+          startPasswordResetFlow={startPasswordResetFlowHandler}
         ></AuthenticationPage>
       </>
     );
@@ -307,10 +333,30 @@ function App() {
       </>
     );
   }
+  if (pageToDisplay === "passReset") {
+    return (
+      <>
+        <ReducedHeader
+          dark={theme === "dark"}
+          clickLoginHandler={onClickLoginHandler}
+          clickRegisterHandler={onClickRegisterHandler}
+          changeThemeHandler={toggleTheme}
+          onClickIconHandler={onClickIconHandler}
+          isLoggedIn={isLoggedIn}
+          currentUsername={authData ? authData.displayName : ""}
+          clickLogoutHandler={handleLogout}
+          userLogo={authData ? authData.profilePicture : ""}
+        ></ReducedHeader>
+        <PasswordReset resetToken={resetToken} clickLogInPasswordReset={clickLogInPasswordResetHandler} resetTokenReset={resetTokenResetHandler}></PasswordReset>
+      </>
+    );
+  }
   if (pageToDisplay === "dashboard") {
     return (
       <>
         <ReducedHeader
+          clickLoginHandler={onClickLoginHandler}
+          clickRegisterHandler={onClickRegisterHandler}
           dark={theme === "dark"}
           changeThemeHandler={toggleTheme}
           onClickIconHandler={onClickIconHandler}

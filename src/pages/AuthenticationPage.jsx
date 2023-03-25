@@ -20,6 +20,7 @@ const AuthenticationPage = (props) => {
             ) : (
               <LoginForm
                 loginSuccessHandler={props.loginSuccessHandler}
+                startPasswordResetFlow={props.startPasswordResetFlow}
               ></LoginForm>
             )}
             <div className="or-section">
