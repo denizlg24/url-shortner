@@ -69,6 +69,7 @@ Services.validateToken = async (accessToken) => {
 };
 
 Services.updateUserData = async (
+  accessToken,
   newDisplayName,
   newEmail,
   newPassword,
@@ -76,9 +77,10 @@ Services.updateUserData = async (
   currentPassword
 ) => {
   const config = {
-    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+    headers: { "Content-Type": "application/json", },
   };
   const data = {
+    token:accessToken,
     newDisplayName,
     newEmail,
     newPassword,
@@ -91,6 +93,7 @@ Services.updateUserData = async (
       data,
       config
     );
+    window.location.replace("https://shortn.at");
     return { response: "ok", ...response.data };
   } catch (error) {
     return { response: "failed", ...error };

@@ -155,7 +155,7 @@ function ProfileEditCard(props) {
           cancelError={cancelError}
           title={"400 BAD REQUEST"}
           errorDesc={
-            formState.errorState.newEmail
+            (formState.userInput.newEmail && formState.errorState.newEmail)
               ? formState.errorState.newEmail
               : formState.errorState.newName
           }
@@ -165,6 +165,7 @@ function ProfileEditCard(props) {
     }
     if (formState.userInput.newEmail || formState.userInput.newName) {
       const response = await Services.updateUserData(
+        localStorage.getItem("accessToken"),
         formState.userInput.newName,
         formState.userInput.newEmail,
         "",
@@ -204,6 +205,7 @@ function ProfileEditCard(props) {
       !formState.errorState.newRepeatPassword
     ) {
       const response = await Services.updateUserData(
+        localStorage.getItem("accessToken"),
         "",
         "",
         formState.userInput.newPassword,
@@ -221,14 +223,16 @@ function ProfileEditCard(props) {
         ]);
         return;
       }
+    }else{
+      displayErrorModal([
+        <ErrorModal
+          title={"400 BAD REQUEST"}
+          errorDesc={formState.errorState.newPassword? formState.errorState.newPassword: formState.errorState.newRepeatPassword}
+          cancelError={cancelError}
+        ></ErrorModal>,
+      ]);
     }
-    displayErrorModal([
-      <ErrorModal
-        title={"400 BAD REQUEST"}
-        errorDesc={formState.errorState.newPassword? formState.errorState.newPassword: formState.errorState.newRepeatPassword}
-        cancelError={cancelError}
-      ></ErrorModal>,
-    ]);
+    
   };
 
   return (
