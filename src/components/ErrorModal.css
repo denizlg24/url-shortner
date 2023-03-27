@@ -117,6 +117,8 @@
 .picture-section img{
   border-radius: 50%;
   max-width: 40px;
+  height: auto;
+  aspect-ratio: 1/1;
 }
 
 .currentPicture{

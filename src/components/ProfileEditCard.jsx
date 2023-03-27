@@ -27,6 +27,7 @@ function ProfileEditCard(props) {
       newPassword: "",
       currentPassword: "",
       newRepeatPassword: "",
+      image: "",
     },
     errorState: {
       newName: "Display name must not be empty.",
@@ -82,11 +83,6 @@ function ProfileEditCard(props) {
       };
     });
   };
-
-  console.log(
-    JSON.stringify(formState.userInput),
-    JSON.stringify(formState.errorState)
-  );
 
   const newNameChangeHandler = (e) => {
     updateForm((prevState) => {
@@ -155,7 +151,7 @@ function ProfileEditCard(props) {
           cancelError={cancelError}
           title={"400 BAD REQUEST"}
           errorDesc={
-            (formState.userInput.newEmail && formState.errorState.newEmail)
+            formState.userInput.newEmail && formState.errorState.newEmail
               ? formState.errorState.newEmail
               : formState.errorState.newName
           }
@@ -223,16 +219,56 @@ function ProfileEditCard(props) {
         ]);
         return;
       }
-    }else{
+    } else {
       displayErrorModal([
         <ErrorModal
           title={"400 BAD REQUEST"}
-          errorDesc={formState.errorState.newPassword? formState.errorState.newPassword: formState.errorState.newRepeatPassword}
+          errorDesc={
+            formState.errorState.newPassword
+              ? formState.errorState.newPassword
+              : formState.errorState.newRepeatPassword
+          }
           cancelError={cancelError}
         ></ErrorModal>,
       ]);
     }
-    
+  };
+
+  const imageChangeHandler = (e) => {
+    updateForm((prevState) => {
+      return {
+        ...prevState,
+        userInput: {
+          ...prevState.userInput,
+          image: e.target.files[0],
+        },
+      };
+    });
+  };
+
+  const imageUploadHandler = async (e) => {
+    if (formState.userInput.image) {
+      const response = await Services.changeImage(formState.userInput.image);
+      if (response.response != "ok") {
+        displayErrorModal([
+          <ErrorModal
+            title={response.response.status}
+            errorDesc={response.response.data}
+            cancelError={cancelError}
+          ></ErrorModal>,
+        ]);
+        return;
+      }
+    } else {
+      displayErrorModal([
+        <ErrorModal
+          title={"400 BAD REQUEST"}
+          errorDesc={"You did not provide any image file."}
+          cancelError={cancelError}
+        ></ErrorModal>,
+      ]);
+      return;
+    }
   };
 
   return (
@@ -261,8 +297,13 @@ function ProfileEditCard(props) {
                   alt="current picture"
                 />
               </div>
-              <input type="file" name="pictureInput" id="pictureInput" />
-              <button>Update</button>
+              <input
+                type="file"
+                name="pictureInput"
+                id="pictureInput"
+                onChange={imageChangeHandler}
+              />
+              <button onClick={imageUploadHandler}>Update</button>
             </div>
             <div className="name-email-section">
               <h3>Change display name and email</h3>
@@ -284,6 +325,7 @@ function ProfileEditCard(props) {
                   id="newName"
                   value={formState.userInput.newName}
                   onChange={newNameChangeHandler}
+                  autoComplete="off"
                   placeholder="New display name"
                 />
               </div>
@@ -308,6 +350,7 @@ function ProfileEditCard(props) {
                   type="email"
                   name="newEmail"
                   id="newEmail"
+                  autoComplete="off"
                   value={formState.userInput.newEmail}
                   onChange={newEmailChangeHandler}
                   placeholder="New email adress"
@@ -330,6 +373,7 @@ function ProfileEditCard(props) {
                   name="currentPassword"
                   id="currentPassword"
                   placeholder="Current Password"
+                  autoComplete="off"
                   value={formState.userInput.currentPassword}
                   onChange={currentPasswordRepeatChangeHandler}
                 />
@@ -341,6 +385,7 @@ function ProfileEditCard(props) {
                   name="newPassword"
                   id="newPassword"
                   placeholder="New password"
+                  autoComplete="off"
                   value={formState.userInput.newPassword}
                   onChange={newPasswordChangeHandler}
                 />
@@ -352,6 +397,7 @@ function ProfileEditCard(props) {
                   name="newPasswordRepeat"
                   id="newPasswordRepeat"
                   placeholder="Repeat new password"
+                  autoComplete="off"
                   value={formState.userInput.newRepeatPassword}
                   onChange={newPasswordRepeatChangeHandler}
                 />

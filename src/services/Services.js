@@ -77,15 +77,15 @@ Services.updateUserData = async (
   currentPassword
 ) => {
   const config = {
-    headers: { "Content-Type": "application/json", },
+    headers: { "Content-Type": "application/json" },
   };
   const data = {
-    token:accessToken,
+    token: accessToken,
     newDisplayName,
     newEmail,
     newPassword,
     newImage,
-    currentPassword
+    currentPassword,
   };
   try {
     const response = await axios.post(
@@ -98,6 +98,26 @@ Services.updateUserData = async (
   } catch (error) {
     return { response: "failed", ...error };
   }
+};
+
+Services.changeImage = async (file) => {
+  let formData = new FormData();
+  formData.append("file", file);
+  formData.append("token",localStorage.getItem("accessToken"));
+  console.log(formData);
+  axios
+    .post("https://shortn.at/api/auth/user/update/image", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((response) => {
+      window.location.replace("https://shortn.at");
+      return { response: "ok", ...response.data };
+    })
+    .catch((error) => {
+      return { response: "failed", ...error };
+    });
 };
 
 Services.logoutUser = async (accessToken) => {
