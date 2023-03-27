@@ -114,6 +114,7 @@ const HamburguerMenu = (props) => {
           <div className="welcome-back-header-holder-hamburguer">
             <img
               src={props.userLogo}
+              onClick={props.clickProfileHandler}
               className="user-profile-pic-hamburguer"
             ></img>
             <button

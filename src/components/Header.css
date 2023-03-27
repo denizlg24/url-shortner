@@ -126,5 +126,11 @@
   margin-left: 1.5rem;
 }
 
+.welcome-back-header-holder img:hover, .welcome-back-header-holder-hamburguer img:hover{
+  cursor: pointer;
+  user-select: none;
+  transform: scale(1.075);
+}
+
 
 

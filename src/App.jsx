@@ -253,6 +253,7 @@ function App() {
         {errorState}
         {/*<PaymentPage></PaymentPage>*/}
         <Header
+          authData={authData}
           dark={theme === "dark"}
           changeThemeHandler={toggleTheme}
           onClickRegisterHandler={onClickRegisterHandler}
@@ -288,6 +289,7 @@ function App() {
       <>
         {errorState}
         <Header
+          authData={authData}
           dark={theme === "dark"}
           changeThemeHandler={toggleTheme}
           onClickRegisterHandler={onClickRegisterHandler}
@@ -316,6 +318,7 @@ function App() {
       <>
         {errorState}
         <Header
+          authData={authData}
           dark={theme === "dark"}
           changeThemeHandler={toggleTheme}
           onClickRegisterHandler={onClickRegisterHandler}
@@ -337,6 +340,7 @@ function App() {
     return (
       <>
         <ReducedHeader
+          authData={authData}
           dark={theme === "dark"}
           clickLoginHandler={onClickLoginHandler}
           clickRegisterHandler={onClickRegisterHandler}
@@ -355,6 +359,7 @@ function App() {
     return (
       <>
         <ReducedHeader
+          authData={authData}
           clickLoginHandler={onClickLoginHandler}
           clickRegisterHandler={onClickRegisterHandler}
           dark={theme === "dark"}

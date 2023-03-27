@@ -3,6 +3,7 @@ import SlideToggle from "./SlideToggle";
 import { useEffect, useState } from "react";
 import HamburguerMenu from "./HamburguerMenu";
 import Navlink from "./NavLink";
+import ProfileEditCard from "./ProfileEditCard";
 
 const Header = (props) => {
   const [headerClassNames, setHeaderClassNames] = useState(
@@ -10,6 +11,7 @@ const Header = (props) => {
   );
 
   const [hambugerDisplaying, toggleSize] = useState(false);
+  const [profileEdit, displayProfileEdit] = useState([]);
 
   useEffect(() => {
     function handleResize() {
@@ -66,93 +68,113 @@ const Header = (props) => {
     props.onClickIconHandler(e);
   };
 
+  const closeProfileEdit = (e) => {
+    displayProfileEdit([]);
+  };
+
+  const clickProfileHandler = (e) => {
+    displayProfileEdit([
+      <ProfileEditCard
+        authData={props.authData}
+        userLogo={props.userLogo}
+        dark={props.dark}
+        cancelError={closeProfileEdit}
+      ></ProfileEditCard>,
+    ]);
+  };
+
   return (
-    <div className={headerClassNames}>
-      <div className="header-content">
-        <div className="header-container__icon">
-          <h1 onClick={clickIconHandler}>Shortn</h1>
-        </div>
-        {hambugerDisplaying ? (
-          <HamburguerMenu
-            clickLoginHandler={clickLoginHandler}
-            clickRegisterHandler={clickRegisterHandler}
-            clickLogoutHandler={props.clickLogoutHandler}
-            dark={props.dark}
-            isLoggedIn={props.isLoggedIn}
-            currentUsername={props.currentUsername}
-            clickThemeChangeButton={clickThemeChangeButton}
-            userLogo={props.userLogo}
-            clickDashboard={props.clickDashboard}
-            clickFeatures={featuresClickHandler}
-            clickPricing={pricingClickHandler}
-            clickHelp={helpCenterHandler}
-          ></HamburguerMenu>
-        ) : (
-          <>
-            <div className="header-navigation">
-              <Navlink
-                title="Features"
-                clickHandler={featuresClickHandler}
-              ></Navlink>
-              <Navlink
-                title="Pricing"
-                clickHandler={pricingClickHandler}
-              ></Navlink>
-              <Navlink
-                title="Help Center"
-                clickHandler={helpCenterHandler}
-              ></Navlink>
-              {props.isLoggedIn && (
+    <>
+      {profileEdit}
+      <div className={headerClassNames}>
+        <div className="header-content">
+          <div className="header-container__icon">
+            <h1 onClick={clickIconHandler}>Shortn</h1>
+          </div>
+          {hambugerDisplaying ? (
+            <HamburguerMenu
+              clickLoginHandler={clickLoginHandler}
+              clickRegisterHandler={clickRegisterHandler}
+              clickLogoutHandler={props.clickLogoutHandler}
+              dark={props.dark}
+              isLoggedIn={props.isLoggedIn}
+              currentUsername={props.currentUsername}
+              clickThemeChangeButton={clickThemeChangeButton}
+              userLogo={props.userLogo}
+              clickDashboard={props.clickDashboard}
+              clickFeatures={featuresClickHandler}
+              clickPricing={pricingClickHandler}
+              clickHelp={helpCenterHandler}
+              clickProfileHandler={clickProfileHandler}
+            ></HamburguerMenu>
+          ) : (
+            <>
+              <div className="header-navigation">
                 <Navlink
-                  title="Dashboard"
-                  clickHandler={props.clickDashboard}
+                  title="Features"
+                  clickHandler={featuresClickHandler}
                 ></Navlink>
-              )}
-            </div>
-            <div className="header-container__actions">
-              <div className="header-container__theme">
-                <SlideToggle
-                  valueChangeHandler={clickThemeChangeButton}
-                  toggled={props.dark}
-                  labelText={"Dark mode"}
-                ></SlideToggle>
-              </div>
-              <div className="header-container__auth">
-                {!props.isLoggedIn ? (
-                  <>
-                    <button
-                      className="header-auth__button login"
-                      onClick={clickLoginHandler}
-                    >
-                      Login
-                    </button>
-                    <button
-                      className="header-auth__button signup"
-                      onClick={clickRegisterHandler}
-                    >
-                      Sign Up
-                    </button>{" "}
-                  </>
-                ) : (
-                  <div className="welcome-back-header-holder">
-                    <img
-                      src={props.userLogo}
-                      className="user-profile-pic-hamburguer"
-                    ></img>
-                    <button
-                      className="header-auth__button signup"
-                      onClick={props.clickLogoutHandler}
-                    >
-                      Logout
-                    </button>
-                  </div>
+                <Navlink
+                  title="Pricing"
+                  clickHandler={pricingClickHandler}
+                ></Navlink>
+                <Navlink
+                  title="Help Center"
+                  clickHandler={helpCenterHandler}
+                ></Navlink>
+                {props.isLoggedIn && (
+                  <Navlink
+                    title="Dashboard"
+                    clickHandler={props.clickDashboard}
+                  ></Navlink>
                 )}
               </div>
-            </div>
-          </>
-        )}
+              <div className="header-container__actions">
+                <div className="header-container__theme">
+                  <SlideToggle
+                    valueChangeHandler={clickThemeChangeButton}
+                    toggled={props.dark}
+                    labelText={"Dark mode"}
+                  ></SlideToggle>
+                </div>
+                <div className="header-container__auth">
+                  {!props.isLoggedIn ? (
+                    <>
+                      <button
+                        className="header-auth__button login"
+                        onClick={clickLoginHandler}
+                      >
+                        Login
+                      </button>
+                      <button
+                        className="header-auth__button signup"
+                        onClick={clickRegisterHandler}
+                      >
+                        Sign Up
+                      </button>{" "}
+                    </>
+                  ) : (
+                    <div className="welcome-back-header-holder">
+                      <img
+                        onClick={clickProfileHandler}
+                        src={props.userLogo}
+                        className="user-profile-pic-hamburguer"
+                      ></img>
+                      <button
+                        className="header-auth__button signup"
+                        onClick={props.clickLogoutHandler}
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

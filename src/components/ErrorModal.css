@@ -69,3 +69,178 @@
     align-items: center;
   }
 }
+
+.main-profile-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.651);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9;
+  border-radius: inherit;
+}
+
+.profile-modal-container{
+  width: 95%;
+  max-width: 500px;
+  padding: 2rem .7rem;
+  padding-bottom: 1rem;
+  max-height: 95vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-backgroundSecondary);
+  border-radius: 12px;
+}
+
+.profile-modal-content{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+.picture-section{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  color: var(--color-text);
+  gap: .2rem;
+  width: 100%;
+  text-align: center;
+}
+
+.picture-section img{
+  border-radius: 50%;
+  max-width: 40px;
+}
+
+.currentPicture{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+  filter: drop-shadow(0 0 .3rem rgba(0,0,0,0.1));
+}
+
+.picture-section input[type="file"]{
+  font-family: "Epilogue";
+  font-size: 1rem;
+}
+
+.picture-section input, .picture-section button{
+  margin: 0 .5rem;
+}
+
+.picture-section input::file-selector-button, .picture-section button{
+  color: var(--color-background);
+  background-color: var(--color-text);
+  outline: none;
+  border: 2px solid transparent;
+  padding: .5rem .5rem;
+  border-radius: 5px;
+  font-family: "Epilogue";
+}
+
+.picture-section input::file-selector-button:hover, .picture-section button:hover{
+  cursor: pointer;
+  user-select: none;
+  color: var(--color-text);
+  background-color: transparent;
+  border: 2px solid var(--color-text);
+}
+
+.profile-edit-title{
+  text-align: center;
+  color: var(--color-text);
+  margin-top: -1rem;
+  margin-bottom: .5rem;
+}
+
+.name-email-section{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  color: var(--color-text);
+  gap: .2rem;
+  width: 100%;
+  text-align: center;
+  padding: 0 .5rem;
+}
+
+.name-email-section .name-email-item input[type="text"], .name-email-section .name-email-item input[type="email"]{
+  background-color: var(--color-background);
+  color: var(--color-text);
+  padding: .25rem .3rem;
+  outline: none;
+  border: 1px solid var(--color-text);
+  border-radius: 5px;
+  margin-bottom: .5rem;
+}
+.name-email-item{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.name-email-section button{
+  color: var(--color-background);
+  background-color: var(--color-text);
+  outline: none;
+  border: 2px solid transparent;
+  padding: .5rem .5rem;
+  border-radius: 5px;
+  font-family: "Epilogue";
+}
+
+.name-email-section button:hover{
+  cursor: pointer;
+  user-select: none;
+  color: var(--color-text);
+  background-color: transparent;
+  border: 2px solid var(--color-text);
+}
+
+.password-section{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  color: var(--color-text);
+  gap: .2rem;
+  width: 100%;
+  text-align: center;
+  padding: 0 .5rem;
+}
+
+.password-section .name-email-item input[type="password"]{
+  background-color: var(--color-background);
+  color: var(--color-text);
+  padding: .25rem .3rem;
+  outline: none;
+  border: 1px solid var(--color-text);
+  border-radius: 5px;
+  margin-bottom: .5rem;
+}
+
+.password-section button{
+  color: var(--color-background);
+  background-color: var(--color-text);
+  outline: none;
+  border: 2px solid transparent;
+  padding: .5rem .5rem;
+  border-radius: 5px;
+  font-family: "Epilogue";
+}
+
+.password-section button:hover{
+  cursor: pointer;
+  user-select: none;
+  color: var(--color-text);
+  background-color: transparent;
+  border: 2px solid var(--color-text);
+}

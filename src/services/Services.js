@@ -68,6 +68,35 @@ Services.validateToken = async (accessToken) => {
   }
 };
 
+Services.updateUserData = async (
+  newDisplayName,
+  newEmail,
+  newPassword,
+  newImage,
+  currentPassword
+) => {
+  const config = {
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  };
+  const data = {
+    newDisplayName,
+    newEmail,
+    newPassword,
+    newImage,
+    currentPassword
+  };
+  try {
+    const response = await axios.post(
+      "https://shortn.at/api/auth/user/update",
+      data,
+      config
+    );
+    return { response: "ok", ...response.data };
+  } catch (error) {
+    return { response: "failed", ...error };
+  }
+};
+
 Services.logoutUser = async (accessToken) => {
   const data = {
     accessToken,
