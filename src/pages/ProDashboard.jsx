@@ -19,12 +19,20 @@ import "leaflet/dist/leaflet.css";
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import Services from "../services/Services";
+import ErrorModal from "../components/ErrorModal";
 
 const ProDashboard = (props) => {
   //const [filterUp, toggleFilter] = useState(true);
   const [proTab, selectProTab] = useState(0);
   const [advancedTab, selectAdvancedTab] = useState(0);
   const [lineBarTickCount, toggleSize] = useState(24);
+  const [errorState,displayErrorModal] = useState([]);
+
+  const cancelError = (e) => {
+    displayErrorModal([]);
+    return;
+  }
+
   let DefaultIcon = L.icon({
     iconUrl: icon,
     shadowUrl: iconShadow,
@@ -253,13 +261,22 @@ const ProDashboard = (props) => {
   }
 
   const downloadStatsHandler = async (e) => {
-    console.log(props.sub,props.shortCode);
-    const response = await Services.downloadStats(props.sub,props.shortCode);
-
+    const response = await Services.downloadStats(props.sub, props.shortCode);
+    if (response.response != "ok") {
+      displayErrorModal([
+        <ErrorModal
+          title={response.response.status}
+          errorDesc={response.response.data}
+          cancelError={cancelError}
+        ></ErrorModal>,
+      ]);
+      return;
+    }
   };
 
   return (
     <>
+      {errorState}
       <div className="page-select-pro-dashboard">
         <h2>Select Stats</h2>
         <div className="page-select-pro-content">
