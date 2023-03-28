@@ -5,14 +5,12 @@ import "./Pricing.css";
 import MoreInfo from "./MoreInfo";
 
 const Pricing = (props) => {
-
   const myPlan = props.myPlan;
 
-  const subscribed_clickHandler = (e) =>{
+  const subscribed_clickHandler = (e) => {
     e.preventDefault();
     Services.managePlan(props.stripeId);
-  }
-
+  };
 
   return (
     <>
@@ -31,12 +29,21 @@ const Pricing = (props) => {
               desc={
                 "With this plan, you can enjoy limited features, but still experience the benefits of our product."
               }
-              buttonText={!myPlan ? ("Join for Free.") : (!props.isLoggedIn? "Join for Free." : (myPlan.subscription === "free" ? "Current Plan." : "Downgrade to Free."))}
+              buttonText={
+                !myPlan
+                  ? "Join for Free."
+                  : !props.isLoggedIn
+                  ? "Join for Free."
+                  : myPlan.subscription === "free"
+                  ? "Current Plan."
+                  : "Downgrade to Free."
+              }
               features={[
-                { title: "Up to 3 shortn's/month.", id: "available" ,key:0 },
-                { title: "Get a url's total clicks", id: "medium" ,key:1},
-                { title: "Advanced Stats", id: "not-available" ,key:2},
-                { title: "Custom Short Url", id: "not-available" ,key:3},
+                { title: "Up to 3 shortn's/month.", id: "available", key: 0 },
+                { title: "Get a url's total clicks", id: "medium", key: 1 },
+                { title: "Advanced Stats", id: "not-available", key: 2 },
+                { title: "Custom Short Url", id: "not-available", key: 3 },
+                { title: "Download Stats", id: "not-available", key: 16 },
               ]}
               isLoggedIn={props.isLoggedIn}
               clickFreeHandler={props.clickFreeHandler}
@@ -51,12 +58,23 @@ const Pricing = (props) => {
               desc={
                 "Perfect for individuals or small businesses who need essential features at an affordable price."
               }
-              buttonText={!myPlan ? ("Get Basic.") : (!props.isLoggedIn? "Get Basic." : (myPlan.subscription === "basic" ? "Manage Plan." : (myPlan.subscription === "free" ? "Upgrade to Basic." : "Downgrade to Basic.")))}
+              buttonText={
+                !myPlan
+                  ? "Get Basic."
+                  : !props.isLoggedIn
+                  ? "Get Basic."
+                  : myPlan.subscription === "basic"
+                  ? "Manage Plan."
+                  : myPlan.subscription === "free"
+                  ? "Upgrade to Basic."
+                  : "Downgrade to Basic."
+              }
               features={[
-                { title: "Up to 25 shortn's/month.", id: "available" ,key:4},
-                { title: "Get a url's total clicks", id: "available" ,key:5},
-                { title: "Advanced Stats", id: "not-available" ,key:6},
-                { title: "Custom Short Url", id: "not-available" ,key:7},
+                { title: "Up to 25 shortn's/month.", id: "available", key: 4 },
+                { title: "Get a url's total clicks", id: "available", key: 5 },
+                { title: "Advanced Stats", id: "not-available", key: 6 },
+                { title: "Custom Short Url", id: "not-available", key: 7 },
+                { title: "Download Stats", id: "not-available", key: 17 },
               ]}
               lookUpKey={import.meta.env.VITE_BASIC_PLAN_KEY}
               isLoggedIn={props.isLoggedIn}
@@ -72,12 +90,24 @@ const Pricing = (props) => {
               desc={
                 "Our Plus plan is perfect for those who want more advanced features and link analytics."
               }
-              buttonText={!myPlan ? ("Get Plus.") : (!props.isLoggedIn? "Get Plus." : (myPlan.subscription === "plus" ? "Manage Plan." : ((myPlan.subscription === "free" || myPlan.subscription === "basic") ? "Upgrade to Plus." : "Downgrade to Plus.")))}
+              buttonText={
+                !myPlan
+                  ? "Get Plus."
+                  : !props.isLoggedIn
+                  ? "Get Plus."
+                  : myPlan.subscription === "plus"
+                  ? "Manage Plan."
+                  : myPlan.subscription === "free" ||
+                    myPlan.subscription === "basic"
+                  ? "Upgrade to Plus."
+                  : "Downgrade to Plus."
+              }
               features={[
-                { title: "Up to 50 shortn's/month.", id: "available",key:8 },
-                { title: "Get a url's total clicks", id: "available" ,key:9},
-                { title: "Advanced Stats", id: "medium" ,key:10},
-                { title: "Custom Short Url", id: "not-available",key:11 },
+                { title: "Up to 50 shortn's/month.", id: "available", key: 8 },
+                { title: "Get a url's total clicks", id: "available", key: 9 },
+                { title: "Advanced Stats", id: "medium", key: 10 },
+                { title: "Custom Short Url", id: "not-available", key: 11 },
+                { title: "Download Stats", id: "not-available", key: 18 },
               ]}
               lookUpKey={import.meta.env.VITE_PLUS_PLAN_KEY}
               clickFreeHandler={props.clickFreeHandler}
@@ -94,12 +124,21 @@ const Pricing = (props) => {
               desc={
                 "Our Pro plan is designed for power users and those who need the most advanced features and capabilities."
               }
-              buttonText={!myPlan ? ("Get Pro.") : (!props.isLoggedIn? "Get Pro." : (myPlan.subscription === "pro" ? "Manage Plan." : "Upgrade to Pro."))}
+              buttonText={
+                !myPlan
+                  ? "Get Pro."
+                  : !props.isLoggedIn
+                  ? "Get Pro."
+                  : myPlan.subscription === "pro"
+                  ? "Manage Plan."
+                  : "Upgrade to Pro."
+              }
               features={[
-                { title: "Unlimited shortn's.", id: "available",key:12 },
-                { title: "Get a url's total clicks", id: "available",key:13  },
-                { title: "Advanced Stats", id: "available",key:14  },
-                { title: "Custom Short Url", id: "available",key:15  },
+                { title: "Unlimited shortn's.", id: "available", key: 12 },
+                { title: "Get a url's total clicks", id: "available", key: 13 },
+                { title: "Advanced Stats", id: "available", key: 14 },
+                { title: "Custom Short Url", id: "available", key: 15 },
+                { title: "Download Stats", id: "available", key: 19 },
               ]}
               lookUpKey={import.meta.env.VITE_PRO_PLAN_KEY}
               clickFreeHandler={props.clickFreeHandler}
@@ -107,7 +146,11 @@ const Pricing = (props) => {
               isLoggedIn={props.isLoggedIn}
               sub={props.sub}
               myPlan={myPlan?.subscription}
-              upgradeLookupKey={myPlan?.subscription === "basic"? import.meta.env.VITE_BASIC_PRO_KEY : import.meta.env.VITE_PLUS_PRO_KEY}
+              upgradeLookupKey={
+                myPlan?.subscription === "basic"
+                  ? import.meta.env.VITE_BASIC_PRO_KEY
+                  : import.meta.env.VITE_PLUS_PRO_KEY
+              }
             ></PricingPlanItem>
           </div>
           <div className="color-legend-pricing">
@@ -138,7 +181,14 @@ const Pricing = (props) => {
           </div>
         </div>
       </div>
-      <MoreInfo stripeId={props.stripeId} isLoggedIn={props.isLoggedIn} sub={props.sub} myPlan={myPlan?myPlan.subscription : ""} clickFreeHandler={props.clickFreeHandler} subscribed_clickHandler={subscribed_clickHandler}></MoreInfo>
+      <MoreInfo
+        stripeId={props.stripeId}
+        isLoggedIn={props.isLoggedIn}
+        sub={props.sub}
+        myPlan={myPlan ? myPlan.subscription : ""}
+        clickFreeHandler={props.clickFreeHandler}
+        subscribed_clickHandler={subscribed_clickHandler}
+      ></MoreInfo>
     </>
   );
 };

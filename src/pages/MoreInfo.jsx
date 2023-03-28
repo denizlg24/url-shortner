@@ -111,6 +111,12 @@ const MoreInfo = (props) => {
       { type: "img", val: BsXLg },
       { type: "img", val: BsCheckLg },
     ],
+    "Download stats as a .csv file": [
+      { type: "img", val: BsXLg },
+      { type: "img", val: BsXLg },
+      { type: "img", val: BsXLg },
+      { type: "img", val: BsCheckLg },
+    ],
   };
 
   const [activeDesc, activateDesc] = useState([]);
