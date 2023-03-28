@@ -262,7 +262,7 @@ const ProDashboard = (props) => {
 
   const downloadStatsHandler = async (e) => {
     const response = await Services.downloadStats(props.sub, props.shortCode);
-    if (response.response != "ok") {
+    if (response.response !== "ok") {
       displayErrorModal([
         <ErrorModal
           title={response.response.status}

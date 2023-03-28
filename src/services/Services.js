@@ -245,7 +245,7 @@ Services.downloadStats = async (sub,code) => {
     .post("https://shortn.at/api/url/stats/download", data, config)
     .then((response) => {
       window.open(response.data, '_blank', 'noreferrer');
-      return;
+      return { response: "ok", data: response.data };
     })
     .catch((error) => {
       return { response: "failed", ...error };
