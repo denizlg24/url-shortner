@@ -306,7 +306,7 @@ function ProfileEditCard(props) {
               <button onClick={imageUploadHandler}>Update</button>
             </div>
             <div className="name-email-section">
-              <h3>Change display name and email</h3>
+              <h3>{props.authData?.sub.split("|")[0] === "google" ? "Change display name" : "Change display name and email"}</h3>
               <div className="name-email-item">
                 <p>Current display name</p>
                 <input
@@ -329,7 +329,10 @@ function ProfileEditCard(props) {
                   placeholder="New display name"
                 />
               </div>
-              <div className="name-email-item">
+              <div className="name-email-item" style={{
+                display:
+                  props.authData?.sub.split("|")[0] === "google" ? "none" : "",
+              }}>
                 <p>Current email address</p>
                 <input
                   type="email"
@@ -344,7 +347,10 @@ function ProfileEditCard(props) {
                   readOnly={true}
                 />
               </div>
-              <div className="name-email-item">
+              <div className="name-email-item" style={{
+                display:
+                  props.authData?.sub.split("|")[0] === "google" ? "none" : "",
+              }}>
                 <p>New email address</p>
                 <input
                   type="email"
