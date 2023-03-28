@@ -126,6 +126,12 @@
   margin-left: 1.5rem;
 }
 
+.welcome-back-header-holder img, .welcome-back-header-holder-hamburguer img{
+  aspect-ratio: 1;
+  height: auto;
+  max-width: 40px;
+}
+
 .welcome-back-header-holder img:hover, .welcome-back-header-holder-hamburguer img:hover{
   cursor: pointer;
   user-select: none;

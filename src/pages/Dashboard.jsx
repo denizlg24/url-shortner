@@ -185,6 +185,8 @@ const Dashboard = (props) => {
           data={urlData.clicks}
           myPlan={props.myPlan}
           shortUrl={urlData.shortUrl}
+          sub={urlData.userId}
+          shortCode={urlData.urlCode}
           lastClicked={urlData.clicks.lastClick}
           dark={props.dark}
           closeStats={cancelStatsPage}

@@ -18,6 +18,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
+import Services from "../services/Services";
 
 const ProDashboard = (props) => {
   //const [filterUp, toggleFilter] = useState(true);
@@ -250,6 +251,13 @@ const ProDashboard = (props) => {
       );
     }
   }
+
+  const downloadStatsHandler = async (e) => {
+    console.log(props.sub,props.shortCode);
+    const response = await Services.downloadStats(props.sub,props.shortCode);
+
+  };
+
   return (
     <>
       <div className="page-select-pro-dashboard">
@@ -320,6 +328,9 @@ const ProDashboard = (props) => {
             </span>
           </div>
         )}
+      </div>
+      <div className="download-stats-container">
+        <button onClick={downloadStatsHandler}>Download Stats</button>
       </div>
       {proTab === 1 && (
         <div className="bar-chart-holder-pro">

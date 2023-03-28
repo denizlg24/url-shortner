@@ -233,6 +233,25 @@ Services.removeLink = async (shortUrl) => {
     });
 };
 
+Services.downloadStats = async (sub,code) => {
+  const data = {
+    code,sub,
+  };
+
+  const config = {
+    "Content-Type": "application/json",
+  };
+  return axios
+    .post("https://shortn.at/api/url/stats/download", data, config)
+    .then((response) => {
+      window.open(response.data, '_blank', 'noreferrer');
+      return;
+    })
+    .catch((error) => {
+      return { response: "failed", ...error };
+    });
+}
+
 Services.startResetFlow = async (email) => {
   const data = {
     email,

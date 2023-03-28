@@ -16,6 +16,7 @@
   -webkit-transition: background-color 150ms ease-in-out;
   -ms-transition: background-color 150ms ease-in-out;
   transition: background-color 150ms ease-in-out;
+  font-family: "Epilogue", sans-serif;
 }
 
 html{
