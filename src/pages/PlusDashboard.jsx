@@ -48,22 +48,26 @@ const PlusDashboard = (props) => {
   }, []);
 
   const times = [];
-  for (let i = 0; i < 24; i++) {
+  for (let i = 0; i < 25; i++) {
     times.push({
       time: i,
       value: 0,
     });
   }
-  for (const key in props.data.byTimeOfDay) {
-    if (Object.hasOwnProperty.call(props.data.byTimeOfDay, key)) {
+  props.data.byTimeOfDay.forEach((item) => {
+    let time =
+      parseInt(item.split(":")[0]) +
+      parseFloat((parseInt(item.split(":")[1]) / 60).toFixed(2));
+    const i = times.findIndex((e) => e.time === time);
+    if (i > -1) {
+      times[i].value += 1;
+    }else{
       times.push({
-        time:
-          parseInt(key.split(":")[0]) +
-          parseFloat((parseInt(key.split(":")[1]) / 60).toFixed(2)),
-        value: props.data.byTimeOfDay[key],
-      });
+        time:time,
+        value:1
+      })
     }
-  }
+  });
   times.sort(function (a, b) {
     if (a.time <= b.time) return -1;
     if (a.time > b.time) return 1;

@@ -26,12 +26,12 @@ const ProDashboard = (props) => {
   const [proTab, selectProTab] = useState(0);
   const [advancedTab, selectAdvancedTab] = useState(0);
   const [lineBarTickCount, toggleSize] = useState(24);
-  const [errorState,displayErrorModal] = useState([]);
+  const [errorState, displayErrorModal] = useState([]);
 
   const cancelError = (e) => {
     displayErrorModal([]);
     return;
-  }
+  };
 
   let DefaultIcon = L.icon({
     iconUrl: icon,
@@ -123,16 +123,20 @@ const ProDashboard = (props) => {
       value: 0,
     });
   }
-  for (const key in props.data.byTimeOfDay) {
-    if (Object.hasOwnProperty.call(props.data.byTimeOfDay, key)) {
+  props.data.byTimeOfDay.forEach((item) => {
+    let time =
+      parseInt(item.split(":")[0]) +
+      parseFloat((parseInt(item.split(":")[1]) / 60).toFixed(2));
+    const i = times.findIndex((e) => e.time === time);
+    if (i > -1) {
+      times[i].value += 1;
+    }else{
       times.push({
-        time:
-          parseInt(key.split(":")[0]) +
-          parseFloat((parseInt(key.split(":")[1]) / 60).toFixed(2)),
-        value: props.data.byTimeOfDay[key],
-      });
+        time:time,
+        value:1
+      })
     }
-  }
+  });
   times.sort(function (a, b) {
     if (a.time <= b.time) return -1;
     if (a.time > b.time) return 1;
