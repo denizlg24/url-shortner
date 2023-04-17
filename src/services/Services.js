@@ -252,6 +252,18 @@ Services.downloadStats = async (sub,code) => {
     });
 }
 
+Services.getQrcode = async (code) => {
+  return axios
+    .get(`https://shortn.at/api/url/${code}/qrcode`)
+    .then((response) => {
+      window.open(response.data.url, '_blank', 'noreferrer');
+      return { response: "ok", data: response.data };
+    })
+    .catch((error) => {
+      return { response: "failed", ...error };
+    });
+}
+
 Services.startResetFlow = async (email) => {
   const data = {
     email,

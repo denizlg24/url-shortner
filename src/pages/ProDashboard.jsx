@@ -279,6 +279,20 @@ const ProDashboard = (props) => {
     }
   };
 
+  const qrCodeHandler = async (e) => {
+    const response = await Services.getQrcode(props.shortCode);
+    if ("status" in response.response) {
+      displayErrorModal([
+        <ErrorModal
+          title={response.response.status}
+          errorDesc={response.response.data}
+          cancelError={cancelError}
+        ></ErrorModal>,
+      ]);
+      return;
+    }
+  }
+
   return (
     <>
       {errorState}
@@ -353,6 +367,9 @@ const ProDashboard = (props) => {
       </div>
       <div className="download-stats-container">
         <button onClick={downloadStatsHandler}>Download Stats</button>
+      </div>
+      <div className="qr-code-container">
+        <button onClick={qrCodeHandler}>Get QR Code</button>
       </div>
       {proTab === 1 && (
         <div className="bar-chart-holder-pro">
