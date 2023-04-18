@@ -244,9 +244,9 @@ Services.downloadStats = async (sub,code) => {
   return axios
     .post("https://shortn.at/api/url/stats/download", data, config)
     .then((response) => {
-      window.location.href = response.data.url;
+      window.location.href = response.data; 
       return { response: "ok", data: response.data };
-    })
+    })  
     .catch((error) => {
       return { response: "failed", ...error };
     });
