@@ -244,7 +244,7 @@ Services.downloadStats = async (sub,code) => {
   return axios
     .post("https://shortn.at/api/url/stats/download", data, config)
     .then((response) => {
-      window.open(response.data, '_blank', 'noreferrer');
+      window.location.href = response.data.url;
       return { response: "ok", data: response.data };
     })
     .catch((error) => {
@@ -256,7 +256,7 @@ Services.getQrcode = async (code) => {
   return axios
     .get(`https://shortn.at/api/url/${code}/qrcode`)
     .then((response) => {
-      window.open(response.data.url, '_blank', 'noreferrer');
+      window.location.href = response.data.url;
       return { response: "ok", data: response.data };
     })
     .catch((error) => {
