@@ -117,6 +117,18 @@ const MoreInfo = (props) => {
       { type: "img", val: BsXLg },
       { type: "img", val: BsCheckLg },
     ],
+    "Get a QR code with custom logo": [
+      { type: "img", val: BsXLg },
+      { type: "img", val: BsXLg },
+      { type: "img", val: BsXLg },
+      { type: "img", val: BsCheckLg },
+    ],
+    "Custom link page": [
+      { type: "img", val: BsXLg },
+      { type: "img", val: BsXLg },
+      { type: "img", val: BsXLg },
+      { type: "img", val: BsCheckLg },
+    ],
   };
 
   const [activeDesc, activateDesc] = useState([]);

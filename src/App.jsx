@@ -376,6 +376,7 @@ function App() {
           dark={theme === "dark"}
           myPlan={myPlan ? myPlan.subscription : ""}
           home={onClickIconHandler}
+          authData={authData}
         ></Dashboard>
       </>
     );

@@ -409,6 +409,95 @@
   border: 2px solid var(--color-text);
 }
 
+.qr-code-customization-title{
+  color: var(--color-text);
+  margin:0.5rem auto;
+  text-align: center;
+}
+.qr-code-settings{
+  display: flex;
+  justify-content: space-between;
+  color: var(--color-text);
+  width: 100%;
+  margin:0.5rem 0;
+  gap: 1rem;
+}
+.logo-input-holder{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0;
+}
+
+.logo-input-holder input::file-selector-button{
+  color: var(--color-background);
+  background-color: var(--color-text);
+  outline: none;
+  border: 2px solid transparent;
+  padding: .5rem .5rem;
+  border-radius: 5px;
+  font-family: "Epilogue";
+}
+
+.logo-input-holder input::file-selector-button:hover{
+  cursor: pointer;
+  user-select: none;
+  color: var(--color-text);
+  background-color: transparent;
+  border: 2px solid var(--color-text);
+}
+
+.color-input-holder{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.color-color-input-hodler{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.first-color, .second-color{
+  display: flex;
+  align-items: center;
+}
+
+#background-color{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+#background-color::-webkit-color-swatch {
+  border-radius: 15px;
+  border: 1px solid var(--color-text);
+}
+#background-color::-moz-color-swatch {
+  border-radius: 15px;
+  border: 1px solid var(--color-text);
+}
+
+#foreground-color{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  
+}
+#foreground-color::-webkit-color-swatch {
+  border-radius: 15px;
+  border: 1px solid var(--color-text);
+}
+#foreground-color::-moz-color-swatch {
+  border-radius: 15px;
+  border: 1px solid var(--color-text);
+}
 @media screen and (max-width: 1099px) {
   .main-dashboard-content {
     padding: 0.5rem;
@@ -448,4 +537,10 @@
     margin: 0;
   }
   
+}
+
+@media screen and (max-width:800px) {
+  .qr-code-settings{
+    flex-direction: column;
+  }
 }

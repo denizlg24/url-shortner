@@ -190,6 +190,7 @@ const Dashboard = (props) => {
           lastClicked={urlData.clicks.lastClick}
           dark={props.dark}
           closeStats={cancelStatsPage}
+          authData={props.authData}
         ></LinkStats>
       )}
       <div className="main-dashboard-container">
