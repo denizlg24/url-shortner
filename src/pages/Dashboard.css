@@ -498,6 +498,63 @@
   border-radius: 15px;
   border: 1px solid var(--color-text);
 }
+
+.qr-code-preview-holder canvas{
+  width: 100% !important;
+  max-width: 500px;
+  height: auto !important;
+  aspect-ratio: 1 !important;
+}
+
+.long-url-editor{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 1rem;
+  color: var(--color-text);
+}
+.long-url-editor input{
+  min-height: 2rem;
+  background-color: var(--color-background);
+  border: 2px solid var(--color-text);
+  border-radius: 4px;
+  color: var(--color-text);
+  padding-left: .5rem;
+  font-size: 1rem;
+}
+
+.long-url-editor input::placeholder, .short-url-input-part input::placeholder{
+  color: var(--color-text);
+}
+
+.short-url-editor{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 1rem;
+  color: var(--color-text);
+  margin-top: 1rem;
+}
+
+.short-url-input-part{
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: .5rem;
+}
+
+.short-url-input-part input{
+  min-height: 2rem;
+  background-color: var(--color-background);
+  border: 2px solid var(--color-text);
+  border-radius: 4px;
+  color: var(--color-text);
+  padding-left: .5rem;
+  font-size: 1rem;
+  width: 100%;
+}
+
+
 @media screen and (max-width: 1099px) {
   .main-dashboard-content {
     padding: 0.5rem;
@@ -541,6 +598,16 @@
 
 @media screen and (max-width:800px) {
   .qr-code-settings{
+    flex-direction: column;
+  }
+  .logo-input-holder{
+    align-items: center;
+  }
+}
+
+
+@media screen and (max-width:425px) {
+  .color-color-input-hodler{
     flex-direction: column;
   }
 }

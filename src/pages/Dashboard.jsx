@@ -4,7 +4,13 @@ import Services from "../services/Services";
 import ErrorModal from "../components/ErrorModal";
 import "./Dashboard.css";
 import LinkStats from "./LinkStats";
-import { BsChevronDoubleRight, BsChevronDoubleLeft, BsFillReplyFill } from "react-icons/bs";
+import {
+  BsChevronDoubleRight,
+  BsChevronDoubleLeft,
+  BsFillReplyFill,
+} from "react-icons/bs";
+import { QRCode } from "react-qrcode-logo";
+import html2canvas from "html2canvas";
 
 const Dashboard = (props) => {
   const [myUrls, setUrls] = useState([]);
@@ -15,6 +21,15 @@ const Dashboard = (props) => {
   const [selectedPage, selectPage] = useState(0);
   const [urlData, setUrlData] = useState();
   const [urlStartedCreation, starturlCreation] = useState(false);
+  const [showingQrCode, showQrCode] = useState(false);
+  const [currentImg, setFiles] = useState();
+  const [qrCodeBgColor, setBgColor] = useState("#FFFFFF");
+  const [qrCodeFgColor, setFgColor] = useState("#000000");
+  const [qrCodeUrl, setQrCodeUrl] = useState("");
+  const [showingShortnEdit, showShortnEdit] = useState(false);
+  const [editingData, setEditingData] = useState();
+  const [editingShortCode, editShortCode] = useState("");
+  const [editingLongUrl, editLongUrl] = useState("");
 
   const urlPerPage = 3;
 
@@ -34,8 +49,7 @@ const Dashboard = (props) => {
         if (selectedPage >= numberOfPages) {
           selectPage(numberOfPages - 1);
         }
-      }
-      else{
+      } else {
         selectPage(0);
       }
     } else {
@@ -70,7 +84,6 @@ const Dashboard = (props) => {
   const handleGetClickAnalytics = async (shortURL) => {
     const response = await Services.getStats(shortURL);
     if (response.response === "ok") {
-      console.log(response.data);
       setUrlData(response.data);
     } else {
       displayErrorModal([
@@ -168,13 +181,95 @@ const Dashboard = (props) => {
 
   const cancelApplyCodeHandler = (e) => {
     changecurrentShortCode("");
-    changecurrentLongUrl("")
+    changecurrentLongUrl("");
     starturlCreation(false);
     applyCode(false);
   };
 
   const handleStartShortCodeCreation = (e) => {
     starturlCreation(true);
+  };
+
+  function delay(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+  }
+  const qrCodeHandler = async (e) => {
+    await delay(1);
+    html2canvas(document.getElementById("react-qrcode-logo"), {
+      allowTaint: true,
+      useCORS: true,
+    }).then(function (canvas) {
+      const link = document.createElement("a");
+      link.download = `${qrCodeUrl}_QRCODE.png`;
+      link.href = canvas.toDataURL();
+      link.click();
+    });
+  };
+
+  const toBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+    });
+  const onClickQrCodeHandler = (sUrl) => {
+    setQrCodeUrl(sUrl.slice(18));
+    showQrCode(true);
+  };
+  const onClickEditHandler = async (sUrl) => {
+    setQrCodeUrl(sUrl);
+    const response = await Services.getLong(sUrl.slice(18));
+    if (response.response === "ok") {
+      setEditingData({
+        shortUrl: sUrl,
+        shortCode: sUrl.slice(18),
+        longUrl: response.data.longUrl,
+      });
+      showShortnEdit(true);
+    } else {
+      displayErrorModal([
+        <ErrorModal
+          title={response.response.status}
+          errorDesc={response.response.data}
+          cancelError={cancelError}
+        ></ErrorModal>,
+      ]);
+    }
+  };
+
+  const updateShortnHandler = async (sUrl) => {
+    const regex = /^[a-zA-Z0-9_-]+$/;
+    if (editingShortCode && !regex.test(editingShortCode)) {
+      displayErrorModal([
+        <ErrorModal
+          title={"400"}
+          errorDesc={"The short code can only contain letters digits or '-_' !"}
+          cancelError={cancelError}
+        ></ErrorModal>,
+      ]);
+      editShortCode("");
+      return;
+    }
+    const response = await Services.updateShortn(
+      sUrl.slice(18),
+      editingShortCode,
+      editingLongUrl
+    );
+    if (response.response === "ok") {
+      editShortCode("");
+      editLongUrl("");
+      showShortnEdit(false);
+      getUrls();
+    } else {
+      displayErrorModal([
+        <ErrorModal
+          title={response.response.status}
+          errorDesc={response.response.data}
+          cancelError={cancelError}
+        ></ErrorModal>,
+      ]);
+    }
   };
 
   return (
@@ -193,10 +288,164 @@ const Dashboard = (props) => {
           authData={props.authData}
         ></LinkStats>
       )}
+      {showingQrCode && (
+        <div className="main-error-modal">
+          <div
+            className="main-stats-container"
+            style={{
+              backgroundColor: "var(--color-backgroundSecondary)",
+              paddingBottom: "1rem",
+            }}
+          >
+            <button
+              className="close-modal"
+              onClick={() => {
+                showQrCode(false);
+              }}
+              style={{
+                filter: props.dark
+                  ? "invert(91%) sepia(99%) saturate(34%) hue-rotate(254deg) brightness(106%) contrast(100%)"
+                  : "",
+              }}
+            >
+              <img src="https://img.icons8.com/ios-glyphs/30/null/macos-close.png" />
+            </button>
+            <div className="title-holder-stats">
+              <h2>QR Code Generator</h2>
+            </div>
+            <div className="qr-code-preview-holder">
+              {
+                <QRCode
+                  value={`https://shortn.at/${qrCodeUrl}`}
+                  ecLevel={"M"}
+                  size={500}
+                  logoImage={currentImg}
+                  removeQrCodeBehindLogo={true}
+                  logoPadding={5}
+                  logoWidth={100}
+                  bgColor={qrCodeBgColor}
+                  fgColor={qrCodeFgColor}
+                  logoPaddingStyle={"circle"}
+                />
+              }
+            </div>
+            <div className="qr-code-settings">
+              <div className="logo-input-holder">
+                <h3>Choose QR Code Logo</h3>
+                <input
+                  type="file"
+                  onChange={(e) => {
+                    if (e.target.files.length > 0)
+                      toBase64(e.target.files[0]).then((value) =>
+                        setFiles(value)
+                      );
+                    else setFiles();
+                  }}
+                />
+              </div>
+              <div className="color-input-holder">
+                <h3>Choose Colors</h3>
+                <div className="color-color-input-hodler">
+                  <div className="first-color">
+                    <input
+                      type="color"
+                      id="background-color"
+                      value={qrCodeBgColor}
+                      onChange={(e) => {
+                        setBgColor(e.target.value);
+                      }}
+                    />
+                    <label htmlFor="background-color">Background</label>
+                  </div>
+                  <div className="second-color">
+                    <input
+                      type="color"
+                      id="foreground-color"
+                      value={qrCodeFgColor}
+                      onChange={(e) => {
+                        setFgColor(e.target.value);
+                      }}
+                    />
+                    <label htmlFor="foreground-color">Foreground</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="link-actions">
+              <button onClick={qrCodeHandler} id="download-btn-qrcode">
+                Download QR Code
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showingShortnEdit && (
+        <div className="main-error-modal">
+          <div
+            className="main-stats-container"
+            style={{
+              backgroundColor: "var(--color-backgroundSecondary)",
+              paddingBottom: "1rem",
+            }}
+          >
+            <button
+              className="close-modal"
+              onClick={() => {
+                showShortnEdit(false);
+              }}
+              style={{
+                filter: props.dark
+                  ? "invert(91%) sepia(99%) saturate(34%) hue-rotate(254deg) brightness(106%) contrast(100%)"
+                  : "",
+              }}
+            >
+              <img src="https://img.icons8.com/ios-glyphs/30/null/macos-close.png" />
+            </button>
+            <div className="title-holder-stats">
+              <h2>Edit Shortn Link</h2>
+            </div>
+            <div className="long-url-editor">
+              <h3>Update long url</h3>
+              <input
+                type="text"
+                placeholder={editingData?.longUrl}
+                value={editingLongUrl}
+                onChange={(e) => {
+                  editLongUrl(e.target.value);
+                }}
+              />
+            </div>
+            <div className="short-url-editor">
+              <h3>Update short url</h3>
+              <div className="short-url-input-part">
+                <h4>https://shortn.at/</h4>
+                <input
+                  type="text"
+                  placeholder={editingData?.shortCode}
+                  value={editingShortCode}
+                  onChange={(e) => {
+                    editShortCode(e.target.value);
+                  }}
+                />
+              </div>
+            </div>
+            <div className="link-actions">
+              <button
+                onClick={() => {
+                  updateShortnHandler(editingData?.shortUrl);
+                }}
+                id="download-btn-qrcode"
+              >
+                Update Shortn
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="main-dashboard-container">
         <div className="main-dashboard-content">
           <div className="back-home-dashboard" onClick={props.home}>
-            <BsFillReplyFill/>
+            <BsFillReplyFill />
             <p>Home</p>
           </div>
           <div className="main-content-dashboard">
@@ -268,7 +517,8 @@ const Dashboard = (props) => {
                       </button>
                     </div>
                     <h3 id="edit-shortCode">
-                      Since you are a Pro customer you can choose your own custom short link.
+                      Since you are a Pro customer you can choose your own
+                      custom short link.
                     </h3>
                   </>
                 )}
@@ -276,7 +526,8 @@ const Dashboard = (props) => {
             )}
 
             <div className="created-links-dashboard">
-              {myUrls.length > 0 &&  !urlStartedCreation &&
+              {myUrls.length > 0 &&
+                !urlStartedCreation &&
                 myUrls
                   .slice(
                     0 + urlPerPage * selectedPage,
@@ -290,14 +541,19 @@ const Dashboard = (props) => {
                         key={url.shortUrl}
                         onClickHandler={handleGetClickAnalytics}
                         onDeleteHandler={onDeleteHandler}
+                        onClickQrCodeHandler={onClickQrCodeHandler}
+                        onClickEditHandler={onClickEditHandler}
                         dark={props.dark}
+                        myPlan={props.myPlan}
                       ></LinkItem>
                     );
                   })}
               {myUrls.length > 3 && (
                 <div className="dashboard-page-select">
                   <div className="button-page-select-dashboard">
-                    <button onClick={prevPageHandler}><BsChevronDoubleLeft/></button>
+                    <button onClick={prevPageHandler}>
+                      <BsChevronDoubleLeft />
+                    </button>
                   </div>
                   <div className="page-identifier">
                     <h3>
@@ -306,7 +562,9 @@ const Dashboard = (props) => {
                     </h3>
                   </div>
                   <div className="button-page-select-dashboard">
-                    <button onClick={nextPageHandler}><BsChevronDoubleRight/></button>
+                    <button onClick={nextPageHandler}>
+                      <BsChevronDoubleRight />
+                    </button>
                   </div>
                 </div>
               )}

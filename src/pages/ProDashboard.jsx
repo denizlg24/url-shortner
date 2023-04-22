@@ -20,8 +20,6 @@ import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import Services from "../services/Services";
 import ErrorModal from "../components/ErrorModal";
-import { QRCode } from "react-qrcode-logo";
-import html2canvas from "html2canvas";
 
 const ProDashboard = (props) => {
   //const [filterUp, toggleFilter] = useState(true);
@@ -29,10 +27,6 @@ const ProDashboard = (props) => {
   const [advancedTab, selectAdvancedTab] = useState(0);
   const [lineBarTickCount, toggleSize] = useState(24);
   const [errorState, displayErrorModal] = useState([]);
-  const [showingQrCode, showQrCode] = useState(false);
-  const [currentImg, setFiles] = useState();
-  const [qrCodeBgColor, setBgColor] = useState("#FFFFFF");
-  const [qrCodeFgColor, setFgColor] = useState("#000000");
   const cancelError = (e) => {
     displayErrorModal([]);
     return;
@@ -284,32 +278,6 @@ const ProDashboard = (props) => {
     }
   };
 
-  function delay(time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
-  }
-  const qrCodeHandler = async (e) => {
-    showQrCode(true);
-    await delay(1);
-    html2canvas(document.getElementById("react-qrcode-logo"), {
-      allowTaint: true,
-      useCORS: true,
-    }).then(function (canvas) {
-      const link = document.createElement("a");
-      link.download = `${props.shortCode}_QRCODE.png`;
-      link.href = canvas.toDataURL();
-      showQrCode(false);
-      link.click();
-    });
-  };
-
-  const toBase64 = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-    });
-
   return (
     <>
       {errorState}
@@ -385,56 +353,6 @@ const ProDashboard = (props) => {
       <div className="download-stats-container">
         <button onClick={downloadStatsHandler}>Download Stats</button>
       </div>
-      <div className="qr-code-settings">
-        <div className="logo-input-holder">
-          <h3>Choose QR Code Logo</h3>
-          <input
-            type="file"
-            onChange={(e) => {
-              if(e.target.files.length > 0)
-                toBase64(e.target.files[0]).then((value) => setFiles(value));
-              else setFiles();
-            }}
-          />
-        </div>
-        <div className="color-input-holder">
-          <h3>Choose Colors</h3>
-          <div className="color-color-input-hodler">
-            <div className="first-color">
-              <input type="color" id="background-color" value={qrCodeBgColor} onChange={(e) => {
-                setBgColor(e.target.value)
-              }}/>
-              <label htmlFor="background-color">Background</label>
-            </div>
-            <div className="second-color">
-              <input type="color" id="foreground-color" value={qrCodeFgColor} onChange={(e) => {
-                setFgColor(e.target.value)
-              }}/>
-              <label htmlFor="foreground-color">Foreground</label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="qr-code-container">
-        <button onClick={qrCodeHandler}>Get QR Code</button>
-      </div>
-
-      <div style={{ position: "absolute", opacity: "0" }}>
-        {showingQrCode && (
-          <QRCode
-            value={`https://shortn.at/${props.shortCode}`}
-            ecLevel={"M"}
-            size={500}
-            logoImage={currentImg}
-            removeQrCodeBehindLogo={true}
-            logoPadding={5}
-            logoWidth={100}
-            bgColor={qrCodeBgColor}
-            fgColor={qrCodeFgColor}
-          />
-        )}
-      </div>
-
       {proTab === 1 && (
         <div className="bar-chart-holder-pro">
           <ResponsiveContainer width="100%" height="100%">

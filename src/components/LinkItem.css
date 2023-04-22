@@ -3,6 +3,7 @@
   padding: 1rem;
   background-color: transparent;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   margin-top: 1rem;
   border-radius: 12px;
@@ -31,9 +32,16 @@
 }
 .link-actions {
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  align-items: stretch;
+  justify-content: center;
   gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.link-actions button {
+  margin-top: 0.5rem;
+  flex:1;
+  width: 100%;
 }
 
 #stats-btn-linkitem {
@@ -53,6 +61,23 @@
   border-color: var(--color-text);
 }
 
+#download-btn-qrcode {
+  width: max-content;
+  padding: 0.35rem;
+  border-radius: 5px;
+  border: 2px solid;
+  border-color: transparent;
+  font-size: 1rem;
+  color: var(--color-background);
+  background-color: var(--color-text);
+}
+#download-btn-qrcode:hover {
+  cursor: pointer;
+  user-select: none;
+  background-color: transparent;
+  border-color: var(--color-text);
+  color: var(--color-text);
+}
 #delete-btn-linkitem {
   width: max-content;
   padding: 0.35rem;
@@ -73,20 +98,14 @@
 }
 
 @media screen and (max-width: 1099px) {
-  .link-container {
-    display: block;
-  }
-  .link-actions {
-    justify-content: center;
-  }
-  .link-actions button {
-    margin-top: 0.5rem;
-    flex: 1;
-    width: 100%;
-  }
   .link-info {
     display: flex;
     max-width: 100%;
+  }
+  .link-actions button{
+    width: 100%;
+    flex: auto;
+    min-width: calc(50% - .5rem);
   }
   #long-url-linkitem {
     max-width: none;

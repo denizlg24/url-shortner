@@ -103,7 +103,7 @@ Services.updateUserData = async (
 Services.changeImage = async (file) => {
   let formData = new FormData();
   formData.append("file", file);
-  formData.append("token",localStorage.getItem("accessToken"));
+  formData.append("token", localStorage.getItem("accessToken"));
   console.log(formData);
   axios
     .post("https://shortn.at/api/auth/user/update/image", formData, {
@@ -233,9 +233,10 @@ Services.removeLink = async (shortUrl) => {
     });
 };
 
-Services.downloadStats = async (sub,code) => {
+Services.downloadStats = async (sub, code) => {
   const data = {
-    code,sub,
+    code,
+    sub,
   };
 
   const config = {
@@ -244,25 +245,43 @@ Services.downloadStats = async (sub,code) => {
   return axios
     .post("https://shortn.at/api/url/stats/download", data, config)
     .then((response) => {
-      window.location.href = response.data; 
-      return { response: "ok", data: response.data };
-    })  
-    .catch((error) => {
-      return { response: "failed", ...error };
-    });
-}
-
-Services.getQrcode = async (code) => {
-  return axios
-    .get(`https://shortn.at/api/url/${code}/qrcode`)
-    .then((response) => {
-      window.location.href = response.data.url;
+      window.location.href = response.data;
       return { response: "ok", data: response.data };
     })
     .catch((error) => {
       return { response: "failed", ...error };
     });
-}
+};
+
+Services.getLong = async (code) => {
+  return axios
+    .get(`https://shortn.at/api/url/${code}/longUrl`)
+    .then((response) => {
+      return { response: "ok", data: response.data };
+    })
+    .catch((error) => {
+      return { response: "failed", ...error };
+    });
+};
+
+Services.updateShortn = async (code, newShortCode, newLongUrl) => {
+  const data = {
+    newLongUrl,
+    newShortCode,
+  };
+
+  const config = {
+    "Content-Type": "application/json",
+  };
+  return axios
+    .post(`https://shortn.at/api/url/${code}/update`, data, config)
+    .then((response) => {
+      return { response: "ok", data: response.data };
+    })
+    .catch((error) => {
+      return { response: "failed", ...error };
+    });
+};
 
 Services.startResetFlow = async (email) => {
   const data = {
