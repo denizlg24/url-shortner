@@ -11,9 +11,11 @@ import {
 } from "react-icons/bs";
 import { QRCode } from "react-qrcode-logo";
 import html2canvas from "html2canvas";
+import axios from "axios";
 
 const Dashboard = (props) => {
   const [myUrls, setUrls] = useState([]);
+  const [myBioUrls, setBioUrls] = useState([]);
   const [currentLongUrl, changecurrentLongUrl] = useState("");
   const [currentShortCode, changecurrentShortCode] = useState("");
   const [shortCodeApplied, applyCode] = useState(false);
@@ -30,7 +32,21 @@ const Dashboard = (props) => {
   const [editingData, setEditingData] = useState();
   const [editingShortCode, editShortCode] = useState("");
   const [editingLongUrl, editLongUrl] = useState("");
-
+  const [bioHandle, changeBioHandle] = useState("");
+  const [bioTitle, changeBioTitle] = useState("");
+  const [bioDesc, changeBioDesc] = useState("");
+  const [mainBgColor, changeMainBgColor] = useState("#222831");
+  const [titleColor, changeTitleColor] = useState("#EEEEEE");
+  const [linkBgColor, changeLinkBgColor] = useState("#8EA0E6");
+  const [linkTextColor, changeLinkTextColor] = useState("#1f232a");
+  const [iframeKey, setIframeKey] = useState("iframe_key=0");
+  const [showingLinkInBioEdit, showLinkInBio] = useState(false);
+  const [bioInfo, setBioInfo] = useState();
+  const [bioLongLinkInput, changeBioLongLink] = useState("");
+  const [bioUrlName, changeBioUrlName] = useState("");
+  const [displayingAddLink, displayAddLink] = useState(false);
+  const [bioLinkFile, setBioLinkFile] = useState();
+  const [bioProfileFile, setBioProfileFile] = useState();
   const urlPerPage = 3;
 
   const getUrls = async () => {
@@ -57,9 +73,79 @@ const Dashboard = (props) => {
     }
   };
 
+  const getBioUrls = async () => {
+    axios
+      .get(`https://shortn.at/api/url/bio/info/${props.authData.sub}`)
+      .then(async (response) => {
+        setBioInfo(response.data);
+        changeBioDesc(response.data.profileDesc);
+        changeBioHandle(response.data.profileHandle);
+        changeBioTitle(response.data.bioTitle);
+        changeMainBgColor(response.data.mainBGColor);
+        changeTitleColor(response.data.titleColor);
+        changeLinkBgColor(response.data.linkBGColor);
+        changeLinkTextColor(response.data.linkColor);
+        const linkArr = await Promise.all(
+          response.data.linkArray.map(async (linkObj) => {
+            console.log(linkObj);
+            const link = await axios.get(
+              `https://shortn.at/api/url/${linkObj.shortCode}`
+            );
+            return link.data;
+          })
+        );
+        setBioUrls((linkArr || []));
+      });
+  };
+
   useEffect(() => {
     getUrls();
   }, []);
+
+  const changeBioInfo = async (m, t, l, lt, bt, bh, bd) => {
+    let logoLink = "";
+    if (bioProfileFile) {
+      const response3 = await Services.changeImage(bioProfileFile, false);
+      console.log(response3);
+      if (response3.response != "ok") {
+        displayErrorModal([
+          <ErrorModal
+            title={response3.response.status}
+            errorDesc={response3.response.data}
+            cancelError={cancelError}
+          ></ErrorModal>,
+        ]);
+        return;
+      }
+      logoLink = response3.data;
+      setBioProfileFile();
+    }
+    axios
+      .post(
+        "https://shortn.at/api/url/bio/create",
+        {
+          mainBGColor: m,
+          titleColor: t,
+          linkColor: lt,
+          linkBGColor: l,
+          bioTitle: bt,
+          displayName: bt,
+          profileHandle: bh,
+          profileDesc: bd,
+          profilePicture: logoLink,
+          sub: props.authData.sub,
+        },
+        { headers: { "Content-Type": "application/json" } }
+      )
+      .then(
+        setTimeout(() => {
+          setIframeKey((prev) => {
+            const iter = parseInt(prev.split("=")[1]);
+            return `iframe_key=${iter + 1}`;
+          });
+        }, 1500)
+      );
+  };
 
   const handleCreateShortUrl = async () => {
     const response = await Services.createShortLink(
@@ -133,11 +219,13 @@ const Dashboard = (props) => {
 
   const cancelStatsPage = (e) => {
     e.preventDefault();
+
     setUrlData();
   };
 
   const onDeleteHandler = async (shortUrl) => {
     await Services.removeLink(shortUrl);
+    await getBioUrls();
     await getUrls();
   };
 
@@ -254,13 +342,15 @@ const Dashboard = (props) => {
     const response = await Services.updateShortn(
       sUrl.slice(18),
       editingShortCode,
-      editingLongUrl
+      editingLongUrl,
+      props.authData.sub
     );
     if (response.response === "ok") {
       editShortCode("");
       editLongUrl("");
       showShortnEdit(false);
       getUrls();
+      getBioUrls();
     } else {
       displayErrorModal([
         <ErrorModal
@@ -274,19 +364,349 @@ const Dashboard = (props) => {
 
   return (
     <>
-      {errorState}
-      {urlData && (
-        <LinkStats
-          data={urlData.clicks}
-          myPlan={props.myPlan}
-          shortUrl={urlData.shortUrl}
-          sub={urlData.userId}
-          shortCode={urlData.urlCode}
-          lastClicked={urlData.clicks.lastClick}
-          dark={props.dark}
-          closeStats={cancelStatsPage}
-          authData={props.authData}
-        ></LinkStats>
+      {showingLinkInBioEdit && (
+        <div className="main-error-modal">
+          <div
+            className="main-stats-container"
+            style={{
+              backgroundColor: "var(--color-backgroundSecondary)",
+              paddingBottom: "1rem",
+            }}
+          >
+            <button
+              className="close-modal"
+              onClick={() => {
+                showLinkInBio(false);
+              }}
+              style={{
+                filter: props.dark
+                  ? "invert(91%) sepia(99%) saturate(34%) hue-rotate(254deg) brightness(106%) contrast(100%)"
+                  : "",
+              }}
+            >
+              <img src="https://img.icons8.com/ios-glyphs/30/null/macos-close.png" />
+            </button>
+            <div className="title-holder-stats">
+              <h2>Link in Bio Editor</h2>
+            </div>
+            <div className="linkinbio-holder">
+              <div className="linkinbio-input">
+                <input
+                  type="color"
+                  name="mainBgColor"
+                  id="mainBgColor"
+                  value={mainBgColor}
+                  onChange={(e) => {
+                    changeMainBgColor(e.target.value);
+                  }}
+                />
+                <h3>Background Color</h3>
+              </div>
+              <div className="linkinbio-input">
+                <input
+                  type="color"
+                  name="titleColor"
+                  id="titleColor"
+                  value={titleColor}
+                  onChange={(e) => {
+                    changeTitleColor(e.target.value);
+                  }}
+                />
+                <h3>Title Text Color</h3>
+              </div>
+              <div className="linkinbio-input">
+                <input
+                  type="color"
+                  name="linkBgColor"
+                  id="linkBgColor"
+                  value={linkBgColor}
+                  onChange={(e) => {
+                    changeLinkBgColor(e.target.value);
+                  }}
+                />
+                <h3>Link Background Color</h3>
+              </div>
+              <div className="linkinbio-input">
+                <input
+                  type="color"
+                  name="linkTextColor"
+                  id="linkTextColor"
+                  value={linkTextColor}
+                  onChange={(e) => {
+                    changeLinkTextColor(e.target.value);
+                  }}
+                />
+                <h3>Link Text Color</h3>
+              </div>
+              <div className="linkinbio-input">
+                <input
+                  type="text"
+                  value={bioTitle}
+                  onChange={(e) => {
+                    changeBioTitle(e.target.value);
+                  }}
+                />
+                <h3>Page Title</h3>
+              </div>
+              <div className="linkinbio-input">
+                <input
+                  type="text"
+                  value={bioHandle}
+                  onChange={(e) => {
+                    changeBioHandle(e.target.value);
+                  }}
+                />
+                <h3>Bio Handle (unique)</h3>
+              </div>
+              <div className="linkinbio-input">
+                <input
+                  type="text"
+                  value={bioDesc}
+                  onChange={(e) => {
+                    changeBioDesc(e.target.value);
+                  }}
+                />
+                <h3>Bio Description</h3>
+              </div>
+            </div>
+            <h3 style={{margin:"1rem",marginBottom:"0",color:"var(--color-text)"}}>Bio Icon</h3>
+            <div className="logo-input-holder">
+              <input
+                type="file"
+                onChange={(e) => {
+                  setBioProfileFile(e.target.files[0]);
+                }}
+                style={{ color: "var(--color-text)" }}
+              />
+            </div>
+            <button
+              onClick={() => {
+                getBioUrls();
+                showLinkInBio(false);
+                displayAddLink(true);
+              }}
+              className="link-in-bio-button2"
+            >
+              Bio Links
+            </button>
+            <button
+              className="link-in-bio-button3"
+              onClick={() => {
+                changeBioInfo(
+                  mainBgColor,
+                  titleColor,
+                  linkBgColor,
+                  linkTextColor,
+                  bioTitle,
+                  bioHandle,
+                  bioDesc
+                );
+                setTimeout(() => {
+                  axios
+                    .get(
+                      `https://shortn.at/api/url/bio/info/${props.authData.sub}`
+                    )
+                    .then((response) => {
+                      console.log(response.data);
+                      setBioInfo(response.data);
+                      changeBioDesc(response.data.profileDesc);
+                      changeBioHandle(response.data.profileHandle);
+                      changeBioTitle(response.data.bioTitle);
+                      changeMainBgColor(response.data.mainBGColor);
+                      changeTitleColor(response.data.titleColor);
+                      changeLinkBgColor(response.data.linkBGColor);
+                      changeLinkTextColor(response.data.linkColor);
+                      showLinkInBio(true);
+                    });
+                }, 2000);
+              }}
+            >
+              Update
+            </button>
+            <div className="title-holder-stats" style={{ marginTop: "1rem" }}>
+              <h2>Preview</h2>
+              <a
+                href={`https://shortn.at/u/${bioInfo.profileHandle}`}
+              >{`https://shortn.at/u/${bioInfo.profileHandle}`}</a>
+            </div>
+            <iframe
+              style={{
+                width: "100%",
+                minHeight: "200px",
+                border: "3px dashed red",
+              }}
+              key={iframeKey}
+              src={`https://shortn.at/u/${bioInfo.profileHandle}`}
+              title={bioInfo.bioTitle}
+            ></iframe>
+          </div>
+        </div>
+      )}
+      {displayingAddLink && (
+        <div className="main-error-modal">
+          <div
+            className="main-stats-container"
+            style={{
+              backgroundColor: "var(--color-backgroundSecondary)",
+              paddingBottom: "1rem",
+            }}
+          >
+            <button
+              className="close-modal"
+              onClick={() => {
+                displayAddLink(false);
+                showLinkInBio(true);
+                changeBioInfo(
+                  mainBgColor,
+                  titleColor,
+                  linkBgColor,
+                  linkTextColor,
+                  bioTitle,
+                  bioHandle,
+                  bioDesc
+                );
+                setTimeout(() => {
+                  axios
+                    .get(
+                      `https://shortn.at/api/url/bio/info/${props.authData.sub}`
+                    )
+                    .then((response) => {
+                      setBioInfo(response.data);
+                      changeBioDesc(response.data.profileDesc);
+                      changeBioHandle(response.data.profileHandle);
+                      changeBioTitle(response.data.bioTitle);
+                      changeMainBgColor(response.data.mainBGColor);
+                      changeTitleColor(response.data.titleColor);
+                      changeLinkBgColor(response.data.linkBGColor);
+                      changeLinkTextColor(response.data.linkColor);
+                    });
+                }, 2000);
+              }}
+              style={{
+                filter: props.dark
+                  ? "invert(91%) sepia(99%) saturate(34%) hue-rotate(254deg) brightness(106%) contrast(100%)"
+                  : "",
+              }}
+            >
+              <img src="https://img.icons8.com/ios-glyphs/30/null/macos-close.png" />
+            </button>
+            <div className="title-holder-stats">
+              <h2>Bio Links</h2>
+            </div>
+            <div className="add-link-in-bio-holder">
+              <h3>Long Link</h3>
+              <input
+                type="text"
+                value={bioLongLinkInput}
+                onChange={(e) => {
+                  changeBioLongLink(e.target.value);
+                }}
+              />
+              <h3>Link Name</h3>
+              <input
+                type="text"
+                value={bioUrlName}
+                onChange={(e) => {
+                  changeBioUrlName(e.target.value);
+                }}
+              />
+              <h3>Link Icon</h3>
+              <div className="logo-input-holder">
+                <input
+                  type="file"
+                  onChange={(e) => {
+                    setBioLinkFile(e.target.files[0]);
+                  }}
+                  style={{ color: "var(--color-text)" }}
+                />
+              </div>
+            </div>
+            <button
+              className="link-in-bio-button3"
+              onClick={async () => {
+                let logoLink = "";
+                if (bioLinkFile) {
+                  const response3 = await Services.changeImage(
+                    bioLinkFile,
+                    false
+                  );
+                  console.log(response3);
+                  if (response3.response != "ok") {
+                    displayErrorModal([
+                      <ErrorModal
+                        title={response3.response.status}
+                        errorDesc={response3.response.data}
+                        cancelError={cancelError}
+                      ></ErrorModal>,
+                    ]);
+                    return;
+                  }
+                  logoLink = response3.data;
+                }
+
+                const response = await Services.createShortLink(
+                  bioLongLinkInput,
+                  props.authData.sub
+                );
+                if (response.response === "ok") {
+                  const data = {
+                    sub: props.authData.sub,
+                    shortCode: response.urlCode,
+                    name: bioUrlName,
+                    logo: logoLink,
+                  };
+                  const config = {
+                    "Content-Type": "application/json",
+                  };
+                  const response2 = await axios.post(
+                    "https://shortn.at/api/url/bio/urls",
+                    data,
+                    config
+                  );
+                  getBioUrls();
+                  changeBioLongLink("");
+                  changeBioUrlName("");
+                  setBioLinkFile();
+                } else {
+                  displayErrorModal([
+                    <ErrorModal
+                      title={response.response.status}
+                      errorDesc={response.response.data}
+                      cancelError={cancelError}
+                    ></ErrorModal>,
+                  ]);
+                }
+              }}
+            >
+              Add Link
+            </button>
+            <h3 style={{ color: "var(--color-text)", margin: "1rem" }}>
+              Link List
+            </h3>
+            {myBioUrls?.length > 0 &&
+              myBioUrls.map((urlArray) => {
+                const url = urlArray[0];
+                return (
+                  <LinkItem
+                    longUrl={url.longUrl}
+                    shortUrl={url.shortUrl}
+                    key={url.shortUrl}
+                    onClickHandler={handleGetClickAnalytics}
+                    onDeleteHandler={onDeleteHandler}
+                    onClickQrCodeHandler={onClickQrCodeHandler}
+                    onClickEditHandler={onClickEditHandler}
+                    dark={props.dark}
+                    myPlan={props.myPlan}
+                  ></LinkItem>
+                );
+              })}
+            {(!myBioUrls || myBioUrls?.length === 0) && (
+              <div className="no-links-holder">
+                <h3>You haven't created any bio link yet!</h3>
+              </div>
+            )}
+          </div>
+        </div>
       )}
       {showingQrCode && (
         <div className="main-error-modal">
@@ -442,6 +862,20 @@ const Dashboard = (props) => {
           </div>
         </div>
       )}
+      {urlData && (
+        <LinkStats
+          data={urlData.clicks}
+          myPlan={props.myPlan}
+          shortUrl={urlData.shortUrl}
+          sub={urlData.userId}
+          shortCode={urlData.urlCode}
+          lastClicked={urlData.clicks.lastClick}
+          dark={props.dark}
+          closeStats={cancelStatsPage}
+          authData={props.authData}
+        ></LinkStats>
+      )}
+      {errorState}
       <div className="main-dashboard-container">
         <div className="main-dashboard-content">
           <div className="back-home-dashboard" onClick={props.home}>
@@ -524,7 +958,30 @@ const Dashboard = (props) => {
                 )}
               </div>
             )}
-
+            {props.myPlan === "pro" && (
+              <button
+                className="link-in-bio-button"
+                onClick={() => {
+                  axios
+                    .get(
+                      `https://shortn.at/api/url/bio/info/${props.authData.sub}`
+                    )
+                    .then((response) => {
+                      setBioInfo(response.data);
+                      changeBioDesc(response.data.profileDesc);
+                      changeBioHandle(response.data.profileHandle);
+                      changeBioTitle(response.data.bioTitle);
+                      changeMainBgColor(response.data.mainBGColor);
+                      changeTitleColor(response.data.titleColor);
+                      changeLinkBgColor(response.data.linkBGColor);
+                      changeLinkTextColor(response.data.linkColor);
+                      showLinkInBio(true);
+                    });
+                }}
+              >
+                Link in Bio
+              </button>
+            )}
             <div className="created-links-dashboard">
               {myUrls.length > 0 &&
                 !urlStartedCreation &&

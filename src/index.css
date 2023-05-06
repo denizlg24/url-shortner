@@ -24,5 +24,6 @@ html{
   font-family: "Epilogue", sans-serif;
   overflow-x: hidden;
   scroll-behavior: smooth;
+  position: relative;
 }
 

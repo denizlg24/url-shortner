@@ -100,20 +100,21 @@ Services.updateUserData = async (
   }
 };
 
-Services.changeImage = async (file) => {
+Services.changeImage = async (file,refresh=true) => {
   let formData = new FormData();
   formData.append("file", file);
   formData.append("token", localStorage.getItem("accessToken"));
+  formData.append("userImage",refresh? "true" : "false");
   console.log(formData);
-  axios
+  return axios
     .post("https://shortn.at/api/auth/user/update/image", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     })
     .then((response) => {
-      window.location.replace("https://shortn.at");
-      return { response: "ok", ...response.data };
+      if(refresh) window.location.replace("https://shortn.at");
+      return { response: "ok", data:response.data };
     })
     .catch((error) => {
       return { response: "failed", ...error };
@@ -264,10 +265,11 @@ Services.getLong = async (code) => {
     });
 };
 
-Services.updateShortn = async (code, newShortCode, newLongUrl) => {
+Services.updateShortn = async (code, newShortCode, newLongUrl,sub) => {
   const data = {
     newLongUrl,
     newShortCode,
+    sub
   };
 
   const config = {

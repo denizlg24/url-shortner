@@ -1,13 +1,14 @@
 .main-error-modal {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: max-content;
+  min-height: 100vh;
   background-color: rgba(0, 0, 0, 0.651);
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
+  flex-direction: column;
+  padding-top: 5rem;
   z-index: 10;
   border-radius: inherit;
 }
@@ -21,6 +22,8 @@
   flex-direction: column;
   background-color: var(--color-backgroundSecondary);
   border-radius: 12px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .error-modal-title-bar {
@@ -64,11 +67,6 @@
   color: var(--color-text);
 }
 
-@media screen and (max-height: 900px) {
-  .main-error-modal{
-    align-items: center;
-  }
-}
 
 .main-profile-modal {
   position: fixed;
